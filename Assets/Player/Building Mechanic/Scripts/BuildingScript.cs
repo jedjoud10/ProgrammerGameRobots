@@ -12,6 +12,7 @@ public class BuildingScript : MonoBehaviour
     private AnchorScript newanchor;//The new anchor to add the new block to
     private LayerMask mask;//Mask used to disable anchors in collision
     private GameObject PreviewPiece;//The gameobject of the spawned preview piece
+    private int pieceNumber;//Piece number to help saving and loading
     // Start is called before the first frame update
     void Start()
     {
@@ -84,10 +85,12 @@ public class BuildingScript : MonoBehaviour
         {
             GameObject newpiece = Instantiate(SelectedBuildingPiecePrefab, anchor.transform.position, anchor.transform.rotation);//Spawn the piece
             FixedJoint newjoint = newpiece.AddComponent<FixedJoint>();//Adds the joint to not let it move
+            newpiece.name = SelectedBuildingPiecePrefab.name + "-" + pieceNumber;            
             newjoint.connectedBody = anchor.parent;//Connect the new piece to the anchor's parent piece
             anchor.gameObject.SetActive(false);//Disable the anchor sine we place a piece at it's place
             UpdateAnchors(null);
             newpiece.transform.parent = MainPlayerGameobject.transform;
+            pieceNumber++;
         }
     }
 }

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f6621dc0b0eba0468f321e3804a3c43, type: 3}
+  m_Name: StructuralPieceTriPri
+  m_EditorClassIdentifier: 
+  UI_name: Structural Piece Triangle Prism
+  mesh: {fileID: -5495902117074765545, guid: bab18c591a7ae3f45a0799b44c803e2d, type: 3}
+  material: {fileID: 2100000, guid: 6290983498cfb6a45ad38ce269762cda, type: 2}
+  icon: {fileID: 0}
+  description: A structural piece in a shape of a triangle prism
+  prefab_piece: {fileID: 532552579164122273, guid: b74a52b463c21494d808c4321ec3554d,
+    type: 3}

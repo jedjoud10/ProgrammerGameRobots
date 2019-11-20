@@ -13,6 +13,7 @@ public class BuildingScript : MonoBehaviour
     private LayerMask mask;//Mask used to disable anchors in collision
     private GameObject PreviewPiece;//The gameobject of the spawned preview piece
     private int pieceNumber;//Piece number to help saving and loading
+    private Vector3 rotationOffset;//The relative rotation that is applied
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +34,34 @@ public class BuildingScript : MonoBehaviour
             {
                 PreviewPiece.transform.position = newanchor.transform.position;//Set the position of the preview piece
                 PreviewPiece.transform.rotation = newanchor.transform.rotation;//Set the rotation of the preview piece to be the same as the anchor's
+                PreviewPiece.transform.Rotate(rotationOffset);
             }
+            #region Rotation Offset Handling
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                rotationOffset += new Vector3(90, 0, 0);
+            }
+            if (Input.GetKeyDown(KeyCode.Y))
+            {
+                rotationOffset += new Vector3(-90, 0, 0);
+            }
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                rotationOffset += new Vector3(0, 90, 0);
+            }
+            if (Input.GetKeyDown(KeyCode.H))
+            {
+                rotationOffset += new Vector3(0, -90, 0);
+            }
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                rotationOffset += new Vector3(0, 0, 90);
+            }
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                rotationOffset += new Vector3(0, 0, -90);
+            }
+            #endregion
         }
     }
     public void HitAnchor(AnchorScript anchor) //When we hover of an anchor
@@ -51,22 +79,22 @@ public class BuildingScript : MonoBehaviour
         {
             if (!anchorsInScene[i].activeSelf)
             {
-                continue;//Loop to next anchor since this one is inactive
+                continue;
             }
-            anchorsInScene[i].GetComponent<AnchorScript>().Unselect();//Unselect all anchors
+            anchorsInScene[i].GetComponent<AnchorScript>().Unselect();
             if (anchor != null)
             {
-                if (anchorsInScene[i] == anchor.gameObject)//Dedect if its the selected anchor
+                if (anchorsInScene[i] == anchor.gameObject)
                 {
-                    anchorsInScene[i].GetComponent<AnchorScript>().Select();//Select the anchor
-                    PreviewPiece.SetActive(true);//Enable preview piece
-                    PreviewPiece.GetComponent<MeshFilter>().mesh = SelectedBuildingPiecePrefab.transform.GetChild(0).GetComponent<MeshFilter>().sharedMesh;//Use the mesh for the preview piece from the actual piece's first child gameobject
-                    PreviewPiece.transform.localScale = SelectedBuildingPiecePrefab.transform.GetChild(0).transform.localScale;
+                    anchorsInScene[i].GetComponent<AnchorScript>().Select();
+                    PreviewPiece.SetActive(true);
+                    UpdatePreviewMesh();
                 }
             }
             else
             {
-                PreviewPiece.SetActive(false);//Disable preview piece since our anchor is null
+                PreviewPiece.SetActive(false);
+                UpdatePreviewMesh();
             }
             if (Physics.CheckSphere(anchorsInScene[i].transform.position, 0.25f, mask))
             {
@@ -77,20 +105,29 @@ public class BuildingScript : MonoBehaviour
                 anchorsInScene[i].gameObject.SetActive(true);
             }
         }
-        newanchor = anchor;//Set the new anchor
+        newanchor = anchor;
     }
     public void AddBuildingPiece(AnchorScript anchor)//Add piece to the anchor, then fix it to the anchor's parent
     {
-        if (anchor != null)//Cuz we dont want to spawn nothing
+        if (anchor != null)
         {
-            GameObject newpiece = Instantiate(SelectedBuildingPiecePrefab, anchor.transform.position, anchor.transform.rotation);//Spawn the piece
-            FixedJoint newjoint = newpiece.AddComponent<FixedJoint>();//Adds the joint to not let it move
+            GameObject newpiece = Instantiate(SelectedBuildingPiecePrefab, anchor.transform.position, PreviewPiece.transform.rotation);//Spawn the piece
+            FixedJoint newjoint = newpiece.AddComponent<FixedJoint>();
             newpiece.name = SelectedBuildingPiecePrefab.name + "-" + pieceNumber;            
-            newjoint.connectedBody = anchor.parent;//Connect the new piece to the anchor's parent piece
-            anchor.gameObject.SetActive(false);//Disable the anchor sine we place a piece at it's place
+            newjoint.connectedBody = anchor.parent;
+            anchor.gameObject.SetActive(false);
             UpdateAnchors(null);
             newpiece.transform.parent = MainPlayerGameobject.transform;
             pieceNumber++;
+        }
+    }
+    //Update the preview mesh
+    public void UpdatePreviewMesh()
+    {
+        if (PreviewPiece != null)
+        {
+            PreviewPiece.GetComponent<MeshFilter>().mesh = SelectedBuildingPiecePrefab.transform.GetChild(0).GetComponent<MeshFilter>().sharedMesh;//Use the mesh for the preview piece from the actual piece's first child gameobject
+            PreviewPiece.transform.localScale = SelectedBuildingPiecePrefab.transform.GetChild(0).transform.localScale;
         }
     }
 }

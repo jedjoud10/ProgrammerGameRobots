@@ -5,7 +5,7 @@ using UnityEngine;
 public class BuildingSaverLoaderScript : MonoBehaviour
 {
     private SaverLoader saverLoader;
-    private Dictionary<string, GameObject> prefabs;
+    private Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +18,8 @@ public class BuildingSaverLoaderScript : MonoBehaviour
         foreach (var prefab in allLoadedPrefabs)//Setup dictionary
         {
             prefabs.Add(prefab.name, prefab);
-        }        
+        }
+        Debug.Log("Loaded " + prefabs.Count + " prefabs");
     }
 
     public void SaveBuildingPieces(string _filename) //Called from UI button to save pieces to file
@@ -30,17 +31,29 @@ public class BuildingSaverLoaderScript : MonoBehaviour
     {
         SaverLoader.SavePiece[] newpieces = saverLoader.Load(_filename);
         Rigidbody[] oldpieces = GameObject.FindObjectsOfType<Rigidbody>();
+        List<Rigidbody> currentpieces = new List<Rigidbody>();
         GameObject currentpiece;
         for (int i = 0; i < oldpieces.Length; i++)//Destroy all rigidbodies since we are reloading them
         {
-            Destroy(oldpieces[i]);
+            Destroy(oldpieces[i].gameObject);
         }
-        foreach (var piece in newpieces)//Load every piece
+        for(int i = 0; i < newpieces.Length; i++)//Load every piece
         {
+            SaverLoader.SavePiece piece = newpieces[i];
             currentpiece = Instantiate(prefabs[piece.pieceType]);//Spawn piece from name
+            FixedJoint newjoint = currentpiece.AddComponent<FixedJoint>();
+            currentpiece.name = piece.pieceType + "-" + piece.pieceNum;
             currentpiece.transform.position = piece.position;
             currentpiece.transform.eulerAngles = piece.eulerRotation;
-            currentpiece.GetComponent<FixedJoint>().connectedBody = piece.parentPiece;            
+            if (piece.parentPieceNum != piece.pieceNum)//Dedect if we are first piece
+            {
+                newjoint.connectedBody = currentpieces[piece.parentPieceNum];
+            }
+            currentpieces.Add(currentpiece.GetComponent<Rigidbody>());
         }
+    }
+    public string[] GetDataFilesNames() //Called from UI for dropdown selection
+    {
+        return saverLoader.GetFiles();
     }
 }

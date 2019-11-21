@@ -1,0 +1,76 @@
+{
+    "Items": [
+        {
+            "pieceName": "StructuralPiece-2",
+            "pieceNum": 2,
+            "parentPiece": {
+                "instanceID": -25412
+            },
+            "pieceType": "StructuralPiece-2",
+            "position": {
+                "x": -0.962859570980072,
+                "y": 3.0008251667022707,
+                "z": -0.022955656051635743
+            },
+            "eulerRotation": {
+                "x": 0.3524600863456726,
+                "y": 0.05985018610954285,
+                "z": 90.267578125
+            }
+        },
+        {
+            "pieceName": "StructuralPiece-1",
+            "pieceNum": 1,
+            "parentPiece": {
+                "instanceID": 0
+            },
+            "pieceType": "StructuralPiece-1",
+            "position": {
+                "x": 0.03700000047683716,
+                "y": 3.0,
+                "z": -0.023000000044703485
+            },
+            "eulerRotation": {
+                "x": 3.9480715918749356e-10,
+                "y": -2.6654085188981825e-11,
+                "z": -1.0934225747050164e-9
+            }
+        },
+        {
+            "pieceName": "StructuralPiece-0",
+            "pieceNum": 0,
+            "parentPiece": {
+                "instanceID": 0
+            },
+            "pieceType": "StructuralPiece-0",
+            "position": {
+                "x": -0.9641170501708984,
+                "y": 2.0003201961517336,
+                "z": -0.023266419768333436
+            },
+            "eulerRotation": {
+                "x": 0.37039217352867129,
+                "y": 0.0328674390912056,
+                "z": 90.17311096191406
+            }
+        },
+        {
+            "pieceName": "ControlUnit",
+            "pieceNum": 0,
+            "parentPiece": {
+                "instanceID": 0
+            },
+            "pieceType": "ControlUnit",
+            "position": {
+                "x": 0.03700000047683716,
+                "y": 2.0,
+                "z": -0.023000000044703485
+            },
+            "eulerRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            }
+        }
+    ]
+}

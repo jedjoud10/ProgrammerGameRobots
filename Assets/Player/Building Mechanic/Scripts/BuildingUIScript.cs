@@ -5,6 +5,7 @@ using UnityEngine.UI;
 //Handles information between the UI and the other building classes
 public class BuildingUIScript : MonoBehaviour
 {
+    public BuildingSaverLoaderScript BuildingSaverLoaderScript;
     public BuildingScript BuildingScript;
     private PieceScriptableObject[] pieces;
     public RawImage currentPiece_RI;
@@ -13,10 +14,22 @@ public class BuildingUIScript : MonoBehaviour
     private PieceScriptableObject currentPiece;
     public RawImage lastPiece_RI;
     public RawImage nextPiece_RI;
+    public Dropdown dropdown;
+    public Text saveNameText;
     //Gets all piece's data and objects
     private void GetAllPiecesScriptableObjects() 
     {
         pieces = Resources.LoadAll<PieceScriptableObject>("Pieces data");    
+    }
+    //Set the dropdown's options to the file names
+    private void GiveLoadingNames() 
+    {
+        string[] fileNames = BuildingSaverLoaderScript.GetDataFilesNames();
+        dropdown.ClearOptions();
+        foreach (var name in fileNames)
+        {
+            dropdown.options.Add(new Dropdown.OptionData(name));
+        }
     }
     // Start is called before the first frame update
     void Start()
@@ -24,6 +37,7 @@ public class BuildingUIScript : MonoBehaviour
         GetAllPiecesScriptableObjects();
         currentPiece = pieces[currentPieceIndex];
         UpdateDataPieceUI(currentPiece);
+        GiveLoadingNames();
     }
 
     // Update is called once per frame
@@ -82,5 +96,16 @@ public class BuildingUIScript : MonoBehaviour
             BuildingScript.SelectedBuildingPiecePrefab = currentPiece.prefab_piece;//Set the new piece
             BuildingScript.UpdatePreviewMesh();
         }
+    }
+    //Load pieces
+    public void LoadPieces() 
+    {
+        BuildingSaverLoaderScript.LoadBuildingPiece(dropdown.captionText.text);
+    }
+    //Save pieces
+    public void SavePieces() 
+    {
+        BuildingSaverLoaderScript.SaveBuildingPieces(saveNameText.text);
+        GiveLoadingNames();
     }
 }

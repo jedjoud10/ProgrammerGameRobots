@@ -22,6 +22,10 @@ public class CameraPlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player").transform;
+        }
         if (Input.GetMouseButton(2))
         {
             Cursor.lockState = CursorLockMode.Locked;

@@ -12,7 +12,7 @@ public class BuildingScript : MonoBehaviour
     private AnchorScript newanchor;//The new anchor to add the new block to
     private LayerMask mask;//Mask used to disable anchors in collision
     private GameObject PreviewPiece;//The gameobject of the spawned preview piece
-    private int pieceNumber;//Piece number to help saving and loading
+    private int pieceNumber = 1;//Piece number to help saving and loading
     private Vector3 rotationOffset;//The relative rotation that is applied
     // Start is called before the first frame update
     void Start()

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//Handles information between the UI and the BuildingScript class
+//Handles information between the UI and the other building classes
 public class BuildingUIScript : MonoBehaviour
 {
     public BuildingScript BuildingScript;
@@ -16,8 +16,7 @@ public class BuildingUIScript : MonoBehaviour
     //Gets all piece's data and objects
     private void GetAllPiecesScriptableObjects() 
     {
-        pieces = Resources.FindObjectsOfTypeAll<PieceScriptableObject>();
-        Debug.Log(pieces.Length);        
+        pieces = Resources.LoadAll<PieceScriptableObject>("Pieces data");    
     }
     // Start is called before the first frame update
     void Start()
@@ -35,7 +34,7 @@ public class BuildingUIScript : MonoBehaviour
     //Switch current piece to the next
     public void NextPiece() 
     {
-        if (currentPieceIndex < pieces.Length)
+        if (currentPieceIndex < pieces.Length - 1)
         {
             currentPieceIndex++;
             currentPiece = pieces[currentPieceIndex];

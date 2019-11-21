@@ -16,14 +16,8 @@ public class SaverLoader
             {
                 newPieces[i].parentPiece = pieces[i].GetComponent<FixedJoint>().connectedBody;//Set parent piece
             }
-            if (pieces[i].name == "StructuralPiece")
-            {
-                newPieces[i].pieceType = SavePieceType.StructuralPiece;
-            }
-            if (pieces[i].name == "ControlUnit")
-            {
-                newPieces[i].pieceType = SavePieceType.ControlUnit;
-            }
+            newPieces[i].pieceType = NameFromStringName(pieces[i].name);//Get enum from gameobject name
+            newPieces[i].eulerRotation = pieces[i].rotation.eulerAngles;
             newPieces[i].pieceNum = IntFromStringName(pieces[i].name);
             newPieces[i].position = pieces[i].transform.position;//Set position
         }
@@ -51,6 +45,15 @@ public class SaverLoader
         }
         return newPieces;
     }
+    public string[] GetFiles() //Get saved files from the base building folder
+    {
+        string[] filenames;
+        string path = Application.dataPath + "/SavedMachines/";
+
+        filenames = Directory.GetFiles(path);
+
+        return filenames;
+    }
     private int IntFromStringName(string name)//Get a number from a string that might contain letters 
     {
         string outstring = "";
@@ -68,16 +71,25 @@ public class SaverLoader
         }
         return outint;//Return the final num
     }
+    private string NameFromStringName(string name)//Remove numbers from string
+    {
+        string outstring = "";
+        for (int i = 0; i < name.Length; i++)
+        {
+            if (!char.IsDigit(name[i]))//Check if it is digit
+            {
+                outstring += name[i];
+            }
+        }
+        return outstring;//Return the final string
+    }
     public struct SavePiece 
     {
         public string pieceName;
         public int pieceNum;
         public Rigidbody parentPiece;
-        public SavePieceType pieceType;
+        public string pieceType;
         public Vector3 position;
-    }
-    public enum SavePieceType
-    {
-        StructuralPiece, ControlUnit
+        public Vector3 eulerRotation;
     }
 }

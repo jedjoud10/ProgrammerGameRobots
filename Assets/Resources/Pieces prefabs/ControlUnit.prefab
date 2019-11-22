@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 952815215901447009}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8190131017304292002}
   m_RootOrder: 0
@@ -39,7 +39,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 952815215901447009}
-  m_Mesh: {fileID: -5495902117074765545, guid: b0241f315a6065f46b1e82001812160a, type: 3}
+  m_Mesh: {fileID: -5495902117074765545, guid: c9eb8d20292a9204c81b727e0f6c2a32, type: 3}
 --- !u!23 &5473173644248497536
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -58,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c33572d5e7d760742aa09e1851e3d2d0, type: 2}
+  - {fileID: 2100000, guid: a63c04fdae5fdd94fbfa732867a90994, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 8190131017304292002}
   - component: {fileID: 7944045772720284654}
   - component: {fileID: 8173728015489032248}
+  - component: {fileID: 3177270699153397169}
   m_Layer: 0
   m_Name: ControlUnit
   m_TagString: Player
@@ -178,6 +179,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!138 &3177270699153397169
+FixedJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7647771910048227393}
+  m_ConnectedBody: {fileID: 0}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_EnableCollision: 0
+  m_EnablePreprocessing: 1
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
 --- !u!1001 &1667869301619426166
 PrefabInstance:
   m_ObjectHideFlags: 0

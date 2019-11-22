@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildingSaverLoaderScript : MonoBehaviour
+public class SaverLoaderHandlerScript : MonoBehaviour
 {
     private SaverLoader saverLoader;
     private Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
@@ -27,9 +27,10 @@ public class BuildingSaverLoaderScript : MonoBehaviour
         Rigidbody[] pieces = GameObject.FindObjectsOfType<Rigidbody>();
         saverLoader.Save(_filename, pieces);
     }
-    public void LoadBuildingPiece(string _filename) //Called from UI Button to load pieces from file
+    public void LoadBuildingPieces(string _filename) //Called from UI Button to load pieces from file
     {
         SaverLoader.SavePiece[] newpieces = saverLoader.Load(_filename);
+        Debug.Log("Loaded " + newpieces.Length + " pieces", gameObject);
         Rigidbody[] oldpieces = GameObject.FindObjectsOfType<Rigidbody>();
         List<Rigidbody> currentpieces = new List<Rigidbody>();
         GameObject currentpiece;
@@ -41,7 +42,7 @@ public class BuildingSaverLoaderScript : MonoBehaviour
         {
             SaverLoader.SavePiece piece = newpieces[i];
             currentpiece = Instantiate(prefabs[piece.pieceType]);//Spawn piece from name
-            FixedJoint newjoint = currentpiece.AddComponent<FixedJoint>();
+            Joint newjoint = currentpiece.GetComponent<Joint>();
             currentpiece.name = piece.pieceType + "-" + piece.pieceNum;
             currentpiece.transform.position = piece.position;
             currentpiece.transform.eulerAngles = piece.eulerRotation;
@@ -54,6 +55,18 @@ public class BuildingSaverLoaderScript : MonoBehaviour
     }
     public string[] GetDataFilesNames() //Called from UI for dropdown selection
     {
-        return saverLoader.GetFiles();
+        if (saverLoader != null)
+        {
+            return saverLoader.GetFiles();
+        }
+        else
+        {
+            saverLoader = new SaverLoader();
+            return saverLoader.GetFiles();
+        }
+    }
+    public void RemoveFile(string _filename) //Called from UI to remove selected file
+    {
+        saverLoader.RemoveFile(_filename);
     }
 }

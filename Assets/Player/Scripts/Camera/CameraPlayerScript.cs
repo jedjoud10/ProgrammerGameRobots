@@ -23,8 +23,11 @@ public class CameraPlayerScript : MonoBehaviour
     void Update()
     {
         if (player == null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player").transform;
+        {            
+            if (GameObject.FindGameObjectWithTag("Player") != null)
+            {
+                player = GameObject.FindGameObjectWithTag("Player").transform;
+            }
         }
         if (Input.GetMouseButton(2))
         {
@@ -42,7 +45,10 @@ public class CameraPlayerScript : MonoBehaviour
         dir = new Vector3(0, 0, -distance);
         distance += Input.mouseScrollDelta.y;
         distance = Mathf.Clamp(distance, 1, 20);
-        transform.position = player.position + rot * dir;
-        transform.LookAt(player);
+        if (player != null)
+        {
+            transform.position = player.position + rot * dir;
+            transform.LookAt(player);
+        }
     }
 }

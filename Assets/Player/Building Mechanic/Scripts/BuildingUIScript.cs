@@ -5,7 +5,7 @@ using UnityEngine.UI;
 //Handles information between the UI and the other building classes
 public class BuildingUIScript : MonoBehaviour
 {
-    public BuildingSaverLoaderScript BuildingSaverLoaderScript;
+    public SaverLoaderHandlerScript BuildingSaverLoaderScript;
     public BuildingScript BuildingScript;
     private PieceScriptableObject[] pieces;
     public RawImage currentPiece_RI;
@@ -16,6 +16,7 @@ public class BuildingUIScript : MonoBehaviour
     public RawImage nextPiece_RI;
     public Dropdown dropdown;
     public Text saveNameText;
+    public GameObject destroybutton;
     //Gets all piece's data and objects
     private void GetAllPiecesScriptableObjects() 
     {
@@ -100,12 +101,48 @@ public class BuildingUIScript : MonoBehaviour
     //Load pieces
     public void LoadPieces() 
     {
-        BuildingSaverLoaderScript.LoadBuildingPiece(dropdown.captionText.text);
+        BuildingSaverLoaderScript.LoadBuildingPieces(dropdown.captionText.text);
     }
     //Save pieces
     public void SavePieces() 
     {
         BuildingSaverLoaderScript.SaveBuildingPieces(saveNameText.text);
         GiveLoadingNames();
+    }
+    //Destroy selected file
+    public void RemoveFile() 
+    {
+        if (dropdown.captionText.text != "")
+        {
+            BuildingSaverLoaderScript.RemoveFile(dropdown.captionText.text);
+        }
+        else
+        {
+            Debug.LogError("Dropdown not selected yet !");
+        }
+        GiveLoadingNames();
+    }
+    //Called when dropdown value has changed
+    public void OnDropdownValueChange() 
+    {
+        if (dropdown.captionText.text != "")
+        {
+            destroybutton.SetActive(true);
+        }
+        else
+        {
+            destroybutton.SetActive(false);
+        }
+    }
+    //Save the current piece to a temporary file that can be loaded after coming back
+    private void SaveToTemporaryFile() 
+    {
+        BuildingSaverLoaderScript.SaveBuildingPieces("TemporarySave");
+    }
+    //Change to preview map
+    public void PreviewCraft() 
+    {
+        SaveToTemporaryFile();
+        GameObject.FindObjectOfType<SceneManagerScript>().ChangeScene("PreviewScene");
     }
 }

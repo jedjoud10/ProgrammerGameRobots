@@ -112,7 +112,7 @@ public class BuildingScript : MonoBehaviour
         if (anchor != null)
         {
             GameObject newpiece = Instantiate(SelectedBuildingPiecePrefab, anchor.transform.position, PreviewPiece.transform.rotation);//Spawn the piece
-            FixedJoint newjoint = newpiece.AddComponent<FixedJoint>();
+            Joint newjoint = newpiece.GetComponent<Joint>(); 
             newpiece.name = SelectedBuildingPiecePrefab.name + "-" + pieceNumber;            
             newjoint.connectedBody = anchor.parent;
             anchor.gameObject.SetActive(false);

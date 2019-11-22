@@ -8,14 +8,19 @@ public class SaverLoader
 {
     public void Save(string fileName, Rigidbody[] pieces) //Save pieces
     {
+        if (fileName == "")
+        {
+            Debug.LogError("File name is nothing !");
+            return;
+        }
         SavePiece[] newPieces = new SavePiece[pieces.Length];
         Debug.Log("We have " + pieces.Length + " pieces to save");
         for (int i = 0; i < pieces.Length; i++)
         {            
             newPieces[i].pieceName = pieces[i].name;//Set name of piece
-            if (pieces[i].GetComponent<FixedJoint>() != null && pieces[i].GetComponent<FixedJoint>().connectedBody != null)//Only for pieces who are not start piece
+            if (pieces[i].GetComponent<Joint>() != null && pieces[i].GetComponent<Joint>().connectedBody != null)//Only for pieces who are not start piece
             {
-                newPieces[i].parentPieceNum = IntFromStringName(pieces[i].GetComponent<FixedJoint>().connectedBody.name);//Set parent piece
+                newPieces[i].parentPieceNum = IntFromStringName(pieces[i].GetComponent<Joint>().connectedBody.name);//Set parent piece
             }
             newPieces[i].pieceType = NameFromStringName(pieces[i].name);//Get enum from gameobject name
             newPieces[i].eulerRotation = pieces[i].rotation.eulerAngles;
@@ -32,6 +37,10 @@ public class SaverLoader
     }
     public SavePiece[] Load(string fileName) //Load pieces
     {
+        if (fileName == "")
+        {
+            Debug.LogError("File name is nothing !");            
+        }
         SavePiece[] newPieces = new SavePiece[0];
         string path = Application.dataPath + "/SavedRobots/" + fileName + ".txt";
         if (File.Exists(path))
@@ -67,6 +76,19 @@ public class SaverLoader
             Directory.CreateDirectory(Application.dataPath + "/SavedRobots");
         }
         return endfiles.ToArray();
+    }
+
+    public void RemoveFile(string filename)//Delete the specified file 
+    {
+        string path = Application.dataPath + "/SavedRobots/" + filename + ".txt";
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+        }
+        else
+        {
+            Debug.LogError("File " + path + " cannot be removed since it dose not exist !");
+        }
     }
     private int IntFromStringName(string name)//Get a number from a string that might contain letters 
     {

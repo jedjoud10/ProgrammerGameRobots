@@ -22,16 +22,7 @@ public class BuildingUIScript : MonoBehaviour
     {
         pieces = Resources.LoadAll<PieceScriptableObject>("Pieces data");    
     }
-    //Set the dropdown's options to the file names
-    private void GiveLoadingNames() 
-    {
-        string[] fileNames = BuildingSaverLoaderScript.GetDataFilesNames();
-        dropdown.ClearOptions();
-        foreach (var name in fileNames)
-        {
-            dropdown.options.Add(new Dropdown.OptionData(name));
-        }
-    }
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -40,7 +31,6 @@ public class BuildingUIScript : MonoBehaviour
         UpdateDataPieceUI(currentPiece);
         GiveLoadingNames();
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -54,6 +44,19 @@ public class BuildingUIScript : MonoBehaviour
             currentPieceIndex++;
             currentPiece = pieces[currentPieceIndex];
             UpdateDataPieceUI(currentPiece);
+        }
+    }
+    //Set the dropdown's options to the file names
+    private void GiveLoadingNames()
+    {
+        string[] fileNames = BuildingSaverLoaderScript.GetDataFilesNames();
+        dropdown.ClearOptions();
+        foreach (var name in fileNames)
+        {
+            if (name != "BaseRobot")
+            {
+                dropdown.options.Add(new Dropdown.OptionData(name));
+            }            
         }
     }
     //Switch current piece to the last
@@ -101,7 +104,7 @@ public class BuildingUIScript : MonoBehaviour
     //Load pieces
     public void LoadPieces() 
     {
-        BuildingSaverLoaderScript.LoadBuildingPieces(dropdown.captionText.text);
+        BuildingSaverLoaderScript.LoadBuildingPieces(dropdown.captionText.text, false);
     }
     //Save pieces
     public void SavePieces() 
@@ -144,5 +147,10 @@ public class BuildingUIScript : MonoBehaviour
     {
         SaveToTemporaryFile();
         GameObject.FindObjectOfType<SceneManagerScript>().ChangeScene("PreviewScene");
+    }
+    //Make and restart the robot buildin
+    public void MakeNewRobot() 
+    {
+        BuildingSaverLoaderScript.LoadBuildingPieces("BaseRobot", false);
     }
 }

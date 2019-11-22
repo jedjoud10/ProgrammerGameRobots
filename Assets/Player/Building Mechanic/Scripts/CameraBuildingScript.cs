@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 //Raycasts from the mouse position to infinity and sends the info to other building scripts
-public class CameraBuildingrScript : MonoBehaviour
+public class CameraBuildingScript : MonoBehaviour
 {
     private Vector3 lastmousepos;//The last mouse position to calculate mouse delta
     public BuildingScript BuildingScript;//The script we are going to call to give raycast info
@@ -10,6 +10,7 @@ public class CameraBuildingrScript : MonoBehaviour
     private Ray ray;//The ray from the camera
     private Camera cam;//This camera component
     private RaycastHit hit;//Hit result
+    private Vector3 worldposhit;//The point in world position where the ray hit
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +29,8 @@ public class CameraBuildingrScript : MonoBehaviour
                 if (hit.collider.gameObject.GetComponent<AnchorScript>() != null)//Check if the collider's gameobject is an anchor
                 {
                     BuildingScript.HitAnchor(hit.collider.gameObject.GetComponent<AnchorScript>());
-                }                
+                    worldposhit = hit.point;
+                }
             }
             else
             {
@@ -36,5 +38,9 @@ public class CameraBuildingrScript : MonoBehaviour
             }
         }
         lastmousepos = Input.mousePosition;//Used for delta calculations
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(worldposhit, 0.5f);
     }
 }

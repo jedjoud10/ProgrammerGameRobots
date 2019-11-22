@@ -1,0 +1,20 @@
+{
+    "Items": [
+        {
+            "pieceName": "ControlUnit",
+            "pieceNum": 0,
+            "parentPieceNum": 0,
+            "pieceType": "ControlUnit",
+            "position": {
+                "x": 0,
+                "y": 2.0,
+                "z": 0
+            },
+            "eulerRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            }
+        }
+    ]
+}

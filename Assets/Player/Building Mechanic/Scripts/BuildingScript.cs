@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class BuildingScript : MonoBehaviour
 {
+    private BuildingType BuildingTypeVar;//How we are going to change the robot from the camera rays ? (ex : Adding pieces/Removing pieces)
     public GameObject MainPlayerGameobject;//The main player for organisation
     public GameObject PreviewPiecePrefab;//A piece prefab used to preview the position of the next new piece
     public GameObject SelectedBuildingPiecePrefab;
@@ -19,6 +20,7 @@ public class BuildingScript : MonoBehaviour
     {
         mask = LayerMask.GetMask("Default");//Init mask
         PreviewPiece = Instantiate(PreviewPiecePrefab, Vector3.zero, Quaternion.identity);//Init preview piece
+        UpdateAnchors(null);
     }
 
     // Update is called once per frame
@@ -64,7 +66,13 @@ public class BuildingScript : MonoBehaviour
             #endregion
         }
     }
-    public void HitAnchor(AnchorScript anchor) //When we hover of an anchor
+    //Called when the CameraBuildingScript ray collides with a piece
+    public void HitPiece(GameObject piece) 
+    {
+        
+    }
+    //When we hover of an anchor
+    public void HitAnchor(AnchorScript anchor) 
     {
         if (anchor != lastanchor)//Dedect if we should update
         {
@@ -72,7 +80,8 @@ public class BuildingScript : MonoBehaviour
             UpdateAnchors(anchor);
         }
     }
-    public void UpdateAnchors(AnchorScript anchor) //Updates all acnhors to unselect and select the only anchor (unless it is null)
+    //Updates all acnhors to unselect and select the only anchor (unless it is null)
+    public void UpdateAnchors(AnchorScript anchor) 
     {
         GameObject[] anchorsInScene = GameObject.FindGameObjectsWithTag("Anchor");
         for (int i = 0; i < anchorsInScene.Length; i++)
@@ -107,7 +116,8 @@ public class BuildingScript : MonoBehaviour
         }
         newanchor = anchor;
     }
-    public void AddBuildingPiece(AnchorScript anchor)//Add piece to the anchor, then fix it to the anchor's parent
+    //Add piece to the anchor, then fix it to the anchor's parent
+    public void AddBuildingPiece(AnchorScript anchor)
     {
         if (anchor != null)
         {
@@ -129,5 +139,9 @@ public class BuildingScript : MonoBehaviour
             PreviewPiece.GetComponent<MeshFilter>().mesh = SelectedBuildingPiecePrefab.transform.GetChild(0).GetComponent<MeshFilter>().sharedMesh;//Use the mesh for the preview piece from the actual piece's first child gameobject
             PreviewPiece.transform.localScale = SelectedBuildingPiecePrefab.transform.GetChild(0).transform.localScale;
         }
+    }
+    private enum BuildingType 
+    {
+        Building, Destroy
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 public class BuildingScript : MonoBehaviour
 {
     private BuildingType BuildingTypeVar;//How we are going to change the robot from the camera rays ? (ex : Adding pieces/Removing pieces)
-    public GameObject MainPlayerGameobject;//The main player for organisation
+    private GameObject MainPlayerGameobject;//The main player
     public GameObject PreviewPiecePrefab;//A piece prefab used to preview the position of the next new piece
     public GameObject SelectedBuildingPiecePrefab;
     private AnchorScript lastanchor;//A variable used to dedect if the new selected anchor is updated so we can save performance
@@ -21,6 +21,7 @@ public class BuildingScript : MonoBehaviour
         mask = LayerMask.GetMask("Default");//Init mask
         PreviewPiece = Instantiate(PreviewPiecePrefab, Vector3.zero, Quaternion.identity);//Init preview piece
         UpdateAnchors(null);
+        MainPlayerGameobject = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
@@ -140,8 +141,14 @@ public class BuildingScript : MonoBehaviour
             PreviewPiece.transform.localScale = SelectedBuildingPiecePrefab.transform.GetChild(0).transform.localScale;
         }
     }
+    //How are we building ?
     private enum BuildingType 
     {
         Building, Destroy
+    }
+    //Called when loading pieces since we need to add and not duplicate
+    public void SetupBuildingNumber(int _newnumber) 
+    {
+        pieceNumber = _newnumber;
     }
 }

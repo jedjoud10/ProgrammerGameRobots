@@ -38,6 +38,7 @@ public class SaverLoaderHandlerScript : MonoBehaviour
         Rigidbody[] oldpieces = GameObject.FindObjectsOfType<Rigidbody>();
         List<Rigidbody> currentpieces = new List<Rigidbody>();
         GameObject currentpiece;
+        Transform parentplayer = GameObject.FindGameObjectWithTag("Player").transform;
         for (int i = 0; i < oldpieces.Length; i++)//Destroy all rigidbodies since we are reloading them
         {
             Destroy(oldpieces[i].gameObject);
@@ -50,21 +51,25 @@ public class SaverLoaderHandlerScript : MonoBehaviour
             currentpiece.name = piece.pieceType + "-" + piece.pieceNum;
             currentpiece.transform.position = piece.position;
             currentpiece.transform.eulerAngles = piece.eulerRotation;
+            currentpiece.transform.parent = parentplayer;
             if (piece.parentPieceNum != piece.pieceNum)//Dedect if we are NOT first piece
             {
                 newjoint.connectedBody = currentpieces[piece.parentPieceNum];
             }
-            else if(shouldRemoveFixedJoint)//Dedect if we ARE first piece and that we are allowed to remove the fixed joint from first piece
+            if(shouldRemoveFixedJoint && piece.parentPieceNum == piece.pieceNum)//Dedect if we ARE first piece and that we are allowed to remove the fixed joint from first piece
             {
                 if (newjoint != null)
                 {
                     Destroy(newjoint);
                 }
             }
-            currentpiece.SetActive(false);
+            currentpiece.SetActive(false);//Disable and re-enable because bugs
             currentpiece.SetActive(true);
-            currentpieces.Add(currentpiece.GetComponent<Rigidbody>());
-            
+            currentpieces.Add(currentpiece.GetComponent<Rigidbody>());            
+        }
+        if (GameObject.FindObjectOfType<BuildingScript>() != null)//Check if we are in the building scene
+        {
+            GameObject.FindObjectOfType<BuildingScript>().SetupBuildingNumber(currentpieces.Count);
         }
     }
     public string[] GetDataFilesNames() //Called from UI for dropdown selection

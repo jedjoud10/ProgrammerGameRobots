@@ -865,7 +865,7 @@ GameObject:
   - component: {fileID: 335566465}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2266,7 +2266,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44ff32054d3dec34c86ac3eaba00aed3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainPlayerGameobject: {fileID: 335566464}
   PreviewPiecePrefab: {fileID: 4992378013864939815, guid: bc0acd6f0f0993c479e6b281830986a3,
     type: 3}
   SelectedBuildingPiecePrefab: {fileID: 5438081202491853066, guid: b5919505557adb34c91634b66c9b6468,

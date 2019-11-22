@@ -24,9 +24,9 @@ public class CameraPlayerScript : MonoBehaviour
     {
         if (player == null)
         {            
-            if (GameObject.FindGameObjectWithTag("Player") != null)
+            if (GameObject.FindGameObjectWithTag("ControlUnit") != null)
             {
-                player = GameObject.FindGameObjectWithTag("Player").transform;
+                player = GameObject.FindGameObjectWithTag("ControlUnit").transform;
             }
         }
         if (Input.GetMouseButton(2))

@@ -46,7 +46,7 @@ public class SaverLoader
         if (File.Exists(path))
         {
             newPieces = JsonHelper.FromJson<SavePiece>(File.ReadAllText(path));
-            newPieces = newPieces.OrderBy(x => x.pieceNum).ToArray();
+            newPieces = newPieces.OrderBy(x => x.pieceNum).ToArray();            
             return newPieces;
         }
         else

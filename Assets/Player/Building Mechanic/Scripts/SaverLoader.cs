@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
-//Class handling saving and loading of pieces of craft
+//Class handling saving and loading of craft properities
 public class SaverLoader
 {
-    public void Save(string fileName, Rigidbody[] pieces) //Save pieces
+    public void SavePieces(string fileName, Rigidbody[] pieces) //Save pieces
     {
         if (fileName == "")
         {
@@ -16,7 +16,7 @@ public class SaverLoader
         SavePiece[] newPieces = new SavePiece[pieces.Length];
         Debug.Log("We have " + pieces.Length + " pieces to save");
         for (int i = 0; i < pieces.Length; i++)
-        {            
+        {
             newPieces[i].pieceName = pieces[i].name;//Set name of piece
             if (pieces[i].GetComponent<Joint>() != null && pieces[i].GetComponent<Joint>().connectedBody != null)//Only for pieces who are not start piece
             {
@@ -35,7 +35,7 @@ public class SaverLoader
         string json = JsonHelper.ToJson(newPieces, true);//Transform into json file
         File.WriteAllText(path, json);//Write to file
     }
-    public SavePiece[] Load(string fileName) //Load pieces
+    public SavePiece[] LoadPieces(string fileName) //Load pieces
     {
         if (fileName == "")
         {
@@ -55,7 +55,7 @@ public class SaverLoader
         }
         return newPieces;
     }
-    public string[] GetFiles() //Get saved files from the base building folder
+    public string[] GetFilesPieces() //Get saved files from the base building folder
     {
         string[] filenames = new string[0];
         List<string> endfiles = new List<string>();
@@ -78,7 +78,7 @@ public class SaverLoader
         return endfiles.ToArray();
     }
 
-    public void RemoveFile(string filename)//Delete the specified file 
+    public void RemoveFilePieces(string filename)//Delete the specified file 
     {
         string path = Application.dataPath + "/SavedRobots/" + filename + ".txt";
         if (File.Exists(path))

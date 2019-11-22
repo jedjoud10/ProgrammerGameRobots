@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f6621dc0b0eba0468f321e3804a3c43, type: 3}
-  m_Name: StructuralPieceRotating
+  m_Name: StructuralRotatingPiece
   m_EditorClassIdentifier: 
-  UI_name: Rotating Structural Piece
+  UI_name: Structural Rotating Piece
   mesh: {fileID: -5495902117074765545, guid: fb118dc17684b2f44ac1f8042880e145, type: 3}
   material: {fileID: 2100000, guid: fd80ed50a32a5ea48804caa50a31fe4c, type: 2}
   icon: {fileID: 0}

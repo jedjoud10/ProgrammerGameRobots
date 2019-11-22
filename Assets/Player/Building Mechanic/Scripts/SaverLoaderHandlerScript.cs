@@ -29,11 +29,19 @@ public class SaverLoaderHandlerScript : MonoBehaviour
     public void SaveBuildingPieces(string _filename) //Called from UI button to save pieces to file
     {
         Rigidbody[] pieces = GameObject.FindObjectsOfType<Rigidbody>();
-        saverLoader.Save(_filename, pieces);
+        List<Rigidbody> list = new List<Rigidbody>();
+        foreach (var piece in pieces)
+        {
+            if (piece.transform.parent.tag == "Player")
+            {
+                list.Add(piece);
+            }
+        }
+        saverLoader.SavePieces(_filename, list.ToArray());
     }
-    public void LoadBuildingPieces(string _filename, bool shouldRemoveFixedJoint) //Called from UI Button to load pieces from file
+    public void LoadBuildingPieces(string _filename, bool enablePhysics) //Called from UI Button to load pieces from file
     {
-        SaverLoader.SavePiece[] newpieces = saverLoader.Load(_filename);
+        SaverLoader.SavePiece[] newpieces = saverLoader.LoadPieces(_filename);
         Debug.Log("Loaded " + newpieces.Length + " pieces", gameObject);
         Rigidbody[] oldpieces = GameObject.FindObjectsOfType<Rigidbody>();
         List<Rigidbody> currentpieces = new List<Rigidbody>();
@@ -56,12 +64,16 @@ public class SaverLoaderHandlerScript : MonoBehaviour
             {
                 newjoint.connectedBody = currentpieces[piece.parentPieceNum];
             }
-            if(shouldRemoveFixedJoint && piece.parentPieceNum == piece.pieceNum)//Dedect if we ARE first piece and that we are allowed to remove the fixed joint from first piece
+            if(enablePhysics && piece.parentPieceNum == piece.pieceNum)//Dedect if we ARE first piece and that we are allowed to remove the fixed joint from first piece
             {
                 if (newjoint != null)
                 {
                     Destroy(newjoint);
                 }
+            }
+            if (enablePhysics)
+            {
+                currentpiece.GetComponent<Rigidbody>().isKinematic = false;
             }
             currentpiece.SetActive(false);//Disable and re-enable because bugs
             currentpiece.SetActive(true);
@@ -76,16 +88,16 @@ public class SaverLoaderHandlerScript : MonoBehaviour
     {
         if (saverLoader != null)
         {
-            return saverLoader.GetFiles();
+            return saverLoader.GetFilesPieces();
         }
         else
         {
             saverLoader = new SaverLoader();
-            return saverLoader.GetFiles();
+            return saverLoader.GetFilesPieces();
         }
     }
     public void RemoveFile(string _filename) //Called from UI to remove selected file
     {
-        saverLoader.RemoveFile(_filename);
+        saverLoader.RemoveFilePieces(_filename);
     }
 }

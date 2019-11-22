@@ -53,7 +53,7 @@ public class BuildingUIScript : MonoBehaviour
         dropdown.ClearOptions();
         foreach (var name in fileNames)
         {
-            if (name != "BaseRobot")
+            if (name != "BaseRobot" && name != "TemporarySave")
             {
                 dropdown.options.Add(new Dropdown.OptionData(name));
             }            

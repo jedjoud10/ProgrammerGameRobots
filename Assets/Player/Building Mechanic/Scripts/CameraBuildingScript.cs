@@ -10,7 +10,6 @@ public class CameraBuildingScript : MonoBehaviour
     private Ray ray;//The ray from the camera
     private Camera cam;//This camera component
     private RaycastHit hit;//Hit result
-    private Vector3 worldposhit;//The point in world position where the ray hit
     // Start is called before the first frame update
     void Start()
     {
@@ -24,12 +23,19 @@ public class CameraBuildingScript : MonoBehaviour
         if (lastmousepos != Input.mousePosition)//Dedect if delta changed
         {            
             ray = cam.ScreenPointToRay(Input.mousePosition);//Transform to ray from cam
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
                 if (hit.collider.gameObject.GetComponent<AnchorScript>() != null)//Check if the collider's gameobject is an anchor
                 {
                     BuildingScript.HitAnchor(hit.collider.gameObject.GetComponent<AnchorScript>());
-                    worldposhit = hit.point;
+                }
+                else
+                {
+                    BuildingScript.HitAnchor(null);//Tell it that the anchor is null so it can update only once and unselect all anchors
+                }
+                if (hit.collider.gameObject.GetComponent<Rigidbody>() != null)//Check if the collider's gameobject is an anchor
+                {
+                    BuildingScript.HitPiece(hit.collider.gameObject);
                 }
             }
             else
@@ -38,9 +44,5 @@ public class CameraBuildingScript : MonoBehaviour
             }
         }
         lastmousepos = Input.mousePosition;//Used for delta calculations
-    }
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawSphere(worldposhit, 0.5f);
     }
 }

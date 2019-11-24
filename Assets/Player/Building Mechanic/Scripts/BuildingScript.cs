@@ -11,6 +11,7 @@ public class BuildingScript : MonoBehaviour
     public GameObject SelectedBuildingPiecePrefab;
     private AnchorScript lastanchor;//A variable used to dedect if the new selected anchor is updated so we can save performance
     private AnchorScript newanchor;//The new anchor to add the new block to
+    private GameObject lastpiece;//The last hovered piece
     private LayerMask mask;//Mask used to disable anchors in collision
     private GameObject PreviewPiece;//The gameobject of the spawned preview piece
     private int pieceNumber = 1;//Piece number to help saving and loading
@@ -27,7 +28,7 @@ public class BuildingScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (newanchor != null)
+        if (newanchor != null && BuildingTypeVar == BuildingType.Building)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -66,13 +67,37 @@ public class BuildingScript : MonoBehaviour
             }
             #endregion
         }
+        if (Input.GetKeyDown(KeyCode.Z))//Switching types
+        {
+            SwitchBuildingType();
+        }
+        if (lastpiece != null && BuildingTypeVar == BuildingType.Destroy)
+        {
+            if (Input.GetMouseButtonDown(1))
+            {
+                DestroyBuildingPiece(lastpiece);
+            }
+            else
+            {                
+                PreviewPiece.transform.position = lastpiece.transform.position;
+                PreviewPiece.transform.rotation = lastpiece.transform.rotation;
+                PreviewPiece.transform.localScale = lastpiece.transform.localScale * 1.1f;
+            }            
+        }
+        if (BuildingTypeVar == BuildingType.Destroy)
+        {
+            RemoveNullParentedPieces();
+        }
     }
     //Called when the CameraBuildingScript ray collides with a piece
     public void HitPiece(GameObject piece) 
     {
-        
+        if (piece != lastpiece)//Dedect if we should update
+        {
+            lastpiece = piece;
+        }
     }
-    //When we hover of an anchor
+    //When we hover over an anchor
     public void HitAnchor(AnchorScript anchor) 
     {
         if (anchor != lastanchor)//Dedect if we should update
@@ -81,18 +106,23 @@ public class BuildingScript : MonoBehaviour
             UpdateAnchors(anchor);
         }
     }
-    //Updates all acnhors to unselect and select the only anchor (unless it is null)
+    //Updates all anchors to unselect and select the only anchor (unless it is null)
     public void UpdateAnchors(AnchorScript anchor) 
     {
+        if (BuildingTypeVar == BuildingType.Destroy)
+        {
+            PreviewPiece.SetActive(true);
+            return;//We wont use anchors for removing pieces
+        }
         GameObject[] anchorsInScene = GameObject.FindGameObjectsWithTag("Anchor");
         for (int i = 0; i < anchorsInScene.Length; i++)
         {
-            if (!anchorsInScene[i].activeSelf)
+            if (anchorsInScene[i].GetComponent<AnchorScript>() == null)
             {
                 continue;
             }
             anchorsInScene[i].GetComponent<AnchorScript>().Unselect();
-            if (anchor != null)
+            if (anchor != null && BuildingTypeVar == BuildingType.Building)
             {
                 if (anchorsInScene[i] == anchor.gameObject)
                 {
@@ -106,30 +136,51 @@ public class BuildingScript : MonoBehaviour
                 PreviewPiece.SetActive(false);
                 UpdatePreviewMesh();
             }
-            if (Physics.CheckSphere(anchorsInScene[i].transform.position, 0.25f, mask))
-            {
-                anchorsInScene[i].gameObject.SetActive(false);
-            }
-            else
-            {
-                anchorsInScene[i].gameObject.SetActive(true);
-            }
         }
         newanchor = anchor;
     }
     //Add piece to the anchor, then fix it to the anchor's parent
     public void AddBuildingPiece(AnchorScript anchor)
     {
-        if (anchor != null)
+        if (anchor != null && BuildingTypeVar == BuildingType.Building)
         {
             GameObject newpiece = Instantiate(SelectedBuildingPiecePrefab, anchor.transform.position, PreviewPiece.transform.rotation);//Spawn the piece
             Joint newjoint = newpiece.GetComponent<Joint>(); 
             newpiece.name = SelectedBuildingPiecePrefab.name + "-" + pieceNumber;            
             newjoint.connectedBody = anchor.parent;
-            anchor.gameObject.SetActive(false);
             UpdateAnchors(null);
             newpiece.transform.parent = MainPlayerGameobject.transform;
             pieceNumber++;
+            ReorderGM();
+        }
+    }
+    //Destroy bulding piece and remove children pieces of that destroyed piece
+    public void DestroyBuildingPiece(GameObject piece) 
+    {
+        if (piece != null && piece.tag != "ControlUnit")
+        {
+            Destroy(piece);
+            UpdateAnchors(null);
+            RemoveNullParentedPieces();
+            ReorderGM();
+        }
+    }
+    //Remove pieces that have no parent exept the control unit
+    public void RemoveNullParentedPieces() 
+    {
+        Rigidbody[] totalPieces = GameObject.FindObjectsOfType<Rigidbody>();
+        for (int i = 0; i < totalPieces.Length; i++)//Removing one piece at a time
+        {
+            if (totalPieces[i].tag != "ControlUnit")//We are not the main block
+            {
+                if (totalPieces[i].GetComponent<Joint>() != null)
+                {
+                    if (totalPieces[i].GetComponent<Joint>().connectedBody == null)//If we dont have a parent piece
+                    {
+                        Destroy(totalPieces[i].gameObject);
+                    }
+                }
+            }
         }
     }
     //Update the preview mesh
@@ -151,4 +202,40 @@ public class BuildingScript : MonoBehaviour
     {
         pieceNumber = _newnumber;
     }
+    //Called when we want to switch over the next building type
+    private void SwitchBuildingType() 
+    {
+        if (BuildingTypeVar == BuildingType.Building)
+        {
+            BuildingTypeVar = BuildingType.Destroy;
+            return;
+        }
+        if (BuildingTypeVar == BuildingType.Destroy)
+        {
+            BuildingTypeVar = BuildingType.Building;
+            return;
+        }
+    }
+    //Rename every object by their preset order
+    private void ReorderGM() 
+    {
+        Rigidbody[] rbs = FindObjectsOfType<Rigidbody>();
+        for (int i = 0; i < rbs.Length; i++)
+        {
+            rbs[i].name = NameFromStringName(rbs[i].name) + "-" + ((rbs.Length - 1) - i);
+        }
+    }
+    private string NameFromStringName(string name)//Remove numbers and other stuff from string
+    {
+        string outstring = "";
+        for (int i = 0; i < name.Length; i++)
+        {
+            if (!char.IsDigit(name[i]) && name[i] != '-')//Check if it is digit
+            {
+                outstring += name[i];
+            }
+        }
+        return outstring;//Return the final string
+    }
+
 }

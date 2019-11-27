@@ -5,10 +5,13 @@ using UnityEngine;
 public class Interpreter
 {
     Dictionary<string, float> float_variables;//The stored float varialbes
-    //initialize everything
-    public void InitCode(string code, Rigidbody[] pieces) 
+    Dictionary<int, InteractablePiece> pieces;//The pieces's classes
+    //Initialize everything
+    public void InitCode(string code, Rigidbody[] _pieces) 
     {
+        pieces = new Dictionary<int, InteractablePiece>();
         float_variables = new Dictionary<string, float>();
+        SetupAllPiecesClasses(_pieces);
     }
     //Check code and run it
     public void RunCode(string code) 
@@ -33,7 +36,7 @@ public class Interpreter
         }
         if (words[0] == "SetMotorSpeed(" && words[3] == ")" && words.Length == 4)
         {
-            SetMotorSpeed(words[1], GetVariable(words[2]));
+            SetMotorSpeed(Mathf.RoundToInt(GetVariable(words[1])), GetVariable(words[2]));
         }
     }
     //Set or add float variable
@@ -84,8 +87,65 @@ public class Interpreter
         return num1;
     }
     //Set speed of rotation structural piece
-    private void SetMotorSpeed(string motornum, float motorspeed) 
+    private void SetMotorSpeed(int motornum, float motorspeed) 
     {
-        
+        MotorJoint myMotorJoint;
+        if (GetPieceFromIndex(motornum) is MotorJoint)
+        {
+            myMotorJoint = (MotorJoint)GetPieceFromIndex(motornum);//Casting
+            myMotorJoint.SetMotorSpeed(motorspeed);//Set speed
+        }
+    }
+    //Turns every piece into an interactablepiece script
+    private void SetupAllPiecesClasses(Rigidbody[] _pieces) 
+    {
+        InteractablePiece ip = new InteractablePiece();//Temporary variable since we dont have a constructor in our "InteractablePiece" class
+        for (int i = 0; i < _pieces.Length; i++)
+        {
+            ip.SetupPiece(_pieces[i].GetComponent<Joint>(), _pieces[i]);//Setup temporary var        
+            ip = GetCorrectClass(ip);//Correct the class
+
+            pieces.Add(((_pieces.Length-1)-i), ip);
+        }
+    }
+    //Dedect the correct type of InteractablePiece class to use and returns it
+    private InteractablePiece GetCorrectClass(InteractablePiece _oldclass) 
+    {
+        InteractablePiece outclass = _oldclass;
+        if (outclass.myRigidbody.GetComponent<RotationMotorJointScript>() != null)//If we are a Rotation Motor Joint
+        {
+            MotorJoint myNewMotorJoint = new MotorJoint();
+            myNewMotorJoint.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody);//Setup
+            myNewMotorJoint.SetupScript(outclass.myRigidbody.GetComponent<RotationMotorJointScript>());//Setup motor only scripts
+            return myNewMotorJoint;
+        }
+        return outclass;
+    }
+    //Gets and spits out the classes from index from dictionary
+    private InteractablePiece GetPieceFromIndex(int index) 
+    {
+        return GetCorrectClass(pieces[index]);
+    }
+}
+public class InteractablePiece //A piece class of the robot that is the parent of multiple inherited classes
+{
+    public Joint myJoint;
+    public Rigidbody myRigidbody;
+    public void SetupPiece(Joint _myJoint, Rigidbody _myRigidbody)
+    {
+        myJoint = _myJoint;//Constructor
+        myRigidbody = _myRigidbody;//Constructor
+    }
+}
+public class MotorJoint : InteractablePiece//Class fro handling motor joint. Inherites the InteractablePiece class
+{
+    public RotationMotorJointScript rotationMotorJointScript;
+    public void SetupScript(RotationMotorJointScript _rotationMotorJointScript) 
+    {
+        rotationMotorJointScript = _rotationMotorJointScript;//Constructor
+    }
+    public void SetMotorSpeed(float _speed) //Set my rotationmotorjointscripts's motor's speed
+    {
+        rotationMotorJointScript.SetMotorSpeed(_speed);  
     }
 }

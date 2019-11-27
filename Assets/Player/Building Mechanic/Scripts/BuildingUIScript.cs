@@ -98,7 +98,7 @@ public class BuildingUIScript : MonoBehaviour
         if (BuildingScript != null || currentPiece != null)
         {
             BuildingScript.SelectedBuildingPiecePrefab = currentPiece.prefab_piece;//Set the new piece
-            BuildingScript.UpdatePreviewMesh();
+            BuildingScript.UpdatePreviewMesh(null, Vector3.zero, false);
         }
     }
     //Load pieces

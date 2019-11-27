@@ -95,6 +95,7 @@ public class BuildingScript : MonoBehaviour
         if (piece != lastpiece)//Dedect if we should update
         {
             lastpiece = piece;
+            UpdatePreviewMesh(lastpiece.transform.GetChild(0).GetComponent<MeshFilter>().mesh, lastpiece.transform.localScale, false);
         }
     }
     //When we hover over an anchor
@@ -128,13 +129,13 @@ public class BuildingScript : MonoBehaviour
                 {
                     anchorsInScene[i].GetComponent<AnchorScript>().Select();
                     PreviewPiece.SetActive(true);
-                    UpdatePreviewMesh();
+                    UpdatePreviewMesh(null, Vector3.zero, false);
                 }
             }
             else
             {
                 PreviewPiece.SetActive(false);
-                UpdatePreviewMesh();
+                UpdatePreviewMesh(null, Vector3.zero, true);
             }
         }
         newanchor = anchor;
@@ -184,12 +185,24 @@ public class BuildingScript : MonoBehaviour
         }
     }
     //Update the preview mesh
-    public void UpdatePreviewMesh()
+    public void UpdatePreviewMesh(Mesh _mesh, Vector3 scale, bool nothing)//Pass args since we will also call this from destroy mode
     {
-        if (PreviewPiece != null)
+        if (_mesh == null && scale == Vector3.zero)
         {
-            PreviewPiece.GetComponent<MeshFilter>().mesh = SelectedBuildingPiecePrefab.transform.GetChild(0).GetComponent<MeshFilter>().sharedMesh;//Use the mesh for the preview piece from the actual piece's first child gameobject
-            PreviewPiece.transform.localScale = SelectedBuildingPiecePrefab.transform.GetChild(0).transform.localScale;
+            if (PreviewPiece != null)
+            {
+                PreviewPiece.GetComponent<MeshFilter>().mesh = SelectedBuildingPiecePrefab.transform.GetChild(0).GetComponent<MeshFilter>().sharedMesh;//Use the mesh for the preview piece from the actual piece's first child gameobject
+                PreviewPiece.transform.localScale = SelectedBuildingPiecePrefab.transform.GetChild(0).transform.localScale;
+            }
+        }
+        else
+        {
+            PreviewPiece.GetComponent<MeshFilter>().mesh = _mesh;
+            PreviewPiece.transform.localScale = scale;
+        }
+        if (nothing)
+        {
+            PreviewPiece.GetComponent<MeshFilter>().mesh = null;
         }
     }
     //How are we building ?

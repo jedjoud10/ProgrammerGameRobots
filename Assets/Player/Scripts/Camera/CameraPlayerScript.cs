@@ -35,6 +35,8 @@ public class CameraPlayerScript : MonoBehaviour
             Cursor.visible = false;
             currentX += Input.GetAxis("Mouse X") * sensivityX;
             currentY += Input.GetAxis("Mouse Y") * sensivityY;
+            //currentX = Mathf.Clamp(currentX, -80f, 80f);
+            currentY = Mathf.Clamp(currentY, -80f, 80f);
             rot = Quaternion.Euler(currentY, currentX, 0);
         }
         else

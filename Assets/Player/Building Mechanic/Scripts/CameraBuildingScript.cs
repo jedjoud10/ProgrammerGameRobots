@@ -23,7 +23,7 @@ public class CameraBuildingScript : MonoBehaviour
         if (lastmousepos != Input.mousePosition)//Dedect if delta changed
         {            
             ray = cam.ScreenPointToRay(Input.mousePosition);//Transform to ray from cam
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            if (Physics.SphereCast(ray, 0.1f, out hit))
             {
                 if (hit.collider.gameObject.GetComponent<AnchorScript>() != null)//Check if the collider's gameobject is an anchor
                 {

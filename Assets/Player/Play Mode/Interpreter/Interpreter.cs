@@ -17,6 +17,7 @@ public class Interpreter
     public void RunCode(string code) 
     {
         string[] lines = code.Split('\n');
+        ReadSensors();//Read sensors before running code interpreter
         for (int i = 0; i < lines.Length; i++)
         {
             RunLines(lines[i], lines.Length - 1, i);
@@ -119,12 +120,31 @@ public class Interpreter
             myNewMotorJoint.SetupScript(outclass.myRigidbody.GetComponent<RotationMotorJointScript>());//Setup motor only scripts
             return myNewMotorJoint;
         }
+        if (outclass.myRigidbody.GetComponent<DistanceSensorScript>() != null)//If we are distance sensor
+        {
+            DistanceSensor myNewDistanceSensor = new DistanceSensor();
+            myNewDistanceSensor.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody);//Setup
+            myNewDistanceSensor.SetupScript(outclass.myRigidbody.GetComponent<DistanceSensorScript>());//Setup distance sensor only scripts
+            return myNewDistanceSensor;
+        }
         return outclass;
     }
     //Gets and spits out the classes from index from dictionary
     private InteractablePiece GetPieceFromIndex(int index) 
     {
         return GetCorrectClass(pieces[index]);
+    }
+    //Reads all sensors mesurements
+    private void ReadSensors() 
+    {        
+        for (int i = 0; i < pieces.Count; i++)
+        {
+            if (GetPieceFromIndex(i) is DistanceSensor)//If we are a distance sensor
+            {
+                DistanceSensor distance_sensor = (DistanceSensor)GetPieceFromIndex(i);
+                AssignVariable("Distance_Sensor" + i,distance_sensor.GetSensorDistance());
+            }
+        }
     }
 }
 public class InteractablePiece //A piece class of the robot that is the parent of multiple inherited classes
@@ -137,7 +157,7 @@ public class InteractablePiece //A piece class of the robot that is the parent o
         myRigidbody = _myRigidbody;//Constructor
     }
 }
-public class MotorJoint : InteractablePiece//Class fro handling motor joint. Inherites the InteractablePiece class
+public class MotorJoint : InteractablePiece//Class fro handling motor joint
 {
     public RotationMotorJointScript rotationMotorJointScript;
     public void SetupScript(RotationMotorJointScript _rotationMotorJointScript) 
@@ -147,5 +167,17 @@ public class MotorJoint : InteractablePiece//Class fro handling motor joint. Inh
     public void SetMotorSpeed(float _speed) //Set my rotationmotorjointscripts's motor's speed
     {
         rotationMotorJointScript.SetMotorSpeed(_speed);  
+    }
+}
+public class DistanceSensor : InteractablePiece//Class for the "distance sensor" sensor
+{
+    public DistanceSensorScript distanceSensorScript;
+    public void SetupScript(DistanceSensorScript _distanceSensorScript) 
+    {
+        distanceSensorScript = _distanceSensorScript;//Constructor
+    }
+    public float GetSensorDistance() //Read distance from sensor
+    {
+        return distanceSensorScript.distance;
     }
 }

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f6621dc0b0eba0468f321e3804a3c43, type: 3}
+  m_Name: DistanceSensor
+  m_EditorClassIdentifier: 
+  UI_name: 'Sensor : Infrared Distance'
+  mesh: {fileID: 4493585093827132993, guid: 7f03c3d3aaccb0f47bacb6479d4583c4, type: 3}
+  material: {fileID: 2100000, guid: 31d10323017fe034492d42fda8f79abd, type: 2}
+  icon: {fileID: 0}
+  description: A sensor that gets a distance from a beam of infrared light
+  prefab_piece: {fileID: 3351271639092685957, guid: 2b7e877c86e024048b0669116d60f73a,
+    type: 3}

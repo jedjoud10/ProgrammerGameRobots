@@ -6,6 +6,8 @@ using UnityEngine;
 //Class handling saving and loading of craft properities
 public class SaverLoader
 {
+    string robots_SavePath = Application.dataPath + "/SavedRobots";
+    string programs_SavePath = Application.dataPath + "/SavedPrograms";
     public void SavePieces(string fileName, Rigidbody[] pieces) //Save pieces
     {
         if (fileName == "")
@@ -27,10 +29,10 @@ public class SaverLoader
             newPieces[i].pieceNum = IntFromStringName(pieces[i].name);
             newPieces[i].position = pieces[i].transform.position;//Set position
         }
-        string path = Application.dataPath + "/SavedRobots/" + fileName + ".txt";
-        if (!Directory.Exists(Application.dataPath + "/SavedRobots"))//Dirrectory handling
+        string path = robots_SavePath + "/" + fileName + ".txt";
+        if (!Directory.Exists(robots_SavePath))//Dirrectory handling
         {
-            Directory.CreateDirectory(Application.dataPath + "/SavedRobots");
+            Directory.CreateDirectory(robots_SavePath);
         }
         string json = JsonHelper.ToJson(newPieces, true);//Transform into json file
         File.WriteAllText(path, json);//Write to file
@@ -42,7 +44,7 @@ public class SaverLoader
             Debug.LogError("File name is nothing !");            
         }
         SavePiece[] newPieces = new SavePiece[0];
-        string path = Application.dataPath + "/SavedRobots/" + fileName + ".txt";
+        string path = robots_SavePath + "/" + fileName + ".txt";
         if (File.Exists(path))
         {
             newPieces = JsonHelper.FromJson<SavePiece>(File.ReadAllText(path));
@@ -59,7 +61,7 @@ public class SaverLoader
     {
         string[] filenames = new string[0];
         List<string> endfiles = new List<string>();
-        string path = Application.dataPath + "/SavedRobots/";
+        string path = robots_SavePath + "/";
         if (Directory.Exists(path))
         {
             filenames = Directory.GetFiles(path);
@@ -73,14 +75,13 @@ public class SaverLoader
         }
         else
         {
-            Directory.CreateDirectory(Application.dataPath + "/SavedRobots");
+            Directory.CreateDirectory(robots_SavePath);
         }
         return endfiles.ToArray();
     }
-
     public void RemoveFilePieces(string filename)//Delete the specified file 
     {
-        string path = Application.dataPath + "/SavedRobots/" + filename + ".txt";
+        string path = robots_SavePath + "/" + filename + ".txt";
         if (File.Exists(path))
         {
             File.Delete(path);
@@ -89,6 +90,20 @@ public class SaverLoader
         {
             Debug.LogError("File " + path + " cannot be removed since it dose not exist !");
         }
+    }
+    public void SaveProgram(string fileName, string programContent) //Save program from code editor
+    {
+        if (fileName == "")
+        {
+            Debug.LogError("File name is nothing !");
+            return;
+        }
+        string path = programs_SavePath + "/" + fileName + ".txt";
+        if (!Directory.Exists(programs_SavePath))//Dirrectory handling
+        {
+            Directory.CreateDirectory(programs_SavePath);
+        }
+        File.WriteAllText(path, programContent);//Write to file
     }
     private int IntFromStringName(string name)//Get a number from a string that might contain letters 
     {

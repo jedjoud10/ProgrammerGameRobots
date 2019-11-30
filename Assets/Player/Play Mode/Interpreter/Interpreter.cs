@@ -27,19 +27,39 @@ public class Interpreter
     }
     //Run the code lines
     public void RunLines(string linecontent, int endline, int currentline) 
-    {
+    {        
         string[] words = linecontent.Split(' ');
-        if (words[1] == "=" && words.Length == 3)//Assign variable
+        if (words.Length == 0 || string.IsNullOrWhiteSpace(linecontent) || string.IsNullOrEmpty(linecontent) )
         {
-            AssignVariable(words[0], GetVariable(words[2]))                                                                            ;
+            return;//No code
         }
-        if (words[1] == "=" && words.Length == 5)//Assign variable with mathematical operation
+        if (words.Length == 3)
         {
-            AssignVariable(words[0], MathFloat(GetVariable(words[2]), GetVariable(words[4]), words[3]));
+            if (words[1] == "=")//Assign variable
+            {
+                AssignVariable(words[0], GetVariable(words[2]));
+            }
         }
-        if (words[0] == "SetMotorSpeed(" && words[3] == ")" && words.Length == 4)
+        if (words.Length == 5)
         {
-            SetMotorSpeed(Mathf.RoundToInt(GetVariable(words[1])), GetVariable(words[2]));
+            if (words[1] == "=")//Assign variable with mathematical operation
+            {
+                AssignVariable(words[0], MathFloat(GetVariable(words[2]), GetVariable(words[4]), words[3]));
+            }
+        }
+        if (words.Length == 4)
+        {
+            if (words[0] == "SetMotorSpeed(" && words[3] == ")")//Set motor speed
+            {
+                SetMotorSpeed(Mathf.RoundToInt(GetVariable(words[1])), GetVariable(words[2]));
+            }
+        }
+        if (words.Length == 3)
+        {
+            if (words[0] == "Print(" && words[2] == ")" )//Write to console the variable
+            {
+                PrintToConsole(GetVariable(words[1]).ToString());
+            }
         }
     }
     //Set or add float variable
@@ -88,6 +108,11 @@ public class Interpreter
             return num1 + num2;
         }
         return num1;
+    }
+    //Print to custom console
+    public void PrintToConsole(string content) 
+    {
+        Debug.Log(content);//Debugging
     }
     //Set speed of rotation structural piece
     private void SetMotorSpeed(int motornum, float motorspeed) 

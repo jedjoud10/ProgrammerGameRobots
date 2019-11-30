@@ -121,6 +121,9 @@ public class SaverLoaderHandlerScript : MonoBehaviour
     public void LoadRobotPhysics(string _codefilename, string _piecesfilename, bool enablePhysics) //Load robots when we are in preview mode, load also de code
     {
         LoadBuildingPieces(_piecesfilename, enablePhysics);
-        InterpreterPlaymodeHandlerScript.InitInterpreter(LoadCode(_codefilename) , GameObject.FindObjectsOfType<Rigidbody>());
+        if (InterpreterPlaymodeHandlerScript != null)
+        {
+            InterpreterPlaymodeHandlerScript.InitInterpreter(LoadCode(_codefilename), GameObject.FindObjectsOfType<Rigidbody>());
+        }
     }
 }

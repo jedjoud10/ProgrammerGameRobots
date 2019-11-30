@@ -6,8 +6,15 @@ using UnityEngine;
 //Class handling saving and loading of craft properities
 public class SaverLoader
 {
-    string robots_SavePath = Application.dataPath + "/SavedRobots";
-    string programs_SavePath = Application.dataPath + "/SavedPrograms";
+    string robots_SavePath = "/SavedRobots";
+    string programs_SavePath = "/SavedPrograms";
+    string enemybots_SavePath = "/EnemyRobots";
+    public void SetupPathes() //Setup the pathes with the correct path
+    {
+        robots_SavePath = Application.dataPath + "/SavedRobots";
+        programs_SavePath = Application.dataPath + "/SavedPrograms";
+        enemybots_SavePath = Application.dataPath + "/EnemyRobots";
+    }
     public void SavePieces(string fileName, Rigidbody[] pieces) //Save pieces
     {
         if (fileName == "")
@@ -105,6 +112,47 @@ public class SaverLoader
         }
         File.WriteAllText(path, programContent);//Write to file
     }
+    public string LoadProgram(string fileName) //Loads program from file
+    {
+        string path = programs_SavePath + "/" + fileName + ".txt";
+        if (File.Exists(path))
+        {
+            return File.ReadAllText(path);
+        }
+        else
+        {
+            Debug.LogError("File does not exist!");
+        }
+        return "";
+    }
+    public List<EnemyRobot> LoadEnemyRobots() //Load enemies from enemy folder
+    {
+        if (Directory.Exists(enemybots_SavePath + "/"))
+        {
+            List<EnemyRobot> enemyRobots = new List<EnemyRobot>();
+            string[] dirs = Directory.GetDirectories(enemybots_SavePath + "/");
+            foreach (var dir in dirs)
+            {
+                //Reading and loading of pieces & program of correct robot
+                string program_path = dir + "/" + "program.txt";
+                string pieces_path = dir + "/" + "pieces.txt";
+                SavePiece[] newPieces = JsonHelper.FromJson<SavePiece>(File.ReadAllText(pieces_path));
+                newPieces = newPieces.OrderBy(x => x.pieceNum).ToArray();
+                string program_content = File.ReadAllText(program_path);
+                Debug.Log("Succsessfully loaded " + dir + " robot");
+                EnemyRobot enemyRobot = new EnemyRobot();//To add to list of robots
+                enemyRobot.pieces = newPieces;
+                enemyRobot.program = program_content;
+                enemyRobots.Add(enemyRobot);//Add to robots list
+            }
+            return enemyRobots;
+        }
+        else
+        {
+            Debug.LogError("Directory does not exist !");
+            return null;
+        }
+    }
     private int IntFromStringName(string name)//Get a number from a string that might contain letters 
     {
         string outstring = "";
@@ -143,6 +191,11 @@ public class SaverLoader
         public string pieceType;
         public Vector3 position;
         public Vector3 eulerRotation;
+    }
+    public struct EnemyRobot 
+    {
+        public SavePiece[] pieces;
+        public string program;
     }
 }
 //Class to make arrays to json. Found on StackOverflow

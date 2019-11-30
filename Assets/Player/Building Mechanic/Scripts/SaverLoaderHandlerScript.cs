@@ -6,6 +6,7 @@ public class SaverLoaderHandlerScript : MonoBehaviour
 {
     private SaverLoader saverLoader = new SaverLoader();
     private Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
+    public InterpreterPlaymodeHandlerScript InterpreterPlaymodeHandlerScript;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,7 +15,16 @@ public class SaverLoaderHandlerScript : MonoBehaviour
     //When the gameobject is enabled
     private void OnEnable()
     {
-        LoadPrefabs();
+        LoadPrefabs();        
+        if (saverLoader != null)
+        {
+            saverLoader.SetupPathes();
+        }
+        else
+        {
+            saverLoader = new SaverLoader();
+            saverLoader.SetupPathes();
+        }
     }
     private void LoadPrefabs() 
     {
@@ -99,5 +109,18 @@ public class SaverLoaderHandlerScript : MonoBehaviour
     public void RemoveFile(string _filename) //Called from UI to remove selected file
     {
         saverLoader.RemoveFilePieces(_filename);
+    }
+    public void SaveCode(string _filename, string codecontent) //Save code with help from SaverLoader
+    {
+        saverLoader.SaveProgram(_filename, codecontent);
+    }
+    public string LoadCode(string _filename) //Load de code from file
+    {
+        return saverLoader.LoadProgram(_filename);
+    }
+    public void LoadRobotPhysics(string _codefilename, string _piecesfilename, bool enablePhysics) //Load robots when we are in preview mode, load also de code
+    {
+        LoadBuildingPieces(_piecesfilename, enablePhysics);
+        InterpreterPlaymodeHandlerScript.InitInterpreter(LoadCode(_codefilename) , GameObject.FindObjectsOfType<Rigidbody>());
     }
 }

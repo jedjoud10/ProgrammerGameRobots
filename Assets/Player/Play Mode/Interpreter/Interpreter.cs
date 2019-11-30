@@ -6,15 +6,17 @@ public class Interpreter
 {
     Dictionary<string, float> float_variables;//The stored float varialbes
     Dictionary<int, InteractablePiece> pieces;//The pieces's classes
+    string code;//The actual code
     //Initialize everything
-    public void InitCode(string code, Rigidbody[] _pieces) 
+    public void InitCode(string _code, Rigidbody[] _pieces) 
     {
         pieces = new Dictionary<int, InteractablePiece>();
         float_variables = new Dictionary<string, float>();
         SetupAllPiecesClasses(_pieces);
+        code = _code;
     }
     //Check code and run it
-    public void RunCode(string code) 
+    public void RunCode() 
     {
         string[] lines = code.Split('\n');
         ReadSensors();//Read sensors before running code interpreter

@@ -23,12 +23,12 @@ public class SceneManagerScript : MonoBehaviour
         if (_scenename == "BuildingScene")
         {
             Time.timeScale = 0.0f;
-            GameObject.FindObjectOfType<SaverLoaderHandlerScript>().LoadBuildingPieces("TemporarySave", false);
+            GameObject.FindObjectOfType<SaverLoaderHandlerScript>().LoadRobotPhysics("TemporarySave", "TemporarySave", false);
         }
         if (_scenename == "PreviewScene")
         {
             Time.timeScale = 1.0f;
-            GameObject.FindObjectOfType<SaverLoaderHandlerScript>().LoadBuildingPieces("TemporarySave", true);
+            GameObject.FindObjectOfType<SaverLoaderHandlerScript>().LoadRobotPhysics("TemporarySave", "TemporarySave", true);
             Debug.Log("Moved into preview, will load pieces");
         }
     }

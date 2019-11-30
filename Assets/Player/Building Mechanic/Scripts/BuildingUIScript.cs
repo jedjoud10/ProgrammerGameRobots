@@ -17,6 +17,9 @@ public class BuildingUIScript : MonoBehaviour
     public Dropdown dropdown;
     public Text saveNameText;
     public GameObject destroybutton;
+    public Text codeeditor;
+    public GameObject codeEditorPanel;
+    
     //Gets all piece's data and objects
     private void GetAllPiecesScriptableObjects() 
     {
@@ -141,6 +144,7 @@ public class BuildingUIScript : MonoBehaviour
     private void SaveToTemporaryFile() 
     {
         BuildingSaverLoaderScript.SaveBuildingPieces("TemporarySave");
+        BuildingSaverLoaderScript.SaveCode("TemporarySave", codeeditor.text);
     }
     //Change to preview map
     public void PreviewCraft() 
@@ -152,5 +156,15 @@ public class BuildingUIScript : MonoBehaviour
     public void MakeNewRobot() 
     {
         BuildingSaverLoaderScript.LoadBuildingPieces("BaseRobot", false);
+    }
+    //Show code editor
+    public void ShowCodeEditor() 
+    {
+        codeEditorPanel.SetActive(true);
+    }
+    //Hide code editor
+    public void HideCodeEditor() 
+    {
+        codeEditorPanel.SetActive(false);
     }
 }

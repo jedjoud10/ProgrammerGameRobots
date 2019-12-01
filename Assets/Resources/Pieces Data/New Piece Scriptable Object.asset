@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f6621dc0b0eba0468f321e3804a3c43, type: 3}
+  m_Name: New Piece Scriptable Object
+  m_EditorClassIdentifier: 
+  UI_name: Structural Wheel Piece
+  mesh: {fileID: 2534964839176971238, guid: 6299604233f56b9449644dd7ac9cc875, type: 3}
+  material: {fileID: 2100000, guid: c57aefa8c9e4fdb4daf3227cfec90cf9, type: 2}
+  icon: {fileID: 0}
+  description: A simple wheel
+  prefab_piece: {fileID: 4493343699483329138, guid: b7dc514e935c3ca489b752dff1395dd1,
+    type: 3}

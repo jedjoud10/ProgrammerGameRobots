@@ -1,15 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 //Class for handling the code for the robot
 public class Interpreter
 {
     Dictionary<string, float> float_variables;//The stored float varialbes
     Dictionary<int, InteractablePiece> pieces;//The pieces's classes
+    //The console that will be used when Print( arg )
+    public string console = "";
     string code;//The actual code
     //Initialize everything
     public void InitCode(string _code, Rigidbody[] _pieces) 
     {
+        console = "";
         pieces = new Dictionary<int, InteractablePiece>();
         float_variables = new Dictionary<string, float>();
         SetupAllPiecesClasses(_pieces);
@@ -18,6 +22,7 @@ public class Interpreter
     //Check code and run it
     public void RunCode() 
     {
+        console = "";
         string[] lines = code.Split('\n');
         ReadSensors();//Read sensors before running code interpreter
         for (int i = 0; i < lines.Length; i++)
@@ -58,7 +63,7 @@ public class Interpreter
         {
             if (words[0] == "Print(" && words[2] == ")" )//Write to console the variable
             {
-                PrintToConsole(GetVariable(words[1]).ToString());
+                PrintToConsole(GetFilteredString(words[1]));
             }
         }
     }
@@ -112,7 +117,27 @@ public class Interpreter
     //Print to custom console
     public void PrintToConsole(string content) 
     {
-        Debug.Log(content);//Debugging
+        if (console != "")
+        {
+            console = console + "\n" + content;
+        }
+        else
+        {
+            console = content;
+        }
+        //Debug.Log(content);//Debugging
+    }
+    //Try to get variable out of string, if not possible then take the string itself
+    public string GetFilteredString(string inputString) 
+    {
+        if (float_variables.ContainsKey(inputString))
+        {
+            return float_variables[inputString].ToString();
+        }
+        else
+        {
+            return inputString;
+        }        
     }
     //Set speed of rotation structural piece
     private void SetMotorSpeed(int motornum, float motorspeed) 
@@ -127,13 +152,15 @@ public class Interpreter
     //Turns every piece into an interactablepiece script
     private void SetupAllPiecesClasses(Rigidbody[] _pieces) 
     {
+        _pieces = _pieces.Reverse().ToArray();
         InteractablePiece ip = new InteractablePiece();//Temporary variable since we dont have a constructor in our "InteractablePiece" class
         for (int i = 0; i < _pieces.Length; i++)
         {
-            ip.SetupPiece(_pieces[i].GetComponent<Joint>(), _pieces[i]);//Setup temporary var        
+            ip = new InteractablePiece();//Temporary variable since we dont have a constructor in our "InteractablePiece" class
+            ip.SetupPiece(_pieces[i].GetComponent<Joint>(), _pieces[i], _pieces[i].name);//Setup temporary var        
             ip = GetCorrectClass(ip);//Correct the class
 
-            pieces.Add(((_pieces.Length-1)-i), ip);
+            pieces.Add(i, ip);
         }
     }
     //Dedect the correct type of InteractablePiece class to use and returns it
@@ -143,14 +170,14 @@ public class Interpreter
         if (outclass.myRigidbody.GetComponent<RotationMotorJointScript>() != null)//If we are a Rotation Motor Joint
         {
             MotorJoint myNewMotorJoint = new MotorJoint();
-            myNewMotorJoint.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody);//Setup
+            myNewMotorJoint.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody, _oldclass.myName);//Setup
             myNewMotorJoint.SetupScript(outclass.myRigidbody.GetComponent<RotationMotorJointScript>());//Setup motor only scripts
             return myNewMotorJoint;
         }
         if (outclass.myRigidbody.GetComponent<DistanceSensorScript>() != null)//If we are distance sensor
         {
             DistanceSensor myNewDistanceSensor = new DistanceSensor();
-            myNewDistanceSensor.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody);//Setup
+            myNewDistanceSensor.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody, _oldclass.myName);//Setup
             myNewDistanceSensor.SetupScript(outclass.myRigidbody.GetComponent<DistanceSensorScript>());//Setup distance sensor only scripts
             return myNewDistanceSensor;
         }
@@ -176,12 +203,14 @@ public class Interpreter
 }
 public class InteractablePiece //A piece class of the robot that is the parent of multiple inherited classes
 {
+    public string myName;
     public Joint myJoint;
     public Rigidbody myRigidbody;
-    public void SetupPiece(Joint _myJoint, Rigidbody _myRigidbody)
+    public void SetupPiece(Joint _myJoint, Rigidbody _myRigidbody, string _myName)
     {
         myJoint = _myJoint;//Constructor
         myRigidbody = _myRigidbody;//Constructor
+        myName = _myName;//Constructor
     }
 }
 public class MotorJoint : InteractablePiece//Class fro handling motor joint

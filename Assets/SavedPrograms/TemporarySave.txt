@@ -1,2 +1,3 @@
-x = 5
-Print( x )
+speed = 2000
+SetMotorSpeed( 1 speed )
+Print( speed )

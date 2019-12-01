@@ -16,6 +16,7 @@ public class BuildingScript : MonoBehaviour
     private GameObject PreviewPiece;//The gameobject of the spawned preview piece
     private int pieceNumber = 1;//Piece number to help saving and loading
     private Vector3 rotationOffset;//The relative rotation that is applied
+    public BuildingUIScript BuildingUIScript;//UI handler
     // Start is called before the first frame update
     void Start()
     {
@@ -105,7 +106,11 @@ public class BuildingScript : MonoBehaviour
         {
             lastanchor = anchor;
             UpdateAnchors(anchor);
-        }
+            if (anchor != null)
+            {
+                BuildingUIScript.SetHoveredPieceName(anchor.transform.parent.transform.parent.name);//Find the root object's name
+            }
+        }        
     }
     //Updates all anchors to unselect and select the only anchor (unless it is null)
     public void UpdateAnchors(AnchorScript anchor) 

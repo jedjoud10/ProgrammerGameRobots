@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 //Class handling the interpreter and actual robot
 public class InterpreterPlaymodeHandlerScript : MonoBehaviour
 {
     Interpreter myinterpreter;
+    public Text consoleText;//De console text
     // Inits the interpreter and values, called from saverloaderhandlerscript
     public void InitInterpreter(string code, Rigidbody[] pieces)
     {
@@ -18,6 +20,7 @@ public class InterpreterPlaymodeHandlerScript : MonoBehaviour
         if (myinterpreter != null)
         {
             myinterpreter.RunCode();
+            consoleText.text = myinterpreter.console;//Show console
         }
     }
 }

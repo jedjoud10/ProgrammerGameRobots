@@ -19,6 +19,8 @@ public class BuildingUIScript : MonoBehaviour
     public GameObject destroybutton;
     public Text codeeditor;
     public GameObject codeEditorPanel;
+    public InputField codeeditor_textboxInputfield;
+    public Text hoveredPieceText;
     
     //Gets all piece's data and objects
     private void GetAllPiecesScriptableObjects() 
@@ -166,5 +168,16 @@ public class BuildingUIScript : MonoBehaviour
     public void HideCodeEditor() 
     {
         codeEditorPanel.SetActive(false);
+    }
+    //Set code text
+    public void LoadCodeText(string _newCode) 
+    {
+        codeeditor_textboxInputfield.text = _newCode;
+        codeeditor.text = _newCode;
+    }
+    //Set the hovered anchor's piece's name
+    public void SetHoveredPieceName(string name) 
+    {
+        hoveredPieceText.text = name;
     }
 }

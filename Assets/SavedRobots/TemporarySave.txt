@@ -1,6 +1,38 @@
 {
     "Items": [
         {
+            "pieceName": "StructuralWheelPiece-2",
+            "pieceNum": 2,
+            "parentPieceNum": 1,
+            "pieceType": "StructuralWheelPiece",
+            "position": {
+                "x": 0.0,
+                "y": 4.0,
+                "z": -1.1920928955078126e-7
+            },
+            "eulerRotation": {
+                "x": 270.019775390625,
+                "y": 0.0,
+                "z": 0.0
+            }
+        },
+        {
+            "pieceName": "StructuralRotatingPiece-1",
+            "pieceNum": 1,
+            "parentPieceNum": 0,
+            "pieceType": "StructuralRotatingPiece",
+            "position": {
+                "x": 0.0,
+                "y": 3.0,
+                "z": 0.0
+            },
+            "eulerRotation": {
+                "x": 270.0,
+                "y": 0.0,
+                "z": 0.0
+            }
+        },
+        {
             "pieceName": "ControlUnit-0",
             "pieceNum": 0,
             "parentPieceNum": 0,

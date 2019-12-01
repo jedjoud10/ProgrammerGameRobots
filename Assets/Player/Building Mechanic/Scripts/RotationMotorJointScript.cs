@@ -12,13 +12,13 @@ public class RotationMotorJointScript : MonoBehaviour
     {
         myHJ = GetComponent<HingeJoint>();
         myJM.targetVelocity = 0;
-        myJM.force = 10f;
+        myJM.force = 20f;
         myHJ.motor = myJM;
+        myHJ.useMotor = true;
     }
 
     public void SetMotorSpeed(float speed) //Called from interpreter to set the motor speed
-    {
-        myHJ.useMotor = true;
+    {        
         myJM.targetVelocity = Mathf.Clamp(speed, 0, MaxSpeed);
         myHJ.motor = myJM;
     }

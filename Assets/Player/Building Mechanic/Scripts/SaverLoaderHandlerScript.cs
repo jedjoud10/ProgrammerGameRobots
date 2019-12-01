@@ -7,6 +7,7 @@ public class SaverLoaderHandlerScript : MonoBehaviour
     private SaverLoader saverLoader = new SaverLoader();
     private Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
     public InterpreterPlaymodeHandlerScript InterpreterPlaymodeHandlerScript;
+    public BuildingUIScript BuildingUIScript;
     // Start is called before the first frame update
     void Start()
     {
@@ -124,6 +125,10 @@ public class SaverLoaderHandlerScript : MonoBehaviour
         if (InterpreterPlaymodeHandlerScript != null)
         {
             InterpreterPlaymodeHandlerScript.InitInterpreter(LoadCode(_codefilename), GameObject.FindObjectsOfType<Rigidbody>());
+        }
+        if (BuildingUIScript != null)
+        {
+            BuildingUIScript.LoadCodeText(LoadCode(_codefilename));
         }
     }
 }

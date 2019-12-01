@@ -143,10 +143,13 @@ public class Interpreter
     private void SetMotorSpeed(int motornum, float motorspeed) 
     {
         MotorJoint myMotorJoint;
-        if (GetPieceFromIndex(motornum) is MotorJoint)
+        if (GetPieceFromIndex(motornum) != null)
         {
-            myMotorJoint = (MotorJoint)GetPieceFromIndex(motornum);//Casting
-            myMotorJoint.SetMotorSpeed(motorspeed);//Set speed
+            if (GetPieceFromIndex(motornum) is MotorJoint)
+            {
+                myMotorJoint = (MotorJoint)GetPieceFromIndex(motornum);//Casting
+                myMotorJoint.SetMotorSpeed(motorspeed);//Set speed
+            }
         }
     }
     //Turns every piece into an interactablepiece script
@@ -186,7 +189,14 @@ public class Interpreter
     //Gets and spits out the classes from index from dictionary
     private InteractablePiece GetPieceFromIndex(int index) 
     {
-        return GetCorrectClass(pieces[index]);
+        if (pieces.ContainsKey(index))
+        {
+            return GetCorrectClass(pieces[index]);
+        }
+        else
+        {
+            return null;
+        }
     }
     //Reads all sensors mesurements
     private void ReadSensors() 

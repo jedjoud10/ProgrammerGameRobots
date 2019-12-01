@@ -7,13 +7,14 @@ public class RotationMotorJointScript : MonoBehaviour
     private HingeJoint myHJ;
     private JointMotor myJM;
     public float MaxSpeed;//Maximum speed
+    public float Force;//Force
     // Start is called before the first frame update
     void Start()
     {
         myHJ = GetComponent<HingeJoint>();
         myJM.targetVelocity = 0;
-        myJM.force = 20f;
-        myHJ.motor = myJM;
+        myJM.force = Force;
+        myHJ.motor = myJM;        
         myHJ.useMotor = true;
     }
 

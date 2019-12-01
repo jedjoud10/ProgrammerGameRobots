@@ -1,3 +1,2 @@
-speed = 2000
-SetMotorSpeed( 1 speed )
-Print( speed )
+SetMotorSpeed( 21 100 )
+SetMotorSpeed( 20 100 )

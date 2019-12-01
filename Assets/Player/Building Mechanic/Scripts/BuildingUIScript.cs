@@ -21,6 +21,7 @@ public class BuildingUIScript : MonoBehaviour
     public GameObject codeEditorPanel;
     public InputField codeeditor_textboxInputfield;
     public Text hoveredPieceText;
+    public Text variablesText;
     
     //Gets all piece's data and objects
     private void GetAllPiecesScriptableObjects() 
@@ -103,7 +104,7 @@ public class BuildingUIScript : MonoBehaviour
         if (BuildingScript != null || currentPiece != null)
         {
             BuildingScript.SelectedBuildingPiecePrefab = currentPiece.prefab_piece;//Set the new piece
-            BuildingScript.UpdatePreviewMesh(null, Vector3.zero, false);
+            BuildingScript.SetPreviewMesh();
         }
     }
     //Load pieces
@@ -168,6 +169,11 @@ public class BuildingUIScript : MonoBehaviour
     public void HideCodeEditor() 
     {
         codeEditorPanel.SetActive(false);
+    }
+    //Shows every variable that is going to be used in the interpreter
+    public void ShowVariables(string[] variables) 
+    {
+        
     }
     //Set code text
     public void LoadCodeText(string _newCode) 

@@ -96,7 +96,11 @@ public class BuildingScript : MonoBehaviour
         if (piece != lastpiece)//Dedect if we should update
         {
             lastpiece = piece;
-            UpdatePreviewMesh(lastpiece.transform.GetChild(0).GetComponent<MeshFilter>().mesh, lastpiece.transform.localScale, false);
+            SetPreviewMesh(lastpiece.transform.GetChild(0).GetComponent<MeshFilter>().mesh, lastpiece.transform.localScale);
+            if (piece != null)
+            {
+                BuildingUIScript.SetHoveredPieceName(piece.name);//Find the root object's name
+            }
         }
     }
     //When we hover over an anchor
@@ -106,10 +110,6 @@ public class BuildingScript : MonoBehaviour
         {
             lastanchor = anchor;
             UpdateAnchors(anchor);
-            if (anchor != null)
-            {
-                BuildingUIScript.SetHoveredPieceName(anchor.transform.parent.transform.parent.name);//Find the root object's name
-            }
         }        
     }
     //Updates all anchors to unselect and select the only anchor (unless it is null)
@@ -134,13 +134,13 @@ public class BuildingScript : MonoBehaviour
                 {
                     anchorsInScene[i].GetComponent<AnchorScript>().Select();
                     PreviewPiece.SetActive(true);
-                    UpdatePreviewMesh(null, Vector3.zero, false);
+                    SetPreviewMesh();
                 }
             }
             else
             {
                 PreviewPiece.SetActive(false);
-                UpdatePreviewMesh(null, Vector3.zero, true);
+                DisablePreviewMesh();
             }
         }
         newanchor = anchor;
@@ -189,27 +189,35 @@ public class BuildingScript : MonoBehaviour
             }
         }
     }
-    //Update the preview mesh
-    public void UpdatePreviewMesh(Mesh _mesh, Vector3 scale, bool nothing)//Pass args since we will also call this from destroy mode
+    #region Update preview mesh
+    //-------------Update the preview mesh---------------
+    //Set the preview mesh to the current selected building piece
+    public void SetPreviewMesh()
     {
-        if (_mesh == null && scale == Vector3.zero)
+        if (PreviewPiece != null)
         {
-            if (PreviewPiece != null)
-            {
-                PreviewPiece.GetComponent<MeshFilter>().mesh = SelectedBuildingPiecePrefab.transform.GetChild(0).GetComponent<MeshFilter>().sharedMesh;//Use the mesh for the preview piece from the actual piece's first child gameobject
-                PreviewPiece.transform.localScale = SelectedBuildingPiecePrefab.transform.GetChild(0).transform.localScale;
-            }
+            PreviewPiece.GetComponent<MeshFilter>().mesh = SelectedBuildingPiecePrefab.transform.GetChild(0).GetComponent<MeshFilter>().sharedMesh;//Use the mesh for the preview piece from the actual piece's first child gameobject
+            PreviewPiece.transform.localScale = SelectedBuildingPiecePrefab.transform.GetChild(0).transform.localScale;
         }
-        else
+    }
+    //Set the preview mesh to the mesh argument
+    public void SetPreviewMesh(Mesh mesh, Vector3 scale) 
+    {
+        if (PreviewPiece != null)
         {
-            PreviewPiece.GetComponent<MeshFilter>().mesh = _mesh;
+            PreviewPiece.GetComponent<MeshFilter>().mesh = mesh;
             PreviewPiece.transform.localScale = scale;
         }
-        if (nothing)
+    }
+    //Set the preview mesh to nothing
+    public void DisablePreviewMesh() 
+    {
+        if (PreviewPiece != null)
         {
             PreviewPiece.GetComponent<MeshFilter>().mesh = null;
         }
     }
+    #endregion
     //How are we building ?
     private enum BuildingType 
     {

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f6621dc0b0eba0468f321e3804a3c43, type: 3}
-  m_Name: DistanceSensor
+  m_Name: DamageCube
   m_EditorClassIdentifier: 
-  UI_name: Distance sensor
-  mesh: {fileID: 4493585093827132993, guid: 7f03c3d3aaccb0f47bacb6479d4583c4, type: 3}
-  material: {fileID: 2100000, guid: 31d10323017fe034492d42fda8f79abd, type: 2}
+  UI_name: Damage Cube
+  mesh: {fileID: -5495902117074765545, guid: faa34967832edf64598d8dbd9e963bd4, type: 3}
+  material: {fileID: 2100000, guid: 499c1f28539ab1841ba0eebf03be3430, type: 2}
   icon: {fileID: 0}
-  description: A sensor that gets a distance from a beam of infrared light
-  prefab_piece: {fileID: 3351271639092685957, guid: 2b7e877c86e024048b0669116d60f73a,
+  description: A cube that applies damage to other bots
+  prefab_piece: {fileID: 2441051147619679454, guid: 4e46a796263e7cf4fba684a483aab036,
     type: 3}

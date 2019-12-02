@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f6621dc0b0eba0468f321e3804a3c43, type: 3}
-  m_Name: New Piece Scriptable Object
+  m_Name: StructuralPieceWheel
   m_EditorClassIdentifier: 
-  UI_name: Structural Wheel Piece
+  UI_name: Wheel
   mesh: {fileID: 2534964839176971238, guid: 6299604233f56b9449644dd7ac9cc875, type: 3}
   material: {fileID: 2100000, guid: c57aefa8c9e4fdb4daf3227cfec90cf9, type: 2}
   icon: {fileID: 0}

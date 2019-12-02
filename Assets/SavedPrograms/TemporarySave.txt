@@ -1,2 +1,1 @@
-SetMotorSpeed( 21 100 )
-SetMotorSpeed( 20 100 )
+Print( Distance_Sensor1 )

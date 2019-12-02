@@ -22,6 +22,7 @@ public class BuildingUIScript : MonoBehaviour
     public InputField codeeditor_textboxInputfield;
     public Text hoveredPieceText;
     public Text variablesText;
+    public BuildingModeInterpreterHandlerScript BuildingModeInterpreterHandlerScript;
     
     //Gets all piece's data and objects
     private void GetAllPiecesScriptableObjects() 
@@ -171,9 +172,26 @@ public class BuildingUIScript : MonoBehaviour
         codeEditorPanel.SetActive(false);
     }
     //Shows every variable that is going to be used in the interpreter
-    public void ShowVariables(string[] variables) 
+    public void ShowVariables(string[] variables)
     {
-        
+        string vars = "";
+        foreach (var variable in variables)
+        {
+            if (vars == "")
+            {
+                vars = variable;//If we are the first variable to set, set the output string to it since there is no need to add another line
+            }
+            else
+            {
+                vars = vars + "\n" + variable;
+            }
+        }
+        variablesText.text = vars;
+    }
+    //Called from button to compile code and show variables
+    public void CompileCode() 
+    {
+        BuildingModeInterpreterHandlerScript.CompileCode(codeeditor.text, FindObjectsOfType<Rigidbody>());
     }
     //Set code text
     public void LoadCodeText(string _newCode) 

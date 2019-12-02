@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f6621dc0b0eba0468f321e3804a3c43, type: 3}
   m_Name: StructuralPieceTriPri
   m_EditorClassIdentifier: 
-  UI_name: Structural Piece Triangle Prism
+  UI_name: Triangle
   mesh: {fileID: -5495902117074765545, guid: 31acfac2ab120c9478cdec6f84094ca2, type: 3}
   material: {fileID: 2100000, guid: 6290983498cfb6a45ad38ce269762cda, type: 2}
   icon: {fileID: 0}

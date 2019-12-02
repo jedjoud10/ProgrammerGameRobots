@@ -5,7 +5,7 @@ using System.Linq;
 //Class for handling the code for the robot
 public class Interpreter
 {
-    Dictionary<string, float> float_variables;//The stored float varialbes
+    public Dictionary<string, float> float_variables;//The stored float varialbes
     Dictionary<int, InteractablePiece> pieces;//The pieces's classes
     //The console that will be used when Print( arg )
     public string console = "";
@@ -13,6 +13,7 @@ public class Interpreter
     //Initialize everything
     public void InitCode(string _code, Rigidbody[] _pieces) 
     {
+        Debug.Log("Initialized code with " + _pieces.Length + " pieces");
         console = "";
         pieces = new Dictionary<int, InteractablePiece>();
         float_variables = new Dictionary<string, float>();
@@ -207,6 +208,7 @@ public class Interpreter
             {
                 DistanceSensor distance_sensor = (DistanceSensor)GetPieceFromIndex(i);
                 AssignVariable("Distance_Sensor" + i,distance_sensor.GetSensorDistance());
+                Debug.Log("Read distance sensor, " + "Distance_Sensor" + i);
             }
         }
     }

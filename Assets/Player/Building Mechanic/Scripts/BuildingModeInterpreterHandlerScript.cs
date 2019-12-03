@@ -13,7 +13,7 @@ public class BuildingModeInterpreterHandlerScript : MonoBehaviour
         myinterpreter = new Interpreter();
     }
     //Called from BuildingUI button "Compile code" to compile the code and return information to the BuildingUI class
-    public void CompileCode(string code, Rigidbody[] rigidbodies) 
+    public void CompileCode(string code, PieceScript[] rigidbodies) 
     {
         myinterpreter.InitCode(code, rigidbodies);
         myinterpreter.RunCode();

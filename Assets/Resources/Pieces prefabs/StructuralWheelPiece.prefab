@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7946989042542955642}
   - component: {fileID: 5361615417611298428}
   - component: {fileID: 7405288464982542612}
+  - component: {fileID: 3477737020341101184}
   m_Layer: 0
   m_Name: StructuralWheelPiece
   m_TagString: Untagged
@@ -79,6 +80,23 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.87
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3477737020341101184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4493343699483329138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9d8763559104b54ab70f720da88610b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  max_health: 100
+  myrigidbody: {fileID: 7946989042542955642}
+  myjoint: {fileID: 5361615417611298428}
+  myname: StructuralWheelPiece
 --- !u!1 &4713829332978913378
 GameObject:
   m_ObjectHideFlags: 0

@@ -193,7 +193,7 @@ public class BuildingUIScript : MonoBehaviour
     //Called from button to compile code and show variables
     public void CompileCode() 
     {
-        BuildingModeInterpreterHandlerScript.CompileCode(codeeditor.text, FindObjectsOfType<Rigidbody>());
+        BuildingModeInterpreterHandlerScript.CompileCode(codeeditor.text, FindObjectsOfType<PieceScript>());
     }
     //Set code text
     public void LoadCodeText(string _newCode) 

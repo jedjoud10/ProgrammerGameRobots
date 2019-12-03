@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 8210813300606137046}
   - component: {fileID: 6184431354485479632}
   - component: {fileID: 7203756691424469566}
+  - component: {fileID: -3627486951905136156}
+  - component: {fileID: 5514423829931313429}
   m_Layer: 0
   m_Name: DamageCubePiece
   m_TagString: Untagged
@@ -79,6 +81,37 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-3627486951905136156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2441051147619679454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9d8763559104b54ab70f720da88610b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  max_health: 100
+  myParentPiece: {fileID: 0}
+  myrigidbody: {fileID: 8210813300606137046}
+  myjoint: {fileID: 6184431354485479632}
+  myname: DamageCubePiece
+--- !u!114 &5514423829931313429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2441051147619679454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13d3214459da61d40a599fd47f75f53c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
 --- !u!1 &5924489395946931003
 GameObject:
   m_ObjectHideFlags: 0

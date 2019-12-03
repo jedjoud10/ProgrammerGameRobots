@@ -78,6 +78,7 @@ GameObject:
   - component: {fileID: 9120048629744509581}
   - component: {fileID: 4401999188116687489}
   - component: {fileID: 42698924920583531}
+  - component: {fileID: 2543096414671464913}
   m_Layer: 0
   m_Name: DistanceSensor
   m_TagString: Untagged
@@ -162,6 +163,23 @@ MonoBehaviour:
   maxDistance: 500
   distance: 0
   rayPointOrigin: {fileID: 6981145643838525691}
+--- !u!114 &2543096414671464913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3351271639092685957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9d8763559104b54ab70f720da88610b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  max_health: 100
+  myrigidbody: {fileID: 9120048629744509581}
+  myjoint: {fileID: 4401999188116687489}
+  myname: DistanceSensor
 --- !u!1 &5887164899360128661
 GameObject:
   m_ObjectHideFlags: 0

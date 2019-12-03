@@ -39,8 +39,8 @@ public class SaverLoaderHandlerScript : MonoBehaviour
 
     public void SaveBuildingPieces(string _filename) //Called from UI button to save pieces to file
     {
-        Rigidbody[] pieces = GameObject.FindObjectsOfType<Rigidbody>();
-        List<Rigidbody> list = new List<Rigidbody>();
+        PieceScript[] pieces = GameObject.FindObjectsOfType<PieceScript>();
+        List<PieceScript> list = new List<PieceScript>();
         foreach (var piece in pieces)
         {
             if (piece.transform.parent.tag == "Player")
@@ -54,8 +54,8 @@ public class SaverLoaderHandlerScript : MonoBehaviour
     {
         SaverLoader.SavePiece[] newpieces = saverLoader.LoadPieces(_filename);
         Debug.Log("Loaded " + newpieces.Length + " pieces", gameObject);
-        Rigidbody[] oldpieces = GameObject.FindObjectsOfType<Rigidbody>();
-        List<Rigidbody> currentpieces = new List<Rigidbody>();
+        PieceScript[] oldpieces = GameObject.FindObjectsOfType<PieceScript>();
+        List<PieceScript> currentpieces = new List<PieceScript>();
         GameObject currentpiece;
         Transform parentplayer = GameObject.FindGameObjectWithTag("Player").transform;
         for (int i = 0; i < oldpieces.Length; i++)//Destroy all rigidbodies since we are reloading them
@@ -73,7 +73,7 @@ public class SaverLoaderHandlerScript : MonoBehaviour
             currentpiece.transform.parent = parentplayer;
             if (piece.parentPieceNum != piece.pieceNum)//Dedect if we are NOT first piece
             {
-                newjoint.connectedBody = currentpieces[piece.parentPieceNum];
+                newjoint.connectedBody = currentpieces[piece.parentPieceNum].myrigidbody;
             }
             if(enablePhysics && piece.parentPieceNum == piece.pieceNum)//Dedect if we ARE first piece and that we are allowed to remove the fixed joint from first piece
             {
@@ -84,11 +84,11 @@ public class SaverLoaderHandlerScript : MonoBehaviour
             }
             if (enablePhysics)
             {
-                currentpiece.GetComponent<Rigidbody>().isKinematic = false;
+                currentpiece.GetComponent<PieceScript>().myrigidbody.isKinematic = false;
             }
             currentpiece.SetActive(false);//Disable and re-enable because bugs
             currentpiece.SetActive(true);
-            currentpieces.Add(currentpiece.GetComponent<Rigidbody>());            
+            currentpieces.Add(currentpiece.GetComponent<PieceScript>());            
         }
         if (GameObject.FindObjectOfType<BuildingScript>() != null)//Check if we are in the building scene
         {
@@ -124,7 +124,7 @@ public class SaverLoaderHandlerScript : MonoBehaviour
         LoadBuildingPieces(_piecesfilename, enablePhysics);
         if (InterpreterPlaymodeHandlerScript != null)
         {
-            InterpreterPlaymodeHandlerScript.InitInterpreter(LoadCode(_codefilename), GameObject.FindObjectsOfType<Rigidbody>());
+            InterpreterPlaymodeHandlerScript.InitInterpreter(LoadCode(_codefilename), GameObject.FindObjectsOfType<PieceScript>());
         }
         if (BuildingUIScript != null)
         {

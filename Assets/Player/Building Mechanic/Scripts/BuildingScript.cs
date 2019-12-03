@@ -176,7 +176,7 @@ public class BuildingScript : MonoBehaviour
     //Remove pieces that have no parent exept the control unit
     public void RemoveNullParentedPieces() 
     {
-        Rigidbody[] totalPieces = GameObject.FindObjectsOfType<Rigidbody>();
+        PieceScript[] totalPieces = GameObject.FindObjectsOfType<PieceScript>();
         for (int i = 0; i < totalPieces.Length; i++)//Removing one piece at a time
         {
             if (totalPieces[i].tag != "ControlUnit")//We are not the main block
@@ -247,7 +247,7 @@ public class BuildingScript : MonoBehaviour
     //Rename every object by their preset order
     private void ReorderGM() 
     {
-        Rigidbody[] rbs = FindObjectsOfType<Rigidbody>();
+        PieceScript[] rbs = FindObjectsOfType<PieceScript>();
         for (int i = 0; i < rbs.Length; i++)
         {
             rbs[i].name = NameFromStringName(rbs[i].name) + "-" + ((rbs.Length - 1) - i);

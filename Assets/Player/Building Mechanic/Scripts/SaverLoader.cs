@@ -15,7 +15,7 @@ public class SaverLoader
         programs_SavePath = Application.dataPath + "/SavedPrograms";
         enemybots_SavePath = Application.dataPath + "/EnemyRobots";
     }
-    public void SavePieces(string fileName, Rigidbody[] pieces) //Save pieces
+    public void SavePieces(string fileName, PieceScript[] pieces) //Save pieces
     {
         if (fileName == "")
         {
@@ -27,13 +27,13 @@ public class SaverLoader
         for (int i = 0; i < pieces.Length; i++)
         {
             newPieces[i].pieceName = pieces[i].name;//Set name of piece
-            if (pieces[i].GetComponent<Joint>() != null && pieces[i].GetComponent<Joint>().connectedBody != null)//Only for pieces who are not start piece
+            if (pieces[i].myjoint != null && pieces[i].myjoint.connectedBody != null)//Only for pieces who are not start piece
             {
                 newPieces[i].parentPieceNum = IntFromStringName(pieces[i].GetComponent<Joint>().connectedBody.name);//Set parent piece
             }
             newPieces[i].pieceType = NameFromStringName(pieces[i].name);//Get enum from gameobject name
-            newPieces[i].eulerRotation = pieces[i].rotation.eulerAngles;
-            newPieces[i].pieceNum = IntFromStringName(pieces[i].name);
+            newPieces[i].eulerRotation = pieces[i].myrigidbody.rotation.eulerAngles;//Get piece rotation
+            newPieces[i].pieceNum = IntFromStringName(pieces[i].myname);
             newPieces[i].position = pieces[i].transform.position;//Set position
         }
         string path = robots_SavePath + "/" + fileName + ".txt";

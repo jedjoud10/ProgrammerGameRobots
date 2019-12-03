@@ -11,7 +11,7 @@ public class Interpreter
     public string console = "";
     string code;//The actual code
     //Initialize everything
-    public void InitCode(string _code, Rigidbody[] _pieces) 
+    public void InitCode(string _code, PieceScript[] _pieces) 
     {
         Debug.Log("Initialized code with " + _pieces.Length + " pieces");
         console = "";
@@ -154,14 +154,14 @@ public class Interpreter
         }
     }
     //Turns every piece into an interactablepiece script
-    private void SetupAllPiecesClasses(Rigidbody[] _pieces) 
+    private void SetupAllPiecesClasses(PieceScript[] _pieces) 
     {
         _pieces = _pieces.Reverse().ToArray();
         InteractablePiece ip = new InteractablePiece();//Temporary variable since we dont have a constructor in our "InteractablePiece" class
         for (int i = 0; i < _pieces.Length; i++)
         {
             ip = new InteractablePiece();//Temporary variable since we dont have a constructor in our "InteractablePiece" class
-            ip.SetupPiece(_pieces[i].GetComponent<Joint>(), _pieces[i], _pieces[i].name);//Setup temporary var        
+            ip.SetupPiece(_pieces[i].myjoint, _pieces[i].myrigidbody, _pieces[i].myname);//Setup temporary var        
             ip = GetCorrectClass(ip);//Correct the class
 
             pieces.Add(i, ip);

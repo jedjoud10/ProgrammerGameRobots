@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1079250758246309675}
   - component: {fileID: 7198943086547263450}
   - component: {fileID: 6090066978467641849}
+  - component: {fileID: 4966287330038991024}
   m_Layer: 0
   m_Name: StructuralPieceTriPri
   m_TagString: Untagged
@@ -80,6 +81,23 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -5495902117074765545, guid: 31acfac2ab120c9478cdec6f84094ca2, type: 3}
+--- !u!114 &4966287330038991024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 532552579164122273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9d8763559104b54ab70f720da88610b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  max_health: 100
+  myrigidbody: {fileID: 1079250758246309675}
+  myjoint: {fileID: 7198943086547263450}
+  myname: StructuralPieceTriPri
 --- !u!1 &3722333203534022226
 GameObject:
   m_ObjectHideFlags: 0

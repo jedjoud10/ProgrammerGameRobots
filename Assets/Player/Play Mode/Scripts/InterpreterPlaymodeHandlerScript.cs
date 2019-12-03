@@ -8,7 +8,7 @@ public class InterpreterPlaymodeHandlerScript : MonoBehaviour
     Interpreter myinterpreter;
     public Text consoleText;//De console text
     // Inits the interpreter and values, called from saverloaderhandlerscript
-    public void InitInterpreter(string code, Rigidbody[] pieces)
+    public void InitInterpreter(string code, PieceScript[] pieces)
     {
         myinterpreter = new Interpreter();
         myinterpreter.InitCode(code, pieces);

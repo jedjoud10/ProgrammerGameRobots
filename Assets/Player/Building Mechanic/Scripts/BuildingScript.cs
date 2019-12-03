@@ -12,15 +12,14 @@ public class BuildingScript : MonoBehaviour
     private AnchorScript lastanchor;//A variable used to dedect if the new selected anchor is updated so we can save performance
     private AnchorScript newanchor;//The new anchor to add the new block to
     private GameObject lastpiece;//The last hovered piece
-    private LayerMask mask;//Mask used to disable anchors in collision
     private GameObject PreviewPiece;//The gameobject of the spawned preview piece
     private int pieceNumber = 1;//Piece number to help saving and loading
     private Vector3 rotationOffset;//The relative rotation that is applied
     public BuildingUIScript BuildingUIScript;//UI handler
+    public bool canInteract = true;//CAn we interact with the world ?
     // Start is called before the first frame update
     void Start()
     {
-        mask = LayerMask.GetMask("Default");//Init mask
         PreviewPiece = Instantiate(PreviewPiecePrefab, Vector3.zero, Quaternion.identity);//Init preview piece
         UpdateAnchors(null);
         MainPlayerGameobject = GameObject.FindGameObjectWithTag("Player");
@@ -29,65 +28,68 @@ public class BuildingScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (newanchor != null && BuildingTypeVar == BuildingType.Building)
+        if (canInteract)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (newanchor != null && BuildingTypeVar == BuildingType.Building)
             {
-                AddBuildingPiece(newanchor);
+                if (Input.GetMouseButtonDown(0))
+                {
+                    AddBuildingPiece(newanchor);
+                }
+                else
+                {
+                    PreviewPiece.transform.position = newanchor.transform.position;//Set the position of the preview piece
+                    PreviewPiece.transform.rotation = newanchor.transform.rotation;//Set the rotation of the preview piece to be the same as the anchor's
+                    PreviewPiece.transform.Rotate(rotationOffset);
+                }
+                #region Rotation Offset Handling
+                if (Input.GetKeyDown(KeyCode.T))
+                {
+                    rotationOffset += new Vector3(90, 0, 0);
+                }
+                if (Input.GetKeyDown(KeyCode.Y))
+                {
+                    rotationOffset += new Vector3(-90, 0, 0);
+                }
+                if (Input.GetKeyDown(KeyCode.G))
+                {
+                    rotationOffset += new Vector3(0, 90, 0);
+                }
+                if (Input.GetKeyDown(KeyCode.H))
+                {
+                    rotationOffset += new Vector3(0, -90, 0);
+                }
+                if (Input.GetKeyDown(KeyCode.B))
+                {
+                    rotationOffset += new Vector3(0, 0, 90);
+                }
+                if (Input.GetKeyDown(KeyCode.N))
+                {
+                    rotationOffset += new Vector3(0, 0, -90);
+                }
+                #endregion
             }
-            else
+            if (Input.GetKeyDown(KeyCode.Z))//Switching types
             {
-                PreviewPiece.transform.position = newanchor.transform.position;//Set the position of the preview piece
-                PreviewPiece.transform.rotation = newanchor.transform.rotation;//Set the rotation of the preview piece to be the same as the anchor's
-                PreviewPiece.transform.Rotate(rotationOffset);
+                SwitchBuildingType();
             }
-            #region Rotation Offset Handling
-            if (Input.GetKeyDown(KeyCode.T))
+            if (lastpiece != null && BuildingTypeVar == BuildingType.Destroy)
             {
-                rotationOffset += new Vector3(90, 0, 0);
+                if (Input.GetMouseButtonDown(1))
+                {
+                    DestroyBuildingPiece(lastpiece);
+                }
+                else
+                {
+                    PreviewPiece.transform.position = lastpiece.transform.position;
+                    PreviewPiece.transform.rotation = lastpiece.transform.rotation;
+                    PreviewPiece.transform.localScale = lastpiece.transform.localScale * 1.1f;
+                }
             }
-            if (Input.GetKeyDown(KeyCode.Y))
+            if (BuildingTypeVar == BuildingType.Destroy)
             {
-                rotationOffset += new Vector3(-90, 0, 0);
+                RemoveNullParentedPieces();
             }
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                rotationOffset += new Vector3(0, 90, 0);
-            }
-            if (Input.GetKeyDown(KeyCode.H))
-            {
-                rotationOffset += new Vector3(0, -90, 0);
-            }
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-                rotationOffset += new Vector3(0, 0, 90);
-            }
-            if (Input.GetKeyDown(KeyCode.N))
-            {
-                rotationOffset += new Vector3(0, 0, -90);
-            }
-            #endregion
-        }
-        if (Input.GetKeyDown(KeyCode.Z))//Switching types
-        {
-            SwitchBuildingType();
-        }
-        if (lastpiece != null && BuildingTypeVar == BuildingType.Destroy)
-        {
-            if (Input.GetMouseButtonDown(1))
-            {
-                DestroyBuildingPiece(lastpiece);
-            }
-            else
-            {                
-                PreviewPiece.transform.position = lastpiece.transform.position;
-                PreviewPiece.transform.rotation = lastpiece.transform.rotation;
-                PreviewPiece.transform.localScale = lastpiece.transform.localScale * 1.1f;
-            }            
-        }
-        if (BuildingTypeVar == BuildingType.Destroy)
-        {
-            RemoveNullParentedPieces();
         }
     }
     //Called when the CameraBuildingScript ray collides with a piece

@@ -20,7 +20,7 @@ public class RotationMotorJointScript : MonoBehaviour
 
     public void SetMotorSpeed(float speed) //Called from interpreter to set the motor speed
     {        
-        myJM.targetVelocity = Mathf.Clamp(speed, 0, MaxSpeed);
+        myJM.targetVelocity = Mathf.Clamp(speed, -MaxSpeed, MaxSpeed);
         myHJ.motor = myJM;
     }
 }

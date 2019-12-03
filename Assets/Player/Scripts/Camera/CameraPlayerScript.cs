@@ -11,8 +11,11 @@ public class CameraPlayerScript : MonoBehaviour
     private float currentX;
     private float currentY;
     private float distance;
+    private float smoothedDistance;
     private Vector3 dir;
     private Quaternion rot;
+    public float rotationSmoothness;
+    public float distanceSmoothness;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,16 +40,17 @@ public class CameraPlayerScript : MonoBehaviour
             currentY += Input.GetAxis("Mouse Y") * sensivityY;
             //currentX = Mathf.Clamp(currentX, -80f, 80f);
             currentY = Mathf.Clamp(currentY, -80f, 80f);
-            rot = Quaternion.Euler(currentY, currentX, 0);
         }
         else
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-        dir = new Vector3(0, 0, -distance);
-        distance += Input.mouseScrollDelta.y;
-        distance = Mathf.Clamp(distance, 1, 20);
+        dir = new Vector3(0, 0, -smoothedDistance);
+        distance += Input.mouseScrollDelta.y * distanceSensivity;
+        smoothedDistance = Mathf.Lerp(smoothedDistance, distance, distanceSmoothness);
+        smoothedDistance = Mathf.Clamp(smoothedDistance, 1, 20); 
+        rot = Quaternion.Lerp(rot, Quaternion.Euler(currentY, currentX, 0), rotationSmoothness);
         if (player != null)
         {
             transform.position = player.position + rot * dir;

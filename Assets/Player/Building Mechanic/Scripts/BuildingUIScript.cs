@@ -165,11 +165,13 @@ public class BuildingUIScript : MonoBehaviour
     public void ShowCodeEditor() 
     {
         codeEditorPanel.SetActive(true);
+        BuildingScript.canInteract = false;
     }
     //Hide code editor
     public void HideCodeEditor() 
     {
         codeEditorPanel.SetActive(false);
+        BuildingScript.canInteract = true;
     }
     //Shows every variable that is going to be used in the interpreter
     public void ShowVariables(string[] variables)
@@ -202,6 +204,26 @@ public class BuildingUIScript : MonoBehaviour
     //Set the hovered anchor's piece's name
     public void SetHoveredPieceName(string name) 
     {
-        hoveredPieceText.text = name;
+        hoveredPieceText.text = GetIntStringFromString(name);
+    }
+    //Gets the int from a string even though the string might contain alphabetical charachters
+    private string GetIntStringFromString(string _string) 
+    {
+        string outstring = "";//The string composed of numbers only
+        foreach (var stringChar in _string.ToCharArray())
+        {
+            if (char.IsDigit(stringChar))
+            {
+                if (outstring == "")//To avoid adding a blank space on the first charachter
+                {
+                    outstring = stringChar.ToString();
+                }
+                else
+                {
+                    outstring = outstring + stringChar;
+                }
+            }
+        }
+        return outstring;
     }
 }

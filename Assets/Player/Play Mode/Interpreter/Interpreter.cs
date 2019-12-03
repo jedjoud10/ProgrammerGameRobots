@@ -103,15 +103,15 @@ public class Interpreter
         }
         if (operation == "-")
         {
-            return num1 + num2;
+            return num1 - num2;
         }
         if (operation == "*")
         {
-            return num1 + num2;
+            return num1 * num2;
         }
         if (operation == "/")
         {
-            return num1 + num2;
+            return num1 / num2;
         }
         return num1;
     }

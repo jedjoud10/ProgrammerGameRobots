@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/BuildingScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/PreviewScene.unity
+    path: Assets/Scenes/PlayScene.unity
     guid: bf74ce09da95b894c9d8cdce3eb633f2
+  - enabled: 1
+    path: Assets/Scenes/PreviewScene.unity
+    guid: c0e8801694c99c24e9a08cde8637c1e6
   m_configObjects: {}

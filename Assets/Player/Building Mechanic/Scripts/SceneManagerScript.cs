@@ -25,6 +25,15 @@ public class SceneManagerScript : MonoBehaviour
             Time.timeScale = 0.0f;
             GameObject.FindObjectOfType<SaverLoaderHandlerScript>().LoadRobotPhysics("TemporarySave", "TemporarySave", false);
         }
+        if (_scenename == "PlayScene")
+        {
+            Time.timeScale = 1.0f;
+            GameObject.FindObjectOfType<SaverLoaderHandlerScript>().LoadRobotPhysics("TemporarySave", "TemporarySave", true);
+            Debug.Log("Moved into preview, will load pieces");
+            GameObject player = GameObject.FindGameObjectWithTag("Player");//Player robot itself
+            GameObject playerSpawn = GameObject.FindGameObjectWithTag("PlayerSpawn");//Spawn point of player
+            player.transform.position = playerSpawn.transform.position;//Go to player position
+        }
         if (_scenename == "PreviewScene")
         {
             Time.timeScale = 1.0f;

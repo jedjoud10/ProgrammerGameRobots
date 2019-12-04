@@ -156,7 +156,13 @@ public class BuildingUIScript : MonoBehaviour
         SaveToTemporaryFile();
         GameObject.FindObjectOfType<SceneManagerScript>().ChangeScene("PreviewScene");
     }
-    //Make and restart the robot buildin
+    //Change to play map
+    public void PlayCraft() 
+    {
+        SaveToTemporaryFile();
+        GameObject.FindObjectOfType<SceneManagerScript>().ChangeScene("PlayScene");
+    }
+    //Make and restart the robot building
     public void MakeNewRobot() 
     {
         BuildingSaverLoaderScript.LoadBuildingPieces("BaseRobot", false);

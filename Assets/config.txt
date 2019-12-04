@@ -1,0 +1,18 @@
+{
+    "PixelLightCount": 1,
+    "TextureQuality": 0,
+    "AnisotropicTextures": "Disable",
+    "AntiAliasing": 0,
+    "SoftParticles": true,
+    "RealtimeReflectionProbes": false,
+    "BillboardsFaceCameraPosition": true,
+    "ResolutionScalingFixedDPI": 1.0,
+    "TextureStreaming": false,
+    "ShadowsType": "Disable",
+    "ShadowsResolution": "Low",
+    "ShadowDistance": 1.0,
+    "SkinWeights": "FourBones",
+    "VSync": 0,
+    "LODBias": 2.0,
+    "MaxLODLevel": 0
+}

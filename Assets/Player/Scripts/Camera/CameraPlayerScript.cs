@@ -16,12 +16,6 @@ public class CameraPlayerScript : MonoBehaviour
     private Quaternion rot;
     public float rotationSmoothness;
     public float distanceSmoothness;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -49,11 +43,11 @@ public class CameraPlayerScript : MonoBehaviour
         dir = new Vector3(0, 0, -smoothedDistance);
         distance += Input.mouseScrollDelta.y * distanceSensivity;
         smoothedDistance = Mathf.Lerp(smoothedDistance, distance, distanceSmoothness);
-        smoothedDistance = Mathf.Clamp(smoothedDistance, 1, 20); 
+        smoothedDistance = Mathf.Clamp(smoothedDistance, 1, 200); 
         rot = Quaternion.Lerp(rot, Quaternion.Euler(currentY, currentX, 0), rotationSmoothness);
         if (player != null)
         {
-            transform.position = player.position + rot * dir;
+            transform.position = player.position + rot * dir;            
             transform.LookAt(player);
         }
     }

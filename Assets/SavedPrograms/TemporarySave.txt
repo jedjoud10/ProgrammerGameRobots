@@ -1,5 +1,2 @@
-SetMotorSpeed( 8 500 )
-SetMotorSpeed( 7 500 )
-SetMotorSpeed( 5 -500 )
-SetMotorSpeed( 6 -500 )
-Print( Distance_Sensor13 )
+SetMotorSpeed( 1 500 )
+SetMotorSpeed( 2 -500 )

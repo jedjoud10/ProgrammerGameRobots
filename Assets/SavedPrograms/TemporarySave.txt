@@ -1,2 +1,1 @@
-SetMotorSpeed( 1 500 )
-SetMotorSpeed( 2 -500 )
+SetMotorSpeed( 5 500 )

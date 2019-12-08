@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f6621dc0b0eba0468f321e3804a3c43, type: 3}
+  m_Name: IMUSensor
+  m_EditorClassIdentifier: 
+  UI_name: Inertial Mesurement Unit Sensor
+  mesh: {fileID: -5495902117074765545, guid: 88b7e00bc2178154dbe2917b6e4568e9, type: 3}
+  material: {fileID: 2100000, guid: 58fb2341519c2c64b80a546a19454687, type: 2}
+  icon: {fileID: 0}
+  description: A sensor that has an accelerometer, gyroscope and gravimeter. All
+    of the information of each of those small sensors are sent the main central unit
+    for processing
+  prefab_piece: {fileID: 8332644451392564453, guid: 4005cd34971e13348b95598eda2d18ba,
+    type: 3}

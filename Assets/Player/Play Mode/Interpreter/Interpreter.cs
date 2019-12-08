@@ -170,22 +170,28 @@ public class Interpreter
     //Dedect the correct type of InteractablePiece class to use and returns it
     private InteractablePiece GetCorrectClass(InteractablePiece _oldclass) 
     {
-        InteractablePiece outclass = _oldclass;
-        if (outclass.myRigidbody.GetComponent<RotationMotorJointScript>() != null)//If we are a Rotation Motor Joint
+        if (_oldclass.myRigidbody.GetComponent<RotationMotorJointScript>() != null)//If we are a Rotation Motor Joint
         {
             MotorJoint myNewMotorJoint = new MotorJoint();
             myNewMotorJoint.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody, _oldclass.myName);//Setup
-            myNewMotorJoint.SetupScript(outclass.myRigidbody.GetComponent<RotationMotorJointScript>());//Setup motor only scripts
+            myNewMotorJoint.SetupScript(_oldclass.myRigidbody.GetComponent<RotationMotorJointScript>());//Setup motor only scripts
             return myNewMotorJoint;
         }
-        if (outclass.myRigidbody.GetComponent<DistanceSensorScript>() != null)//If we are distance sensor
+        if (_oldclass.myRigidbody.GetComponent<DistanceSensorScript>() != null)//If we are distance sensor
         {
             DistanceSensor myNewDistanceSensor = new DistanceSensor();
             myNewDistanceSensor.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody, _oldclass.myName);//Setup
-            myNewDistanceSensor.SetupScript(outclass.myRigidbody.GetComponent<DistanceSensorScript>());//Setup distance sensor only scripts
+            myNewDistanceSensor.SetupScript(_oldclass.myRigidbody.GetComponent<DistanceSensorScript>());//Setup distance sensor only scripts
             return myNewDistanceSensor;
         }
-        return outclass;
+        if(_oldclass.myRigidbody.GetComponent<IMUSensorScript>() != null) //If we are IMU sensor
+        {
+            IMUSensor myNewIMUSensor = new IMUSensor();
+            myNewIMUSensor.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody, _oldclass.myName);//Setup
+            myNewIMUSensor.SetupScript(_oldclass.myRigidbody.GetComponent<IMUSensorScript>());//Setup IMU sensor only scripts
+            return myNewIMUSensor;
+        }
+        return _oldclass;
     }
     //Gets and spits out the classes from index from dictionary
     private InteractablePiece GetPieceFromIndex(int index) 
@@ -201,14 +207,28 @@ public class Interpreter
     }
     //Reads all sensors mesurements
     private void ReadSensors() 
-    {        
+    {
+        InteractablePiece currentPiece;
         for (int i = 0; i < pieces.Count; i++)
         {
-            if (GetPieceFromIndex(i) is DistanceSensor)//If we are a distance sensor
+            currentPiece = GetPieceFromIndex(i);
+            if (currentPiece is DistanceSensor)//If we are a distance sensor
             {
-                DistanceSensor distance_sensor = (DistanceSensor)GetPieceFromIndex(i);
+                DistanceSensor distance_sensor = (DistanceSensor)currentPiece;
                 AssignVariable("Distance_Sensor" + i,distance_sensor.GetSensorDistance());
-                Debug.Log("Read distance sensor, " + "Distance_Sensor" + i);
+            }
+            if (currentPiece is IMUSensor)//If we are a IMU sensor 
+            {
+                IMUSensor imu_sensor = (IMUSensor)currentPiece;
+                AssignVariable("IMU_Sensor" + i + ".Acc.X", imu_sensor.GetAcceleration().x);
+                AssignVariable("IMU_Sensor" + i + ".Acc.Y", imu_sensor.GetAcceleration().y);
+                AssignVariable("IMU_Sensor" + i + ".Acc.Z", imu_sensor.GetAcceleration().z);
+                AssignVariable("IMU_Sensor" + i + ".AngVel.X", imu_sensor.GetAngularVelocity().x);
+                AssignVariable("IMU_Sensor" + i + ".AngVel.Y", imu_sensor.GetAngularVelocity().y);
+                AssignVariable("IMU_Sensor" + i + ".AngVel.Z", imu_sensor.GetAngularVelocity().z);
+                AssignVariable("IMU_Sensor" + i + ".Gravity.X", imu_sensor.GetGravity().x);
+                AssignVariable("IMU_Sensor" + i + ".Gravity.Y", imu_sensor.GetGravity().y);
+                AssignVariable("IMU_Sensor" + i + ".Gravity.Z", imu_sensor.GetGravity().z);
             }
         }
     }
@@ -247,5 +267,25 @@ public class DistanceSensor : InteractablePiece//Class for the "distance sensor"
     public float GetSensorDistance() //Read distance from sensor
     {
         return distanceSensorScript.distance;
+    }
+}
+public class IMUSensor : InteractablePiece//Class for the "Inertial Mesurement Sensor" sensor
+{
+    public IMUSensorScript IMUSensorScript;
+    public void SetupScript(IMUSensorScript _IMUSensorScript) 
+    {
+        IMUSensorScript = _IMUSensorScript;//Constructor
+    }
+    public Vector3 GetAcceleration()//Read acceleration from IMU sensor
+    {
+        return IMUSensorScript.acceleration;
+    }
+    public Vector3 GetAngularVelocity()//Read angular velocity from IMU sensor
+    {
+        return IMUSensorScript.angularVelocity;
+    }
+    public Vector3 GetGravity()//Read gravity from IMU sensor
+    {
+        return IMUSensorScript.gravity;
     }
 }

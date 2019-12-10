@@ -6,9 +6,6 @@ public class IMUSensorScript : MonoBehaviour
 {
     private Rigidbody rb;
     private Vector3 lastVelocity;
-    public Vector3 acceleration;
-    public Vector3 angularVelocity;
-    public Vector3 gravity;
     private float gravityIntensity;
     // Start is called before the first frame update
     void Start()
@@ -16,18 +13,24 @@ public class IMUSensorScript : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         gravityIntensity = Physics.gravity.magnitude;
     }
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        ReadSensorData();
-    }
-    //Read sensor data from rigidbody and save it to variables
-    private void ReadSensorData() 
-    {
-        acceleration = lastVelocity - rb.velocity;//Get acceleration
-        angularVelocity = rb.angularVelocity;
-        gravity = rb.transform.up * gravityIntensity;
         lastVelocity = rb.velocity;//Get last velocity so we can get delta of velocity, which is acceleration
+    }
+
+    //Read acceleration sensor data
+    public Vector3 ReadAccelerationSensorData() 
+    {
+        return lastVelocity - rb.velocity;//Get acceleration
+    }
+    //Read rotation velocity sensor data
+    public Vector3 ReadAngularVelocitySensorData() 
+    {
+        return rb.angularVelocity;
+    }
+    //Read gravity sensor data
+    public Vector3 ReadGravitySensorData() 
+    {
+        return rb.transform.up * gravityIntensity;
     }
 }

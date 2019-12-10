@@ -11,6 +11,7 @@ public class GameConfigHandlerScript : MonoBehaviour
         gameConfigSaverLoader = new GameConfigSaverLoader();
         gameConfigSaverLoader.SetupPathes();//Setup config path
         LoadConfig(gameConfigSaverLoader.LoadConfig());
+        Debug.Log("Finished reading game config");
         //gameConfigSaverLoader.SaveConfig(SaveConfig());
     }
     //Turn current game config to GameConfig class

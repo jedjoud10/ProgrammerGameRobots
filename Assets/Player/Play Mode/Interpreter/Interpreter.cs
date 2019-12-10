@@ -21,18 +21,17 @@ public class Interpreter
         code = _code;
     }
     //Check code and run it
-    public void RunCode() 
+    public void RunCode(int frame) 
     {
         console = "";
-        string[] lines = code.Split('\n');
-        ReadSensors();//Read sensors before running code interpreter
+        string[] lines = code.Split('\n');        
         for (int i = 0; i < lines.Length; i++)
         {
-            RunLines(lines[i], lines.Length - 1, i);
+            RunLines(lines[i], lines.Length - 1, i, frame);
         }
     }
     //Run the code lines
-    public void RunLines(string linecontent, int endline, int currentline) 
+    public void RunLines(string linecontent, int endline, int currentline, int currentFrame) 
     {        
         string[] words = linecontent.Split(' ');
         if (words.Length == 0 || string.IsNullOrWhiteSpace(linecontent) || string.IsNullOrEmpty(linecontent) )
@@ -44,6 +43,13 @@ public class Interpreter
             if (words[1] == "=")//Assign variable
             {
                 AssignVariable(words[0], GetVariable(words[2]));
+            }
+            if (words[0] == "ReadSensors(" && words[2] == ")") //Read sensors function
+            {
+                if (currentFrame % Mathf.Max(GetVariable(words[1]), 1) == 0) //Delay
+                {
+                    ReadSensors();
+                }
             }
         }
         if (words.Length == 5)
@@ -215,7 +221,7 @@ public class Interpreter
             if (currentPiece is DistanceSensor)//If we are a distance sensor
             {
                 DistanceSensor distance_sensor = (DistanceSensor)currentPiece;
-                AssignVariable("Distance_Sensor" + i,distance_sensor.GetSensorDistance());
+                AssignVariable("Distance_Sensor" + i, distance_sensor.GetSensorDistance());
             }
             if (currentPiece is IMUSensor)//If we are a IMU sensor 
             {
@@ -265,8 +271,8 @@ public class DistanceSensor : InteractablePiece//Class for the "distance sensor"
         distanceSensorScript = _distanceSensorScript;//Constructor
     }
     public float GetSensorDistance() //Read distance from sensor
-    {
-        return distanceSensorScript.distance;
+    {        
+        return distanceSensorScript.GetDistance();
     }
 }
 public class IMUSensor : InteractablePiece//Class for the "Inertial Mesurement Sensor" sensor
@@ -278,14 +284,14 @@ public class IMUSensor : InteractablePiece//Class for the "Inertial Mesurement S
     }
     public Vector3 GetAcceleration()//Read acceleration from IMU sensor
     {
-        return IMUSensorScript.acceleration;
+        return IMUSensorScript.ReadAccelerationSensorData();
     }
     public Vector3 GetAngularVelocity()//Read angular velocity from IMU sensor
     {
-        return IMUSensorScript.angularVelocity;
+        return IMUSensorScript.ReadAngularVelocitySensorData();
     }
     public Vector3 GetGravity()//Read gravity from IMU sensor
     {
-        return IMUSensorScript.gravity;
+        return IMUSensorScript.ReadGravitySensorData();
     }
 }

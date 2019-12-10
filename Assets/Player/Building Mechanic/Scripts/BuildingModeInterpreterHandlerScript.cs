@@ -16,7 +16,7 @@ public class BuildingModeInterpreterHandlerScript : MonoBehaviour
     public void CompileCode(string code, PieceScript[] rigidbodies) 
     {
         myinterpreter.InitCode(code, rigidbodies);
-        myinterpreter.RunCode();
+        myinterpreter.RunCode(0);
         BuildingUIScript.ShowVariables(myinterpreter.float_variables.Keys.ToArray());
         Debug.Log("There is " + myinterpreter.float_variables.Keys.Count + " variables");
     }

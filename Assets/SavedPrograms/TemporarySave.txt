@@ -1,0 +1,3 @@
+a = sin( time )
+a = a * 5
+SCTSetTarget( 10 3 a a )

@@ -1,10 +1,10 @@
 {
-    "PixelLightCount": 1,
+    "PixelLightCount": 3,
     "TextureQuality": 0,
     "AnisotropicTextures": "Disable",
-    "AntiAliasing": 0,
+    "AntiAliasing": 1,
     "SoftParticles": true,
-    "RealtimeReflectionProbes": false,
+    "RealtimeReflectionProbes": true,
     "BillboardsFaceCameraPosition": true,
     "ResolutionScalingFixedDPI": 1.0,
     "TextureStreaming": false,

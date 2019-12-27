@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f6621dc0b0eba0468f321e3804a3c43, type: 3}
+  m_Name: ServoControlledTurret
+  m_EditorClassIdentifier: 
+  UI_name: ServoControlledTurret
+  mesh: {fileID: -7096276611023663814, guid: b182e24e8e0050142aeb5e6b5c896eda, type: 3}
+  material: {fileID: 2100000, guid: a017d5efc348afe4597708caa5317099, type: 2}
+  icon: {fileID: 0}
+  description: A turret attached to two servos with 6.5 kg-cm torque and a speed
+    of 0.005 seconds per 1 angle degree. This turret achieves a 30 degree pitch and
+    yaw range. The onboard processor (XG-580P) transforms position to rotation, so
+    you don't have to be worried about coding the transformation yourself. The 1.2
+    meter turret has a built-in CO2 Cartidge that can hold up to 90 atmospheric pressure
+    (around 1322,64 psi), thus making the potato projectile shoot with much power
+  prefab_piece: {fileID: 1185932617777807294, guid: c74b55bc3407e844583819d571bbc736,
+    type: 3}

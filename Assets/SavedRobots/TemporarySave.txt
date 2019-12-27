@@ -1,67 +1,163 @@
 {
     "Items": [
         {
-            "pieceName": "StructuralPieceTriPri-4",
-            "pieceNum": 4,
-            "parentPieceNum": 3,
-            "pieceType": "StructuralPieceTriPri",
-            "position": {
-                "x": 1.0,
-                "y": 3.999999523162842,
-                "z": -1.0000001192092896
-            },
-            "eulerRotation": {
-                "x": -9.77066431234741e-12,
-                "y": 89.9999771118164,
-                "z": -0.0000555412370886188
-            }
-        },
-        {
-            "pieceName": "StructuralRotatingPiece-3",
-            "pieceNum": 3,
-            "parentPieceNum": 2,
-            "pieceType": "StructuralRotatingPiece",
-            "position": {
-                "x": 0.0,
-                "y": 3.999999523162842,
-                "z": -1.0000001192092896
-            },
-            "eulerRotation": {
-                "x": 0.0,
-                "y": 90.0,
-                "z": 89.99994659423828
-            }
-        },
-        {
-            "pieceName": "StructuralRotatingPiece-2",
-            "pieceNum": 2,
-            "parentPieceNum": 1,
-            "pieceType": "StructuralRotatingPiece",
-            "position": {
-                "x": 0.0,
-                "y": 4.0,
-                "z": -1.1920928955078126e-7
-            },
-            "eulerRotation": {
-                "x": 0.00003232970993849449,
-                "y": 180.0,
-                "z": 180.0
-            }
-        },
-        {
-            "pieceName": "StructuralRotatingPiece-1",
-            "pieceNum": 1,
+            "pieceName": "ServoControlledTurretPiece-10",
+            "pieceNum": 10,
             "parentPieceNum": 0,
-            "pieceType": "StructuralRotatingPiece",
+            "pieceType": "ServoControlledTurretPiece",
             "position": {
                 "x": 0.0,
                 "y": 3.0,
                 "z": 0.0
             },
             "eulerRotation": {
-                "x": 270.0,
+                "x": 0.0,
                 "y": 0.0,
                 "z": 0.0
+            }
+        },
+        {
+            "pieceName": "StructuralPiece-9",
+            "pieceNum": 9,
+            "parentPieceNum": 5,
+            "pieceType": "StructuralPiece",
+            "position": {
+                "x": -1.1920928955078126e-7,
+                "y": 1.0000003576278687,
+                "z": -1.0000008344650269
+            },
+            "eulerRotation": {
+                "x": -0.000002414845766907092,
+                "y": -0.000050711565563688055,
+                "z": 89.99998474121094
+            }
+        },
+        {
+            "pieceName": "StructuralPiece-8",
+            "pieceNum": 8,
+            "parentPieceNum": 1,
+            "pieceType": "StructuralPiece",
+            "position": {
+                "x": 0.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "eulerRotation": {
+                "x": 90.0,
+                "y": 0.0,
+                "z": 0.0
+            }
+        },
+        {
+            "pieceName": "StructuralPiece-7",
+            "pieceNum": 7,
+            "parentPieceNum": 2,
+            "pieceType": "StructuralPiece",
+            "position": {
+                "x": -1.0010442733764649,
+                "y": 0.9938888549804688,
+                "z": 0.9999809265136719
+            },
+            "eulerRotation": {
+                "x": 359.6907043457031,
+                "y": 269.9420166015625,
+                "z": 269.64984130859377
+            }
+        },
+        {
+            "pieceName": "StructuralPiece-6",
+            "pieceNum": 6,
+            "parentPieceNum": 4,
+            "pieceType": "StructuralPiece",
+            "position": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.000000238418579
+            },
+            "eulerRotation": {
+                "x": 0.000017075473806471564,
+                "y": 90.0000228881836,
+                "z": 90.0
+            }
+        },
+        {
+            "pieceName": "StructuralPiece-5",
+            "pieceNum": 5,
+            "parentPieceNum": 4,
+            "pieceType": "StructuralPiece",
+            "position": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": -1.000000238418579
+            },
+            "eulerRotation": {
+                "x": -0.00001366037849948043,
+                "y": 269.9999694824219,
+                "z": 90.0
+            }
+        },
+        {
+            "pieceName": "StructuralPiece-4",
+            "pieceNum": 4,
+            "parentPieceNum": 1,
+            "pieceType": "StructuralPiece",
+            "position": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "eulerRotation": {
+                "x": -2.0355550198972866e-13,
+                "y": 180.0,
+                "z": 90.00001525878906
+            }
+        },
+        {
+            "pieceName": "StructuralPiece-3",
+            "pieceNum": 3,
+            "parentPieceNum": 2,
+            "pieceType": "StructuralPiece",
+            "position": {
+                "x": -0.9989557266235352,
+                "y": 1.0061111450195313,
+                "z": -0.9999809265136719
+            },
+            "eulerRotation": {
+                "x": 0.30928272008895876,
+                "y": 89.94208526611328,
+                "z": 270.35015869140627
+            }
+        },
+        {
+            "pieceName": "StructuralPiece-2",
+            "pieceNum": 2,
+            "parentPieceNum": 1,
+            "pieceType": "StructuralPiece",
+            "position": {
+                "x": -1.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "eulerRotation": {
+                "x": 359.64984130859377,
+                "y": 179.94017028808595,
+                "z": 270.3092956542969
+            }
+        },
+        {
+            "pieceName": "StructuralPiece-1",
+            "pieceNum": 1,
+            "parentPieceNum": 0,
+            "pieceType": "StructuralPiece",
+            "position": {
+                "x": 0.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "eulerRotation": {
+                "x": 0.0,
+                "y": 180.0,
+                "z": 180.0
             }
         },
         {

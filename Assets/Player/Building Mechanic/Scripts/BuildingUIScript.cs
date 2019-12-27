@@ -104,8 +104,7 @@ public class BuildingUIScript : MonoBehaviour
         }
         if (BuildingScript != null || currentPiece != null)
         {
-            BuildingScript.SelectedBuildingPiecePrefab = currentPiece.prefab_piece;//Set the new piece
-            BuildingScript.SetPreviewMesh();
+            BuildingScript.ChangePiece(currentPiece);//Set preview mesh and new prefab piece
         }
     }
     //Load pieces

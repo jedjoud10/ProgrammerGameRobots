@@ -21,8 +21,9 @@ public class Interpreter
         code = _code;
     }
     //Check code and run it
-    public void RunCode(int frame) 
+    public void RunCode(int frame, float time) 
     {
+        AssignVariable("time", time);
         console = "";
         string[] lines = code.Split('\n');        
         for (int i = 0; i < lines.Length; i++)
@@ -54,9 +55,13 @@ public class Interpreter
         }
         if (words.Length == 5)
         {
-            if (words[1] == "=")//Assign variable with mathematical operation
+            if (words[1] == "=" && words[4] != ")")//Assign variable with mathematical operation
             {
                 AssignVariable(words[0], MathFloat(GetVariable(words[2]), GetVariable(words[4]), words[3]));
+            }
+            if (words[1] == "=" && words[4] == ")") 
+            {
+                AssignVariable(words[0], MathFunction(GetVariable(words[3]), words[2]));
             }
         }
         if (words.Length == 4)
@@ -73,7 +78,19 @@ public class Interpreter
                 PrintToConsole(GetFilteredString(words[1]));
             }
         }
+        if (words.Length == 6) 
+        {
+            if (words[1] == "=" && words[5] == ")")
+            {
+                AssignVariable(words[0], MathFunction(GetVariable(words[3]), GetVariable(words[4]), words[2]));
+            }
+            if (words[0] == "SCTSetTarget(" && words[5] == ")") //Command to set x y z target coordinates for servoturret control
+            {
+                SetServoControlledTurretTargetPosition(Mathf.RoundToInt(GetVariable(words[1])), GetVariable(words[2]), GetVariable(words[3]), GetVariable(words[4]));
+            }
+        }
     }
+    #region Number stuff and math
     //Set or add float variable
     public void AssignVariable(string name, float value) 
     {
@@ -121,6 +138,32 @@ public class Interpreter
         }
         return num1;
     }
+    //Perform mathematical function on one numbers
+    public float MathFunction(float num1, string operation) 
+    {
+        if (operation == "sin(") return Mathf.Sin(num1);
+        if (operation == "cos(") return Mathf.Cos(num1);
+        if (operation == "sqrt(")
+        {
+            if (num1 > 0) { return Mathf.Sqrt(num1); }
+            else { return 0.0f; }//There is no possible way to get root of negative numbers (imaginery numbers)
+        }
+        if (operation == "abs(") return Mathf.Abs(num1);
+        if (operation == "asin(") return Mathf.Asin(num1);
+        if (operation == "acos(") return Mathf.Acos(num1);
+        if (operation == "floor(") return Mathf.Floor(num1);
+        if (operation == "ceil(") return Mathf.Ceil(num1);
+        if (operation == "roun(") return Mathf.Round(num1);
+        return 0.0f;//Return 0 if no function found
+    }
+    //Perform mathematical function on two numbers
+    public float MathFunction(float num1, float num2, string operation) 
+    {
+        if (operation == "pow(") return Mathf.Pow(num1, num2);
+        return 0.0f;//Return 0 if no function found
+    }
+    #endregion
+    #region String stuff
     //Print to custom console
     public void PrintToConsole(string content) 
     {
@@ -146,6 +189,8 @@ public class Interpreter
             return inputString;
         }        
     }
+    #endregion
+    #region Interacteble pieces method
     //Set speed of rotation structural piece
     private void SetMotorSpeed(int motornum, float motorspeed) 
     {
@@ -159,6 +204,21 @@ public class Interpreter
             }
         }
     }
+    //Set xyz position of servo turret
+    private void SetServoControlledTurretTargetPosition(int SCTnum, float x, float y, float z) 
+    {
+        ServoControlledTurret myServoControlledTurret;
+        if (GetPieceFromIndex(SCTnum) != null) 
+        {
+            if (GetPieceFromIndex(SCTnum) is ServoControlledTurret) 
+            {
+                myServoControlledTurret = (ServoControlledTurret)GetPieceFromIndex(SCTnum);//Casting
+                myServoControlledTurret.SetTargetPosition(x, y, z);
+            }
+        }
+    }
+    #endregion
+    #region Class-correction and piece list stuff
     //Turns every piece into an interactablepiece script
     private void SetupAllPiecesClasses(PieceScript[] _pieces) 
     {
@@ -197,6 +257,13 @@ public class Interpreter
             myNewIMUSensor.SetupScript(_oldclass.myRigidbody.GetComponent<IMUSensorScript>());//Setup IMU sensor only scripts
             return myNewIMUSensor;
         }
+        if (_oldclass.myRigidbody.GetComponent<ServoControlledTurretScript>() != null) //If we are servo controlled turret
+        {
+            ServoControlledTurret myNewServoControlledTurret = new ServoControlledTurret();
+            myNewServoControlledTurret.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody, _oldclass.myName);//Setup
+            myNewServoControlledTurret.SetupScript(_oldclass.myRigidbody.GetComponent<ServoControlledTurretScript>());//Setup ServoControlledTurret only scripts
+            return myNewServoControlledTurret;
+        }
         return _oldclass;
     }
     //Gets and spits out the classes from index from dictionary
@@ -211,6 +278,8 @@ public class Interpreter
             return null;
         }
     }
+    #endregion
+    #region Misc
     //Reads all sensors mesurements
     private void ReadSensors() 
     {
@@ -238,7 +307,9 @@ public class Interpreter
             }
         }
     }
+    #endregion
 }
+#region Pieces classes
 public class InteractablePiece //A piece class of the robot that is the parent of multiple inherited classes
 {
     public string myName;
@@ -295,3 +366,16 @@ public class IMUSensor : InteractablePiece//Class for the "Inertial Mesurement S
         return IMUSensorScript.ReadGravitySensorData();
     }
 }
+public class ServoControlledTurret : InteractablePiece//Class from the "Servo controlled turret" damage piece
+{
+    public ServoControlledTurretScript ServoControlledTurretScript;
+    public void SetupScript(ServoControlledTurretScript _ServoControlledTurretScript) 
+    {
+        ServoControlledTurretScript = _ServoControlledTurretScript;//Constructor
+    }
+    public void SetTargetPosition(float x, float y, float z) //Set target pos (x, y, z) of turret with servo rotation
+    {
+        ServoControlledTurretScript.SetTargetPos(new Vector3(x, y, z));//Set new position and rotate
+    }
+}
+#endregion

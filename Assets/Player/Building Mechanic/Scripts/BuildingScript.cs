@@ -13,6 +13,7 @@ public class BuildingScript : MonoBehaviour
     private AnchorScript newanchor;//The new anchor to add the new block to
     private GameObject lastpiece;//The last hovered piece
     private GameObject PreviewPiece;//The gameobject of the spawned preview piece
+    private PieceScriptableObject currentPiece;//The currently selected piece
     private int pieceNumber = 1;//Piece number to help saving and loading
     private Vector3 rotationOffset;//The relative rotation that is applied
     public BuildingUIScript BuildingUIScript;//UI handler
@@ -191,15 +192,32 @@ public class BuildingScript : MonoBehaviour
             }
         }
     }
+    //Changed the current piece prefab and updates the mesh
+    public void ChangePiece(PieceScriptableObject newpiece) 
+    {
+        currentPiece = newpiece;//Set new current piece
+        SelectedBuildingPiecePrefab = newpiece.prefab_piece;//Set new prefab piece
+        SetPreviewMesh();//Update preview mesh
+    }
+
     #region Update preview mesh
     //-------------Update the preview mesh---------------
     //Set the preview mesh to the current selected building piece
+    //Pass the piece scriptable object as argument
     public void SetPreviewMesh()
     {
         if (PreviewPiece != null)
         {
-            PreviewPiece.GetComponent<MeshFilter>().mesh = SelectedBuildingPiecePrefab.transform.GetChild(0).GetComponent<MeshFilter>().sharedMesh;//Use the mesh for the preview piece from the actual piece's first child gameobject
-            PreviewPiece.transform.localScale = SelectedBuildingPiecePrefab.transform.GetChild(0).transform.localScale;
+            Mesh previewMesh;//Variable to make it easier and cleaner
+            if (currentPiece.mesh != null)//Override preview mesh 
+            {
+                previewMesh = currentPiece.mesh;//Override
+            }
+            else 
+            {
+                previewMesh = SelectedBuildingPiecePrefab.transform.GetChild(0).GetComponent<MeshFilter>().sharedMesh;//Use the mesh for the preview piece from the actual piece's first child gameobject
+            }
+            SetPreviewMesh(previewMesh, SelectedBuildingPiecePrefab.transform.GetChild(0).transform.localScale);//Set preview mesh
         }
     }
     //Set the preview mesh to the mesh argument

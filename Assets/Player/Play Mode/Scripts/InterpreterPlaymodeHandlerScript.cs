@@ -19,7 +19,7 @@ public class InterpreterPlaymodeHandlerScript : MonoBehaviour
     {
         if (myinterpreter != null)
         {
-            myinterpreter.RunCode(Time.frameCount);
+            myinterpreter.RunCode(Time.frameCount, Time.time);
             consoleText.text = myinterpreter.console;//Show console
         }
     }

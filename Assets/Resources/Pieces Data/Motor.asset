@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f6621dc0b0eba0468f321e3804a3c43, type: 3}
-  m_Name: StructuralPieceWheel
+  m_Name: Motor
   m_EditorClassIdentifier: 
-  UI_name: Wheel
-  mesh: {fileID: 2534964839176971238, guid: 6299604233f56b9449644dd7ac9cc875, type: 3}
-  material: {fileID: 2100000, guid: c57aefa8c9e4fdb4daf3227cfec90cf9, type: 2}
+  UI_name: Motor
+  mesh: {fileID: 2916814519865292771, guid: fb118dc17684b2f44ac1f8042880e145, type: 3}
+  material: {fileID: 2100000, guid: fd80ed50a32a5ea48804caa50a31fe4c, type: 2}
   icon: {fileID: 0}
-  description: A simple wheel
-  prefab_piece: {fileID: 4493343699483329138, guid: b7dc514e935c3ca489b752dff1395dd1,
+  description: A structural piece that can rotate independatly from it's anchor
+  prefab_piece: {fileID: 7717064692680117467, guid: ecca05b5c5aea074b86fa51080dff248,
     type: 3}

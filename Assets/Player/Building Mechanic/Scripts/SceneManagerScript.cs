@@ -8,7 +8,7 @@ public class SceneManagerScript : MonoBehaviour
     private string scenenameVar;//Variable holding scene name
     public void Start()
     {
-        Time.timeScale = 0.0f;//Set base time
+        Time.timeScale = 1.0f;//Set base time
         DontDestroyOnLoad(gameObject);
     }
     //Called from other scripts when we want to change scenes

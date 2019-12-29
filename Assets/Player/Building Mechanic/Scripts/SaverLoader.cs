@@ -11,9 +11,10 @@ public class SaverLoader
     string enemybots_SavePath = "/EnemyRobots";
     public void SetupPathes() //Setup the pathes with the correct path
     {
-        robots_SavePath = Application.dataPath + "/SavedRobots";
-        programs_SavePath = Application.dataPath + "/SavedPrograms";
-        enemybots_SavePath = Application.dataPath + "/EnemyRobots";
+        Debug.LogWarning(Application.persistentDataPath);
+        robots_SavePath = Application.persistentDataPath + "/SavedRobots";
+        programs_SavePath = Application.persistentDataPath + "/SavedPrograms";
+        enemybots_SavePath = Application.persistentDataPath + "/EnemyRobots";
     }
     public void SavePieces(string fileName, PieceScript[] pieces) //Save pieces
     {

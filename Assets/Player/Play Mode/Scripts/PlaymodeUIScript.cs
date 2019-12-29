@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//Used to handle UI during gameplay
 public class PlaymodeUIScript : MonoBehaviour
 {
     // Start is called before the first frame update

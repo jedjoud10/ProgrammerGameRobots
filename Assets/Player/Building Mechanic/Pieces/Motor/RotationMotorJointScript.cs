@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RotationMotorJointScript : MonoBehaviour
 {
+    public Transform stator;//Part of motor that does not move
     private HingeJoint myHJ;
     private JointMotor myJM;
     public float MaxSpeed;//Maximum speed
@@ -11,7 +12,7 @@ public class RotationMotorJointScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        myHJ = GetComponent<HingeJoint>();
+        myHJ = GetComponent<HingeJoint>();//Get component component from our object
         myJM.targetVelocity = 0;
         myJM.force = Force;
         myHJ.motor = myJM;        

@@ -10,5 +10,5 @@ public class PieceScriptableObject : ScriptableObject
     public Material material;
     public Texture icon;
     public string description;
-    public GameObject prefab_piece;
+    public GameObject prefab_piece; 
 }

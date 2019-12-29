@@ -10,6 +10,7 @@ public class ServoControlledTurretScript : MonoBehaviour
     public Transform rotationController;//The object controlled to take the rotation from
     public float damper;//How much to dampen the joint spring
     public float spring;//How much force to apply to the joint spring
+    public Transform targetPointMesh;//The mesh that represents the target point
     //Materials
     public Material pitchLEDMat;
     public Material yawLEDMat;
@@ -38,6 +39,8 @@ public class ServoControlledTurretScript : MonoBehaviour
     {
         TargetPos = _pos;//Set variable
         RotateTurret();//Rotate the turret
+        targetPointMesh.position = _pos;//Also set position of mesh
+        targetPointMesh.rotation = Quaternion.identity;
     }
 
     private void Update()

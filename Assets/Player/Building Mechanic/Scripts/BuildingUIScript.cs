@@ -5,23 +5,23 @@ using UnityEngine.UI;
 //Handles information between the UI and the other building classes
 public class BuildingUIScript : MonoBehaviour
 {
-    public SaverLoaderHandlerScript BuildingSaverLoaderScript;
-    public BuildingScript BuildingScript;
-    private PieceScriptableObject[] pieces;
-    public RawImage currentPiece_RI;
-    public Text pieceNameText;
-    private int currentPieceIndex = 0;
-    private PieceScriptableObject currentPiece;
-    public RawImage lastPiece_RI;
-    public RawImage nextPiece_RI;
-    public Dropdown dropdown;
-    public Text saveNameText;
-    public GameObject destroybutton;
-    public Text codeeditor;
-    public GameObject codeEditorPanel;
-    public InputField codeeditor_textboxInputfield;
-    public Text hoveredPieceText;
-    public Text variablesText;
+    public SaverLoaderHandlerScript BuildingSaverLoaderScript;//BuildingSaverLoaderSCript handler
+    public BuildingScript BuildingScript;//BuildingScript handler
+    private PieceScriptableObject[] pieces;//All pieces in assets
+    public RawImage currentPiece_RI;//Image of current piece
+    public Text pieceNameText;//Name of current piece
+    private int currentPieceIndex = 0;//Index of current piece
+    private PieceScriptableObject currentPiece;//Current piece while in building mode
+    public RawImage lastPiece_RI;//Image of the last piece while in building mode
+    public RawImage nextPiece_RI;//Image of the next piece while in building mode
+    public Dropdown dropdown;//Dropdown to select saves
+    public Text saveNameText;//The name of the save
+    public GameObject destroybutton;//The button to destroy the save file
+    public Text codeeditor;//The text of the code editor
+    public GameObject codeEditorPanel;//The code editor panel
+    public InputField codeeditor_textboxInputfield;//The input field of the code editr
+    public Text hoveredPieceText;//The data of the currently hovered piece
+    public Text variablesText;//Variables of interpreter
     public BuildingModeInterpreterHandlerScript BuildingModeInterpreterHandlerScript;
     
     //Gets all piece's data and objects
@@ -171,12 +171,15 @@ public class BuildingUIScript : MonoBehaviour
     {
         codeEditorPanel.SetActive(true);
         BuildingScript.canInteract = false;
+
+        GetComponent<Camera>().enabled = false;
     }
     //Hide code editor
     public void HideCodeEditor() 
     {
         codeEditorPanel.SetActive(false);
         BuildingScript.canInteract = true;
+        GetComponent<Camera>().enabled = true;
     }
     //Shows every variable that is going to be used in the interpreter
     public void ShowVariables(string[] variables)

@@ -250,7 +250,7 @@ public class Interpreter
             myNewDistanceSensor.SetupScript(_oldclass.myRigidbody.GetComponent<DistanceSensorScript>());//Setup distance sensor only scripts
             return myNewDistanceSensor;
         }
-        if(_oldclass.myRigidbody.GetComponent<IMUSensorScript>() != null) //If we are IMU sensor
+        if (_oldclass.myRigidbody.GetComponent<IMUSensorScript>() != null) //If we are IMU sensor
         {
             IMUSensor myNewIMUSensor = new IMUSensor();
             myNewIMUSensor.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody, _oldclass.myName);//Setup
@@ -263,6 +263,13 @@ public class Interpreter
             myNewServoControlledTurret.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody, _oldclass.myName);//Setup
             myNewServoControlledTurret.SetupScript(_oldclass.myRigidbody.GetComponent<ServoControlledTurretScript>());//Setup ServoControlledTurret only scripts
             return myNewServoControlledTurret;
+        }
+        if (_oldclass.myRigidbody.GetComponent<BatteryPowerScript>() != null)//If we are battery
+        {
+            BatteryPowerPiece myNewBattery = new BatteryPowerPiece();
+            myNewBattery.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody, _oldclass.myName);//Setup
+            myNewBattery.SetupScript(_oldclass.myRigidbody.GetComponent<BatteryPowerScript>());//Setup Battery only scripts
+            return myNewBattery;
         }
         return _oldclass;
     }
@@ -309,73 +316,3 @@ public class Interpreter
     }
     #endregion
 }
-#region Pieces classes
-public class InteractablePiece //A piece class of the robot that is the parent of multiple inherited classes
-{
-    public string myName;
-    public Joint myJoint;
-    public Rigidbody myRigidbody;
-    public void SetupPiece(Joint _myJoint, Rigidbody _myRigidbody, string _myName)
-    {
-        myJoint = _myJoint;//Constructor
-        myRigidbody = _myRigidbody;//Constructor
-        myName = _myName;//Constructor
-    }
-}
-public class MotorJoint : InteractablePiece//Class fro handling motor joint
-{
-    public RotationMotorJointScript rotationMotorJointScript;
-    public void SetupScript(RotationMotorJointScript _rotationMotorJointScript) 
-    {
-        rotationMotorJointScript = _rotationMotorJointScript;//Constructor
-    }
-    public void SetMotorSpeed(float _speed) //Set my rotationmotorjointscripts's motor's speed
-    {
-        rotationMotorJointScript.SetMotorSpeed(_speed);  
-    }
-}
-public class DistanceSensor : InteractablePiece//Class for the "distance sensor" sensor
-{
-    public DistanceSensorScript distanceSensorScript;
-    public void SetupScript(DistanceSensorScript _distanceSensorScript) 
-    {
-        distanceSensorScript = _distanceSensorScript;//Constructor
-    }
-    public float GetSensorDistance() //Read distance from sensor
-    {        
-        return distanceSensorScript.GetDistance();
-    }
-}
-public class IMUSensor : InteractablePiece//Class for the "Inertial Mesurement Sensor" sensor
-{
-    public IMUSensorScript IMUSensorScript;
-    public void SetupScript(IMUSensorScript _IMUSensorScript) 
-    {
-        IMUSensorScript = _IMUSensorScript;//Constructor
-    }
-    public Vector3 GetAcceleration()//Read acceleration from IMU sensor
-    {
-        return IMUSensorScript.ReadAccelerationSensorData();
-    }
-    public Vector3 GetAngularVelocity()//Read angular velocity from IMU sensor
-    {
-        return IMUSensorScript.ReadAngularVelocitySensorData();
-    }
-    public Vector3 GetGravity()//Read gravity from IMU sensor
-    {
-        return IMUSensorScript.ReadGravitySensorData();
-    }
-}
-public class ServoControlledTurret : InteractablePiece//Class from the "Servo controlled turret" damage piece
-{
-    public ServoControlledTurretScript ServoControlledTurretScript;
-    public void SetupScript(ServoControlledTurretScript _ServoControlledTurretScript) 
-    {
-        ServoControlledTurretScript = _ServoControlledTurretScript;//Constructor
-    }
-    public void SetTargetPosition(float x, float y, float z) //Set target pos (x, y, z) of turret with servo rotation
-    {
-        ServoControlledTurretScript.SetTargetPos(new Vector3(x, y, z));//Set new position and rotate
-    }
-}
-#endregion

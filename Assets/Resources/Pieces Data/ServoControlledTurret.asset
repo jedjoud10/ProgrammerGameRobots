@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f6621dc0b0eba0468f321e3804a3c43, type: 3}
   m_Name: ServoControlledTurret
   m_EditorClassIdentifier: 
-  UI_name: ServoControlledTurret
+  UI_name: SCT
   mesh: {fileID: -7096276611023663814, guid: b182e24e8e0050142aeb5e6b5c896eda, type: 3}
   material: {fileID: 2100000, guid: a017d5efc348afe4597708caa5317099, type: 2}
   icon: {fileID: 0}

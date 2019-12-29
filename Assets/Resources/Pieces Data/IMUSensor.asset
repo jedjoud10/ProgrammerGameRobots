@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f6621dc0b0eba0468f321e3804a3c43, type: 3}
   m_Name: IMUSensor
   m_EditorClassIdentifier: 
-  UI_name: Inertial Mesurement Unit Sensor
+  UI_name: IMU Sensor
   mesh: {fileID: -5495902117074765545, guid: 88b7e00bc2178154dbe2917b6e4568e9, type: 3}
   material: {fileID: 2100000, guid: 58fb2341519c2c64b80a546a19454687, type: 2}
   icon: {fileID: 0}

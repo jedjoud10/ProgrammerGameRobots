@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -6,7 +7,10 @@ using System.Linq;
 public class Interpreter
 {
     public Dictionary<string, float> float_variables;//The stored float varialbes
-    Dictionary<int, InteractablePiece> pieces;//The pieces's classes
+
+    //The pieces's classes. Get/set for when variable changed
+    Dictionary<int, InteractablePiece> pieces;    
+    Dictionary<PIECE_TYPE, List<InteractablePiece>> sortedpieces = new Dictionary<PIECE_TYPE, List<InteractablePiece>>();//Pieces when sorted with piece_type enum
     //The console that will be used when Print( arg )
     public string console = "";
     string code;//The actual code
@@ -18,6 +22,8 @@ public class Interpreter
         pieces = new Dictionary<int, InteractablePiece>();
         float_variables = new Dictionary<string, float>();
         SetupAllPiecesClasses(_pieces);
+        CallStartCode();//Call startcode on all pieces
+        SortPieces(pieces);//Sort pieces for sortedpieces variable
         code = _code;
     }
     //Check code and run it
@@ -30,6 +36,7 @@ public class Interpreter
         {
             RunLines(lines[i], lines.Length - 1, i, frame);
         }
+        CallLoopCode();//Call loopcode on all pieces
     }
     //Run the code lines
     public void RunLines(string linecontent, int endline, int currentline, int currentFrame) 
@@ -217,6 +224,39 @@ public class Interpreter
             }
         }
     }
+    //Uses the power of first powerpiece it dedects. Returns how much power we used
+    public float UsePower(float power)
+    {
+        InteractablePiece chosenpowerpiece = GetPowerPieceWithHighestPower();//The chosen power piece since it is first
+        if (chosenpowerpiece == null) return 0;
+        if (chosenpowerpiece is BatteryPowerPiece)
+        {
+            BatteryPowerPiece batterypiece = (BatteryPowerPiece)chosenpowerpiece;//Cast piece to battery piece if it is battery piece
+            return batterypiece.GetPower(power);//Return power used
+        }
+        return 0;
+    }
+    //Get the power piece with the highest power from the craft
+    private InteractablePiece GetPowerPieceWithHighestPower() 
+    {
+        InteractablePiece outpiece = null;//The return piece
+        InteractablePiece piece = null;//Loop piece
+        float maxpower = 0;//The maximum power piece's power
+        for (int i = 0; i < sortedpieces[PIECE_TYPE.POWER_PIECE].Count; i++) //loop over power pieces
+        {
+            piece = sortedpieces[PIECE_TYPE.POWER_PIECE][i];//Variable to make it more clearer
+            if (piece is BatteryPowerPiece) //If power piece is battery
+            {
+                BatteryPowerPiece batterypiece = (BatteryPowerPiece)piece;//Cast to actual battery piece 
+                if (batterypiece.GetRemainingPower_pu() > maxpower) //If the battery power is maximum power
+                {
+                    maxpower = batterypiece.GetRemainingPower_pu();//Make that as new threshold
+                    outpiece = piece;
+                }                
+            }
+        }
+        return outpiece;
+    }
     #endregion
     #region Class-correction and piece list stuff
     //Turns every piece into an interactablepiece script
@@ -227,7 +267,7 @@ public class Interpreter
         for (int i = 0; i < _pieces.Length; i++)
         {
             ip = new InteractablePiece();//Temporary variable since we dont have a constructor in our "InteractablePiece" class
-            ip.SetupPiece(_pieces[i].myjoint, _pieces[i].myrigidbody, _pieces[i].myname);//Setup temporary var        
+            ip.SetupPiece(_pieces[i].myjoint, _pieces[i].myrigidbody, _pieces[i].myname, this);//Setup temporary var        
             ip = GetCorrectClass(ip);//Correct the class
 
             pieces.Add(i, ip);
@@ -239,35 +279,35 @@ public class Interpreter
         if (_oldclass.myRigidbody.GetComponent<RotationMotorJointScript>() != null)//If we are a Rotation Motor Joint
         {
             MotorJoint myNewMotorJoint = new MotorJoint();
-            myNewMotorJoint.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody, _oldclass.myName);//Setup
+            myNewMotorJoint.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody, _oldclass.myName, this);//Setup
             myNewMotorJoint.SetupScript(_oldclass.myRigidbody.GetComponent<RotationMotorJointScript>());//Setup motor only scripts
             return myNewMotorJoint;
         }
         if (_oldclass.myRigidbody.GetComponent<DistanceSensorScript>() != null)//If we are distance sensor
         {
             DistanceSensor myNewDistanceSensor = new DistanceSensor();
-            myNewDistanceSensor.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody, _oldclass.myName);//Setup
+            myNewDistanceSensor.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody, _oldclass.myName, this);//Setup
             myNewDistanceSensor.SetupScript(_oldclass.myRigidbody.GetComponent<DistanceSensorScript>());//Setup distance sensor only scripts
             return myNewDistanceSensor;
         }
         if (_oldclass.myRigidbody.GetComponent<IMUSensorScript>() != null) //If we are IMU sensor
         {
             IMUSensor myNewIMUSensor = new IMUSensor();
-            myNewIMUSensor.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody, _oldclass.myName);//Setup
+            myNewIMUSensor.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody, _oldclass.myName, this);//Setup
             myNewIMUSensor.SetupScript(_oldclass.myRigidbody.GetComponent<IMUSensorScript>());//Setup IMU sensor only scripts
             return myNewIMUSensor;
         }
         if (_oldclass.myRigidbody.GetComponent<ServoControlledTurretScript>() != null) //If we are servo controlled turret
         {
             ServoControlledTurret myNewServoControlledTurret = new ServoControlledTurret();
-            myNewServoControlledTurret.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody, _oldclass.myName);//Setup
+            myNewServoControlledTurret.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody, _oldclass.myName, this);//Setup
             myNewServoControlledTurret.SetupScript(_oldclass.myRigidbody.GetComponent<ServoControlledTurretScript>());//Setup ServoControlledTurret only scripts
             return myNewServoControlledTurret;
         }
         if (_oldclass.myRigidbody.GetComponent<BatteryPowerScript>() != null)//If we are battery
         {
             BatteryPowerPiece myNewBattery = new BatteryPowerPiece();
-            myNewBattery.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody, _oldclass.myName);//Setup
+            myNewBattery.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody, _oldclass.myName, this);//Setup
             myNewBattery.SetupScript(_oldclass.myRigidbody.GetComponent<BatteryPowerScript>());//Setup Battery only scripts
             return myNewBattery;
         }
@@ -283,6 +323,37 @@ public class Interpreter
         else
         {
             return null;
+        }
+    }
+    //Reorder the pieces and set that for the sortedpieces variable
+    private void SortPieces(Dictionary<int, InteractablePiece> _pieces) 
+    {
+        sortedpieces.Clear();//Clear array to add new elements
+        foreach (PIECE_TYPE piecetype in Enum.GetValues(typeof(PIECE_TYPE)))//Add each type of pieces into the dictionary
+        {
+            sortedpieces.Add(piecetype, new List<InteractablePiece>(0));//Add piece type
+        }
+        for (int i = 0; i < _pieces.Count; i++) 
+        {
+            List<InteractablePiece> oldlist = sortedpieces[_pieces[i].piecetype];//Old list of pieces from this type
+            oldlist.Add(_pieces[i]);//Add the new piece
+            sortedpieces[_pieces[i].piecetype] = oldlist;//Change the oldlist to the new list with added piece
+        }
+    }
+    //Call loopcode on all pieces
+    private void CallLoopCode() 
+    {
+        for(int i  = 0; i < pieces.Count; i++) 
+        {
+            pieces[i].CodeLoop();
+        }
+    }
+    //Call startcode on all pieces
+    private void CallStartCode() 
+    {
+        for (int i = 0; i < pieces.Count; i++)
+        {
+            pieces[i].CodeStart();
         }
     }
     #endregion

@@ -54,11 +54,14 @@ public class InteractablePiece //A piece class of the robot that is the parent o
     public PIECE_TYPE piecetype = PIECE_TYPE.STRUCTURAL_PIECE;//Init normal piece
     public float powermin = 0;//Minimum power so the piece can operate
     public float poweroptimal = 0;//Optimal power for piece
-    public void SetupPiece(Joint _myJoint, Rigidbody _myRigidbody, string _myName)
+    public Interpreter interpreter;//The piece's interpreter
+    public void SetupPiece(Joint _myJoint, Rigidbody _myRigidbody, string _myName, Interpreter _interpreter)
     {
         myJoint = _myJoint;//Constructor
         myRigidbody = _myRigidbody;//Constructor
         myName = _myName;//Constructor
+        interpreter = _interpreter;//Constructor
+        CodeStart();//Call first frame method
     }
     //Setup properities like power_min, power_optimal, piece_type, etc...
     public void SetupProperities(float _powermin, float _poweroptimal, PIECE_TYPE _piecetype) 
@@ -67,10 +70,19 @@ public class InteractablePiece //A piece class of the robot that is the parent o
         poweroptimal = _poweroptimal;
         piecetype = _piecetype;
     }
+    //When code is executed every frame
+    //Is virtual to be able to be overridden
+    public virtual void CodeLoop() { }
+    //When code is executed first frame
+    //Is virtual to be able to be overridden
+    public virtual void CodeStart() { }
 }
 public class MotorJoint : InteractablePiece//Class for handling motor joint
 {
     public RotationMotorJointScript rotationMotorJointScript;
+    private float maxspeed;//Max speed of motor
+    private float force;//Force of motor
+    private float estimatedpower;//The estimated power of this motor
     public MotorJoint()//When instance is created
     {
         SetupProperities(10.0f, 50.0f, PIECE_TYPE.DAMAGE_PIECE);//Setup properities
@@ -78,10 +90,15 @@ public class MotorJoint : InteractablePiece//Class for handling motor joint
     public void SetupScript(RotationMotorJointScript _rotationMotorJointScript)
     {
         rotationMotorJointScript = _rotationMotorJointScript;//Constructor
+        maxspeed = rotationMotorJointScript.MaxSpeed;//Max speed of world rotation motor script
+        force = rotationMotorJointScript.Force;//Force of world rotation motor script
     }
     public void SetMotorSpeed(float _speed) //Set my rotationmotorjointscripts's motor's speed
-    {
-        rotationMotorJointScript.SetMotorSpeed(_speed);
+    {        
+        float v = interpreter.UsePower(estimatedpower);//Use power every time we set the speed of motors
+        estimatedpower = Mathf.Lerp(powermin, poweroptimal, Mathf.Abs(_speed) / maxspeed * force);//Calculation for power estimation with speed and force
+        if (v >= powermin) { rotationMotorJointScript.SetMotorSpeed(_speed); }
+        else { rotationMotorJointScript.SetMotorSpeed(0); }
     }
 }
 public class DistanceSensor : InteractablePiece//Class for the "distance sensor" sensor
@@ -97,7 +114,13 @@ public class DistanceSensor : InteractablePiece//Class for the "distance sensor"
     }
     public float GetSensorDistance() //Read distance from sensor
     {
-        return distanceSensorScript.GetDistance();
+        if(interpreter.UsePower(poweroptimal) >= powermin) return distanceSensorScript.GetDistance();//Use power when getting sensor data and return disctance
+        return 0;//Non sufficent power
+    }
+    public override void CodeLoop()
+    {
+        base.CodeLoop();
+        interpreter.UsePower(powermin);//Use min power when not doing anything
     }
 }
 public class IMUSensor : InteractablePiece//Class for the "Inertial Mesurement Sensor" sensor
@@ -113,15 +136,27 @@ public class IMUSensor : InteractablePiece//Class for the "Inertial Mesurement S
     }
     public Vector3 GetAcceleration()//Read acceleration from IMU sensor
     {
-        return IMUSensorScript.ReadAccelerationSensorData();
+        if(interpreter.UsePower(poweroptimal) >= powermin) 
+        {
+            return IMUSensorScript.ReadAccelerationSensorData();
+        }
+        return new Vector3(Random.value, Random.value, Random.value);
     }
     public Vector3 GetAngularVelocity()//Read angular velocity from IMU sensor
     {
-        return IMUSensorScript.ReadAngularVelocitySensorData();
+        if (interpreter.UsePower(poweroptimal) >= powermin)
+        {
+            return IMUSensorScript.ReadAngularVelocitySensorData();
+        }
+        return new Vector3(Random.value, Random.value, Random.value);
     }
     public Vector3 GetGravity()//Read gravity from IMU sensor
-    {
-        return IMUSensorScript.ReadGravitySensorData();
+    {    
+        if (interpreter.UsePower(poweroptimal) >= powermin)
+        {
+            return IMUSensorScript.ReadGravitySensorData();
+        }
+        return new Vector3(Random.value, Random.value, Random.value);
     }
 }
 public class ServoControlledTurret : InteractablePiece//Class from the "Servo controlled turret" damage piece
@@ -137,7 +172,21 @@ public class ServoControlledTurret : InteractablePiece//Class from the "Servo co
     }
     public void SetTargetPosition(float x, float y, float z) //Set target pos (x, y, z) of turret with servo rotation
     {
-        ServoControlledTurretScript.SetTargetPos(new Vector3(x, y, z));//Set new position and rotate
+        if (interpreter.UsePower(poweroptimal) >= powermin)
+        {
+            ServoControlledTurretScript.SetTargetPos(new Vector3(x, y, z));//Set new position and rotate when have suficcent power
+            ServoControlledTurretScript.isEnabled = true;
+        }
+        else
+        {
+            ServoControlledTurretScript.SetTargetPos(new Vector3(x, y, z));//Set new position and rotate
+            ServoControlledTurretScript.isEnabled = false;//Disable turret when not enough power
+        }
+    }
+    public override void CodeLoop()
+    {
+        base.CodeLoop();
+        interpreter.UsePower(powermin);
     }
 }
 public class BatteryPowerPiece : InteractablePiece//Class from the "Battery" piece
@@ -161,5 +210,10 @@ public class BatteryPowerPiece : InteractablePiece//Class from the "Battery" pie
     public float GetRemainingPower_pe()
     {
         return BatteryScript.GetRemainingPower();
+    }
+    //Get power from battery and returns how much it got for optimal/minimum power estimations
+    public float GetPower(float optimalpower) 
+    {
+        return BatteryScript.GetPower(optimalpower);
     }
 }

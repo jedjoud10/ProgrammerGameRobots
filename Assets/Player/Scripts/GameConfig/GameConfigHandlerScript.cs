@@ -10,7 +10,9 @@ public class GameConfigHandlerScript : MonoBehaviour
     {
         gameConfigSaverLoader = new GameConfigSaverLoader();
         gameConfigSaverLoader.SetupPathes();//Setup config path
-        LoadConfig(gameConfigSaverLoader.LoadConfig());
+        GameConfig config = gameConfigSaverLoader.LoadConfig();
+        if (config != null) LoadConfig(gameConfigSaverLoader.LoadConfig());
+        else gameConfigSaverLoader.SaveConfig(SaveConfig());
         Debug.Log("Finished reading game config");
         //gameConfigSaverLoader.SaveConfig(SaveConfig());
     }

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Battery
   m_EditorClassIdentifier: 
   UI_name: Battery
-  mesh: {fileID: 0}
-  material: {fileID: 0}
+  mesh: {fileID: 6388001863223887543, guid: 6a91c34bfd53acc4ab0089541e61b1be, type: 3}
+  material: {fileID: 2100000, guid: e7aec30f446165747a16a781216744a0, type: 2}
   icon: {fileID: 0}
   description: A battery that powers the robot and allows it to do all sorts of things
     with electricity !

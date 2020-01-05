@@ -85,7 +85,7 @@ public class MotorJoint : InteractablePiece//Class for handling motor joint
     private float estimatedpower;//The estimated power of this motor
     public MotorJoint()//When instance is created
     {
-        SetupProperities(10.0f, 50.0f, PIECE_TYPE.DAMAGE_PIECE);//Setup properities
+        SetupProperities(1.0f, 20.0f, PIECE_TYPE.DAMAGE_PIECE);//Setup properities
     }
     public void SetupScript(RotationMotorJointScript _rotationMotorJointScript)
     {
@@ -94,11 +94,12 @@ public class MotorJoint : InteractablePiece//Class for handling motor joint
         force = rotationMotorJointScript.Force;//Force of world rotation motor script
     }
     public void SetMotorSpeed(float _speed) //Set my rotationmotorjointscripts's motor's speed
-    {        
+    {
+        estimatedpower = Mathf.Lerp(powermin, poweroptimal, Mathf.Abs(_speed) / maxspeed);//Calculation for power estimation with speed and force
+        Debug.Log(estimatedpower);
         float v = interpreter.UsePower(estimatedpower);//Use power every time we set the speed of motors
-        estimatedpower = Mathf.Lerp(powermin, poweroptimal, Mathf.Abs(_speed) / maxspeed * force);//Calculation for power estimation with speed and force
-        if (v >= powermin) { rotationMotorJointScript.SetMotorSpeed(_speed); }
-        else { rotationMotorJointScript.SetMotorSpeed(0); }
+        if (v >= powermin) { rotationMotorJointScript.SetMotorSpeed(_speed); rotationMotorJointScript.EnableMotor(); }
+        else { rotationMotorJointScript.SetMotorSpeed(0); rotationMotorJointScript.DisableMotor(); }
     }
 }
 public class DistanceSensor : InteractablePiece//Class for the "distance sensor" sensor
@@ -128,7 +129,7 @@ public class IMUSensor : InteractablePiece//Class for the "Inertial Mesurement S
     public IMUSensorScript IMUSensorScript;
     public IMUSensor()//When instance is created
     {
-        SetupProperities(15.0f, 40.0f, PIECE_TYPE.SENSOR_PIECE);//Setup properities
+        SetupProperities(2.0f, 3.0f, PIECE_TYPE.SENSOR_PIECE);//Setup properities
     }
     public void SetupScript(IMUSensorScript _IMUSensorScript)
     {
@@ -216,4 +217,9 @@ public class BatteryPowerPiece : InteractablePiece//Class from the "Battery" pie
     {
         return BatteryScript.GetPower(optimalpower);
     }
+    //Add power to baterry
+    public void AddPower(float newpower) 
+    {
+        BatteryScript.AddPower(newpower);
+    }    
 }

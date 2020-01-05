@@ -236,6 +236,17 @@ public class Interpreter
         }
         return 0;
     }
+    //Adds power to battery with lowest power
+    public void AddPower(float power) 
+    {
+        InteractablePiece chosenpowerpiece = GetPowerPieceWithLowestPower();
+        if (chosenpowerpiece == null) return;
+        if (chosenpowerpiece is BatteryPowerPiece)
+        {
+            BatteryPowerPiece batterypiece = (BatteryPowerPiece)chosenpowerpiece;//Cast piece to battery piece if it is battery piece
+            batterypiece.AddPower(power);//Return power used
+        }
+    }
     //Get the power piece with the highest power from the craft
     private InteractablePiece GetPowerPieceWithHighestPower() 
     {
@@ -253,6 +264,27 @@ public class Interpreter
                     maxpower = batterypiece.GetRemainingPower_pu();//Make that as new threshold
                     outpiece = piece;
                 }                
+            }
+        }
+        return outpiece;
+    }
+    //Get the power piece with the lowest power from the craft
+    private InteractablePiece GetPowerPieceWithLowestPower()
+    {
+        InteractablePiece outpiece = null;//The return piece
+        InteractablePiece piece = null;//Loop piece
+        float maxpower = float.MaxValue;//The maximum power piece's power
+        for (int i = 0; i < sortedpieces[PIECE_TYPE.POWER_PIECE].Count; i++) //loop over power pieces
+        {
+            piece = sortedpieces[PIECE_TYPE.POWER_PIECE][i];//Variable to make it more clearer
+            if (piece is BatteryPowerPiece) //If power piece is battery
+            {
+                BatteryPowerPiece batterypiece = (BatteryPowerPiece)piece;//Cast to actual battery piece 
+                if (batterypiece.GetRemainingPower_pu() < maxpower) //If the battery power is maximum power
+                {
+                    maxpower = batterypiece.GetRemainingPower_pu();//Make that as new threshold
+                    outpiece = piece;
+                }
             }
         }
         return outpiece;

@@ -24,4 +24,12 @@ public class RotationMotorJointScript : MonoBehaviour
         myJM.targetVelocity = Mathf.Clamp(speed, -MaxSpeed, MaxSpeed);
         myHJ.motor = myJM;
     }
+    public void EnableMotor()//Called when we have enough power 
+    {
+        myHJ.useMotor = true;
+    }
+    public void DisableMotor() //Called when we dont have enough power
+    {
+        myHJ.useMotor = false;
+    }
 }

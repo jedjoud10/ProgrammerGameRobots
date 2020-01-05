@@ -26,7 +26,7 @@ public class GameConfigSaverLoader
         }
         else
         {
-            Debug.LogError("Config file does not exist !");
+            Debug.LogWarning("Config file does not exist !");
         }
         return null;
     }

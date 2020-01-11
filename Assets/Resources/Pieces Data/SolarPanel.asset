@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f6621dc0b0eba0468f321e3804a3c43, type: 3}
+  m_Name: SolarPanel
+  m_EditorClassIdentifier: 
+  UI_name: Solar Panel
+  mesh: {fileID: 0}
+  material: {fileID: 0}
+  icon: {fileID: 0}
+  description: A generator that runs off the photons thrown from the sun
+  prefab_piece: {fileID: 8153903812529915330, guid: e37741da3c76d6344913ea2f4dd9fef1,
+    type: 3}

@@ -183,7 +183,8 @@ public class ServoControlledTurret : InteractablePiece//Class from the "Servo co
             ServoControlledTurretScript.SetTargetPos(new Vector3(x, y, z));//Set new position and rotate
             ServoControlledTurretScript.isEnabled = false;//Disable turret when not enough power
         }
-    }
+    }    
+
     public override void CodeLoop()
     {
         base.CodeLoop();
@@ -195,7 +196,7 @@ public class BatteryPowerPiece : InteractablePiece//Class from the "Battery" pie
     public BatteryPowerScript BatteryScript;
     public BatteryPowerPiece()//When instance is created
     {
-        ///Setting minmum and optimal powers to 0 since this is already a power piece
+        //Setting minmum and optimal powers to 0 since this is already a power piece
         SetupProperities(0.0f, 0.0f, PIECE_TYPE.POWER_PIECE);//Setup properities
     }
     public void SetupScript(BatteryPowerScript _BatteryScript) 
@@ -212,6 +213,11 @@ public class BatteryPowerPiece : InteractablePiece//Class from the "Battery" pie
     {
         return BatteryScript.GetRemainingPower();
     }
+    //Get max power of battery
+    public float GetMaxPower() 
+    {
+        return BatteryScript.maxpower;
+    }
     //Get power from battery and returns how much it got for optimal/minimum power estimations
     public float GetPower(float optimalpower) 
     {
@@ -222,4 +228,76 @@ public class BatteryPowerPiece : InteractablePiece//Class from the "Battery" pie
     {
         BatteryScript.AddPower(newpower);
     }    
+}
+public class PowerSensor : InteractablePiece//Class from the "Power Sensor" sensor piece
+{
+    public PowerSensorScript PowerSensorScript;
+    private Dictionary<PIECE_TYPE, List<InteractablePiece>> pieces;
+    private float craftEnergy;//The energy that the craft holds
+
+    public PowerSensor()//When instance is created
+    {
+        SetupProperities(3.0f, 10.0f, PIECE_TYPE.SENSOR_PIECE);//Setup properities
+    }
+    public void SetupScript(PowerSensorScript _PowerSensorScript, Dictionary<PIECE_TYPE, List<InteractablePiece>> _pieces)
+    {
+        PowerSensorScript = _PowerSensorScript;//Constructor
+        pieces = _pieces;//Constructor
+    }
+
+    
+    //Gets current powerunits of pieces that hold energy of craft
+    public float CraftPowerUnits() 
+    {
+        craftEnergy = 1;
+        for (int i = 0; i < pieces[PIECE_TYPE.POWER_PIECE].Count; i++)
+        {
+            if (pieces[PIECE_TYPE.POWER_PIECE][i] is BatteryPowerPiece)//Check if this piece is battery
+            {
+                BatteryPowerPiece battery = (BatteryPowerPiece)pieces[PIECE_TYPE.POWER_PIECE][i];
+                craftEnergy += battery.GetRemainingPower_pu();//Add battery power to val to make sum of all batteries                
+            }
+        }
+        return craftEnergy;
+    }
+    //Get current percentage of piece that hold energy of craft
+    public float CraftPowerPercentage() 
+    {
+        float craftMaxPower = 1;//All max power summed together to calculated percentage
+        craftEnergy = 1;
+        for (int i = 0; i < pieces[PIECE_TYPE.POWER_PIECE].Count; i++)
+        {
+            if (pieces[PIECE_TYPE.POWER_PIECE][i] is BatteryPowerPiece)//Check if this piece is battery
+            {
+                BatteryPowerPiece battery = (BatteryPowerPiece)pieces[PIECE_TYPE.POWER_PIECE][i];
+                craftEnergy += battery.GetRemainingPower_pu();//Add battery power to val to make sum of all batteries    
+                craftMaxPower += battery.GetMaxPower();//Add battery power to val to make sum of all batteries's max powers  
+            }
+        }
+        return craftEnergy / craftMaxPower * 100;
+    }
+
+    public override void CodeLoop()
+    {
+        base.CodeLoop();
+        interpreter.UsePower(powermin);
+    }    
+}
+public class SolarPanelPowerPiece : InteractablePiece //Class for the "Solar Panel" powering piece
+{
+    public SolarPanelScript SolarPanelScript;
+    public SolarPanelPowerPiece()//When instance is created
+    {
+        //Not setting them both to zero because the servo motor used to rotate the solar panel require energy
+        SetupProperities(0.5f, 1.0f, PIECE_TYPE.POWER_PIECE);//Setup properities
+    }
+    public void SetupScript(SolarPanelScript _SolarPanelScript)
+    {
+        SolarPanelScript = _SolarPanelScript;//Constructor
+    }
+    public override void CodeLoop()
+    {
+        base.CodeLoop();
+        interpreter.AddPower(SolarPanelScript.GetPowerGenerationRate());
+    }
 }

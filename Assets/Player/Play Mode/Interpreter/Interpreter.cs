@@ -244,7 +244,7 @@ public class Interpreter
         if (chosenpowerpiece is BatteryPowerPiece)
         {
             BatteryPowerPiece batterypiece = (BatteryPowerPiece)chosenpowerpiece;//Cast piece to battery piece if it is battery piece
-            batterypiece.AddPower(power);//Return power used
+            batterypiece.AddPower(power);//Add power
         }
     }
     //Get the power piece with the highest power from the craft
@@ -343,6 +343,20 @@ public class Interpreter
             myNewBattery.SetupScript(_oldclass.myRigidbody.GetComponent<BatteryPowerScript>());//Setup Battery only scripts
             return myNewBattery;
         }
+        if(_oldclass.myRigidbody.GetComponent<PowerSensorScript>() != null)//If we are powersensor
+        {
+            PowerSensor myNewPowerSensor = new PowerSensor();
+            myNewPowerSensor.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody, _oldclass.myName, this);//Setup
+            myNewPowerSensor.SetupScript(_oldclass.myRigidbody.GetComponent<PowerSensorScript>(), sortedpieces);//Setup powesensor only scripts
+            return myNewPowerSensor;
+        }
+        if (_oldclass.myRigidbody.GetComponent<SolarPanelScript>() != null)//If we are solarpanel
+        {
+            SolarPanelPowerPiece myNewSolarPanelPowerPiece = new SolarPanelPowerPiece();
+            myNewSolarPanelPowerPiece.SetupPiece(_oldclass.myJoint, _oldclass.myRigidbody, _oldclass.myName, this);//Setup
+            myNewSolarPanelPowerPiece.SetupScript(_oldclass.myRigidbody.GetComponent<SolarPanelScript>());//Setup solarpanel only scripts
+            return myNewSolarPanelPowerPiece;
+        }
         return _oldclass;
     }
     //Gets and spits out the classes from index from dictionary
@@ -414,6 +428,19 @@ public class Interpreter
                 AssignVariable("IMU_Sensor" + i + ".Gravity.X", imu_sensor.GetGravity().x);
                 AssignVariable("IMU_Sensor" + i + ".Gravity.Y", imu_sensor.GetGravity().y);
                 AssignVariable("IMU_Sensor" + i + ".Gravity.Z", imu_sensor.GetGravity().z);
+            }
+            if (currentPiece is BatteryPowerPiece)//If we are the onboard sensor of the battery piece
+            {
+                BatteryPowerPiece batterypiece = (BatteryPowerPiece)currentPiece;
+                AssignVariable("BatterySensor" + i + ".Percentage", batterypiece.GetRemainingPower_pe());
+                AssignVariable("BatterySensor" + i + ".Units", batterypiece.GetRemainingPower_pu());
+            }
+
+            if (currentPiece is PowerSensor)//If we are a Power Sensor
+            {
+                PowerSensor powersensor = (PowerSensor)currentPiece;
+                AssignVariable("PowerSensor" + i + ".Percentage", powersensor.CraftPowerPercentage());
+                AssignVariable("PowerSensor" + i + ".Units", powersensor.CraftPowerUnits());
             }
         }
     }

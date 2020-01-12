@@ -49,6 +49,7 @@ public class GameConfigHandlerScript : MonoBehaviour
         QualitySettings.antiAliasing = inconfig.AntiAliasing;
         QualitySettings.softParticles = inconfig.SoftParticles;
         QualitySettings.realtimeReflectionProbes = inconfig.RealtimeReflectionProbes;
+        SetReflectionProbeResolution(inconfig.ReflectionProbesResolution);
         QualitySettings.billboardsFaceCameraPosition = inconfig.BillboardsFaceCameraPosition;
         QualitySettings.resolutionScalingFixedDPIFactor = inconfig.ResolutionScalingFixedDPI;
         QualitySettings.streamingMipmapsActive = inconfig.TextureStreaming;
@@ -61,5 +62,16 @@ public class GameConfigHandlerScript : MonoBehaviour
         QualitySettings.vSyncCount = inconfig.VSync;
         QualitySettings.lodBias = inconfig.LODBias;
         QualitySettings.maximumLODLevel = inconfig.MaxLODLevel;
+    }
+    //Changes the resolution of every reflection probe in the scene
+    private void SetReflectionProbeResolution(int res) 
+    {
+        //Just to make sure that res is one of the following numbers. If not then make the default 64
+        if (res != 16 && res != 32 && res != 64 && res != 128 && res != 256 && res != 512 && res != 1024 && res != 2048) res = 64;
+        ReflectionProbe[] probes = FindObjectsOfType<ReflectionProbe>();//All probes
+        for (int i = 0; i < probes.Length; i++)
+        {
+            probes[i].resolution = res;
+        }
     }
 }

@@ -20,7 +20,7 @@ public class BatteryPowerScript : MonoBehaviour
         if (currentpower - _neededpower * Time.deltaTime > 0) //Check if we have enough power to use
         {
             currentpower -= _neededpower * Time.deltaTime;//If true then use that power
-            batteryLevelText.text = GetRemainingPower().ToString("G4") + "%";
+            batteryLevelText.text = GetRemainingPower().ToString("G1") + "%";
             return _neededpower;//The piece that has called this function got 100% of its demanded power
 
         }

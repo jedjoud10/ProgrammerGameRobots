@@ -138,7 +138,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4336303688381617960}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.008, y: 1.024, z: -0.001}
+  m_LocalPosition: {x: 0.01, y: 1.313, z: -0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4529193941890450360}
@@ -521,7 +521,7 @@ MonoBehaviour:
   joint: {fileID: 6100596708187030720}
   damper: 4
   springiness: 8
-  powerGenerationRate: 2
+  powerGenerationRate: 1
 --- !u!1001 &799667659827655047
 PrefabInstance:
   m_ObjectHideFlags: 0

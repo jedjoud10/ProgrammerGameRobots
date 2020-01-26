@@ -63,7 +63,6 @@ MonoBehaviour:
   - {fileID: 114162210123965574}
   - {fileID: -3191313594777658975}
   - {fileID: 3623087386555553926}
-  - {fileID: 901951809613888104}
 --- !u!114 &114021691592716890
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -156,16 +155,16 @@ MonoBehaviour:
     overrideState: 0
     value: 0
   saturation:
-    overrideState: 1
-    value: 15
+    overrideState: 0
+    value: 0
   brightness:
     overrideState: 0
     value: 0
   postExposure:
     overrideState: 1
-    value: 1.5
+    value: 1.25
   contrast:
-    overrideState: 1
+    overrideState: 0
     value: 0
   mixerRedOutRedIn:
     overrideState: 0
@@ -196,7 +195,7 @@ MonoBehaviour:
     value: 100
   lift:
     overrideState: 1
-    value: {x: 0.8433443, y: 0.82357323, z: 1, w: 0}
+    value: {x: 1, y: 1, z: 1, w: 0}
   gamma:
     overrideState: 1
     value: {x: 1, y: 1, z: 1, w: 0}
@@ -1471,7 +1470,7 @@ MonoBehaviour:
     value: 0
   intensity:
     overrideState: 1
-    value: 0.67
+    value: 2
   color:
     overrideState: 1
     value: {r: 0, g: 0, b: 0, a: 1}
@@ -1495,47 +1494,10 @@ MonoBehaviour:
     value: 0
   radius:
     overrideState: 1
-    value: 0.12
+    value: 2.84
   quality:
     overrideState: 1
     value: 4
---- !u!114 &901951809613888104
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a34fa72bd4185749832024e9c8010bf, type: 3}
-  m_Name: ScreenSpaceReflections
-  m_EditorClassIdentifier: 
-  active: 0
-  enabled:
-    overrideState: 1
-    value: 1
-  preset:
-    overrideState: 1
-    value: 6
-  maximumIterationCount:
-    overrideState: 0
-    value: 16
-  resolution:
-    overrideState: 0
-    value: 0
-  thickness:
-    overrideState: 0
-    value: 8
-  maximumMarchDistance:
-    overrideState: 0
-    value: 100
-  distanceFade:
-    overrideState: 0
-    value: 0.5
-  vignette:
-    overrideState: 0
-    value: 0.5
 --- !u!114 &3623087386555553926
 MonoBehaviour:
   m_ObjectHideFlags: 3

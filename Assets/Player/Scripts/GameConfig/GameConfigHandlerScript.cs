@@ -50,6 +50,7 @@ public class GameConfigHandlerScript : MonoBehaviour
         QualitySettings.softParticles = inconfig.SoftParticles;
         QualitySettings.realtimeReflectionProbes = inconfig.RealtimeReflectionProbes;
         SetReflectionProbeResolution(inconfig.ReflectionProbesResolution);
+        SetReflectionRefresh(inconfig.ReflectionProbesRefresh);
         QualitySettings.billboardsFaceCameraPosition = inconfig.BillboardsFaceCameraPosition;
         QualitySettings.resolutionScalingFixedDPIFactor = inconfig.ResolutionScalingFixedDPI;
         QualitySettings.streamingMipmapsActive = inconfig.TextureStreaming;
@@ -72,6 +73,18 @@ public class GameConfigHandlerScript : MonoBehaviour
         for (int i = 0; i < probes.Length; i++)
         {
             probes[i].resolution = res;
+        }
+    }
+    //Changes the type of refreshion for every reflection prode in the scene
+    private void SetReflectionRefresh(int type) 
+    {
+        ReflectionProbe[] probes = FindObjectsOfType<ReflectionProbe>();//All probes
+        for (int i = 0; i < probes.Length; i++)//Set type for every probe
+        {
+            if (type == 0)
+                probes[i].refreshMode = UnityEngine.Rendering.ReflectionProbeRefreshMode.OnAwake;//Higher quality and faster reflections
+            if (type == 1)
+                probes[i].refreshMode = UnityEngine.Rendering.ReflectionProbeRefreshMode.EveryFrame;//Lower quality and static reflection only
         }
     }
 }

@@ -43,6 +43,7 @@ public class GameConfig
     public bool SoftParticles;
     public bool RealtimeReflectionProbes;
     public int ReflectionProbesResolution;
+    public int ReflectionProbesRefresh;
     public bool BillboardsFaceCameraPosition;
     public float ResolutionScalingFixedDPI;
     public bool TextureStreaming;

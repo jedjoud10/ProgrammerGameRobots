@@ -55,6 +55,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -79,6 +80,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1185932617777807294
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,7 +181,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.64, y: 1.4, z: 1.41}
+  m_Size: {x: 1.64, y: 1.4, z: 1}
   m_Center: {x: 0.35, y: 0.15, z: 0}
 --- !u!114 &899594649111061950
 MonoBehaviour:
@@ -193,20 +195,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e640ea783b4e2049aa80cc7a9e139b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetPos: {x: 3, y: 0, z: 0}
+  TargetPos: {x: 0, y: 0, z: 0}
   pitchJoint: {fileID: 911884201427105907}
   yawJoint: {fileID: 3369243260051178251}
   rotationController: {fileID: 7565763663916259928}
-  damper: 4
-  spring: 10
+  damper: 10
+  spring: 500
   targetPointMesh: {fileID: 7428343248139668246}
+  isEnabled: 0
   pitchLEDMat: {fileID: 2100000, guid: 81a9f27fecfc5e2499c02fa8bc1b633d, type: 2}
   yawLEDMat: {fileID: 2100000, guid: 9157618213b7f5b44b1d905c4cc32956, type: 2}
   pitchLEDColor: {r: 0, g: 0.6568682, b: 1, a: 1}
   yawLEDColor: {r: 1, g: 0.88550174, b: 0, a: 1}
-  emmisive: 2
-  LEDThreshold: 5
-  noiseEffectAmplitude: 10
+  emmisive: 3
+  LEDThreshold: 2
+  noiseEffectAmplitude: 3
 --- !u!1 &2570420346622632106
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,6 +265,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -286,6 +290,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &2760288122156764159
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,6 +348,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -367,6 +373,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!54 &3051975792185083892
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -455,6 +462,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -479,6 +487,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!54 &142388701989196074
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -679,6 +688,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -703,6 +713,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &5858513561224984837
 GameObject:
   m_ObjectHideFlags: 0
@@ -758,6 +769,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -782,6 +794,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &7092069454980766889
 GameObject:
   m_ObjectHideFlags: 0
@@ -839,6 +852,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -868,6 +882,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &7182431942810501211
 GameObject:
   m_ObjectHideFlags: 0
@@ -957,6 +972,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -981,6 +997,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!54 &7567946249769059604
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1068,6 +1085,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1092,6 +1110,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8017592518504230318
 GameObject:
   m_ObjectHideFlags: 0
@@ -1147,6 +1166,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1176,6 +1196,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8037145917017829330
 GameObject:
   m_ObjectHideFlags: 0
@@ -1235,6 +1256,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1259,6 +1281,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!54 &3942844063474320998
 Rigidbody:
   m_ObjectHideFlags: 0

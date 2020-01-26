@@ -98,6 +98,7 @@ public class BuildingScript : MonoBehaviour
     {
         if (piece != lastpiece)//Dedect if we should update
         {
+            ReorderGM();
             lastpiece = piece;
             SetPreviewMesh(lastpiece.transform.GetChild(0).GetComponent<MeshFilter>().mesh, lastpiece.transform.localScale);
             if (piece != null)
@@ -264,12 +265,13 @@ public class BuildingScript : MonoBehaviour
     }
     //Rename every object by their preset order
     private void ReorderGM() 
-    {
+    {        
         PieceScript[] rbs = FindObjectsOfType<PieceScript>();
+        Debug.Log("Reordering gamobjects... :" + rbs.Length);
         for (int i = 0; i < rbs.Length; i++)
         {
-            rbs[i].name = NameFromStringName(rbs[i].name) + "-" + ((rbs.Length - 1) - i);
-        }
+            rbs[i].gameObject.name = NameFromStringName(rbs[i].name) + "-" + ((rbs.Length - 1) - i);
+        }        
     }
     private string NameFromStringName(string name)//Remove numbers and other stuff from string
     {

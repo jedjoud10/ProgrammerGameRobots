@@ -11,7 +11,7 @@ public class ServoControlledTurretScript : MonoBehaviour
     public float damper;//How much to dampen the joint spring
     public float spring;//How much force to apply to the joint spring
     public Transform targetPointMesh;//The mesh that represents the target point
-    public bool isEnabled;//When turret can rotate to target
+    public bool isEnabled = true;//When turret can rotate to target
     //Materials
     public Material pitchLEDMat;
     public Material yawLEDMat;
@@ -76,7 +76,6 @@ public class ServoControlledTurretScript : MonoBehaviour
         angle1 = (angle1 > 180) ? angle1 - 360 : angle1;
         angle2 = (angle2 > 180) ? angle2 - 360 : angle2;
         pitchSpring.targetPosition = -angle1;
-        Debug.Log(angle1);
         yawSpring.targetPosition = -angle2 + 90;
         //Apply new rotation
         pitchJoint.spring = pitchSpring;

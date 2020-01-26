@@ -94,6 +94,7 @@ public class Interpreter
             if (words[0] == "SCTSetTarget(" && words[5] == ")") //Command to set x y z target coordinates for servoturret control
             {
                 SetServoControlledTurretTargetPosition(Mathf.RoundToInt(GetVariable(words[1])), GetVariable(words[2]), GetVariable(words[3]), GetVariable(words[4]));
+                Debug.Log("sct set target");
             }
         }
     }
@@ -160,7 +161,7 @@ public class Interpreter
         if (operation == "acos(") return Mathf.Acos(num1);
         if (operation == "floor(") return Mathf.Floor(num1);
         if (operation == "ceil(") return Mathf.Ceil(num1);
-        if (operation == "roun(") return Mathf.Round(num1);
+        if (operation == "round(") return Mathf.Round(num1);
         return 0.0f;//Return 0 if no function found
     }
     //Perform mathematical function on two numbers
@@ -441,6 +442,7 @@ public class Interpreter
                 PowerSensor powersensor = (PowerSensor)currentPiece;
                 AssignVariable("PowerSensor" + i + ".Percentage", powersensor.CraftPowerPercentage());
                 AssignVariable("PowerSensor" + i + ".Units", powersensor.CraftPowerUnits());
+                AssignVariable("PowerSensor" + i + ".GeneratedPower", powersensor.CraftPowerGeneration());
             }
         }
     }

@@ -165,7 +165,7 @@ public class ServoControlledTurret : InteractablePiece//Class from the "Servo co
     public ServoControlledTurretScript ServoControlledTurretScript;
     public ServoControlledTurret()//When instance is created
     {
-        SetupProperities(30.0f, 60.0f, PIECE_TYPE.DAMAGE_PIECE);//Setup properities
+        SetupProperities(6.0f, 10.0f, PIECE_TYPE.DAMAGE_PIECE);//Setup properities
     }
     public void SetupScript(ServoControlledTurretScript _ServoControlledTurretScript)
     {
@@ -276,6 +276,22 @@ public class PowerSensor : InteractablePiece//Class from the "Power Sensor" sens
         }
         return craftEnergy / craftMaxPower * 100;
     }
+    //Get the curerntly generated power from generators (solar panels, etc)
+    public float CraftPowerGeneration() 
+    {
+        float craftPowerGeneration = 0;//The currently generated power
+        InteractablePiece currentPiece;//Current piece from loop
+        for(int i = 0; i < pieces[PIECE_TYPE.POWER_PIECE].Count; i++) 
+        {
+            currentPiece = pieces[PIECE_TYPE.POWER_PIECE][i];
+            if(currentPiece is SolarPanelPowerPiece) //Instance of solar panel piece
+            {
+                SolarPanelPowerPiece solarPanel = (SolarPanelPowerPiece)currentPiece;
+                craftPowerGeneration += solarPanel.generatedPower;
+            }
+        }        
+        return craftPowerGeneration;
+    }
 
     public override void CodeLoop()
     {
@@ -286,6 +302,7 @@ public class PowerSensor : InteractablePiece//Class from the "Power Sensor" sens
 public class SolarPanelPowerPiece : InteractablePiece //Class for the "Solar Panel" powering piece
 {
     public SolarPanelScript SolarPanelScript;
+    public float generatedPower;//The currently generated power
     public SolarPanelPowerPiece()//When instance is created
     {
         //Not setting them both to zero because the servo motor used to rotate the solar panel require energy
@@ -298,6 +315,7 @@ public class SolarPanelPowerPiece : InteractablePiece //Class for the "Solar Pan
     public override void CodeLoop()
     {
         base.CodeLoop();
-        interpreter.AddPower(SolarPanelScript.GetPowerGenerationRate());
+        generatedPower = SolarPanelScript.GetPowerGenerationRate();
+        interpreter.AddPower(generatedPower);
     }
 }

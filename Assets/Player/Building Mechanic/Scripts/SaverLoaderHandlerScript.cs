@@ -40,15 +40,11 @@ public class SaverLoaderHandlerScript : MonoBehaviour
     public void SaveBuildingPieces(string _filename) //Called from UI button to save pieces to file
     {
         PieceScript[] pieces = GameObject.FindObjectsOfType<PieceScript>();
-        List<PieceScript> list = new List<PieceScript>();
-        foreach (var piece in pieces)
+        for (int i = 0; i < pieces.Length; i++)
         {
-            if (piece.transform.parent.tag == "Player")
-            {
-                list.Add(piece);
-            }
+            pieces[i].gameObject.name = NameFromStringName(pieces[i].gameObject.name) + "-" + ((pieces.Length - 1) - i);
         }
-        saverLoader.SavePieces(_filename, list.ToArray());
+        saverLoader.SavePieces(_filename, pieces);
     }
     public void LoadBuildingPieces(string _filename, bool enablePhysics) //Called from UI Button to load pieces from file
     {
@@ -130,5 +126,17 @@ public class SaverLoaderHandlerScript : MonoBehaviour
         {
             BuildingUIScript.LoadCodeText(LoadCode(_codefilename));
         }
+    }
+    private string NameFromStringName(string name)//Remove numbers and other stuff from string
+    {
+        string outstring = "";
+        for (int i = 0; i < name.Length; i++)
+        {
+            if (!char.IsDigit(name[i]) && name[i] != '-')//Check if it is digit
+            {
+                outstring += name[i];
+            }
+        }
+        return outstring;//Return the final string
     }
 }

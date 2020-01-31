@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Linq;
 using UnityEngine;
-using System.Linq;
 //Handles the information flow between the interpreter and our BuildingUI class
 public class BuildingModeInterpreterHandlerScript : MonoBehaviour
 {

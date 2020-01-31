@@ -13,7 +13,7 @@ public class Interpreter
     Dictionary<PIECE_TYPE, List<InteractablePiece>> sortedpieces = new Dictionary<PIECE_TYPE, List<InteractablePiece>>();//Pieces when sorted with piece_type enum
     //The console that will be used when Print( arg )
     public string console = "";
-    string code;//The actual code
+    public string code;//The actual code
     //Initialize everything
     public void InitCode(string _code, PieceScript[] _pieces) 
     {

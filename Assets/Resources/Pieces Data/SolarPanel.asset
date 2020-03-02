@@ -15,7 +15,7 @@ MonoBehaviour:
   UI_name: Solar Panel
   mesh: {fileID: 0}
   material: {fileID: 0}
-  icon: {fileID: 0}
+  icon: {fileID: 2800000, guid: 715b6bae08560c040a0d1f0e3c49a385, type: 3}
   description: A generator that runs off the photons thrown from the sun
   prefab_piece: {fileID: 8153903812529915330, guid: e37741da3c76d6344913ea2f4dd9fef1,
     type: 3}

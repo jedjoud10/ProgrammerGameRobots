@@ -15,7 +15,7 @@ MonoBehaviour:
   UI_name: Damage Cube
   mesh: {fileID: -5495902117074765545, guid: faa34967832edf64598d8dbd9e963bd4, type: 3}
   material: {fileID: 2100000, guid: 499c1f28539ab1841ba0eebf03be3430, type: 2}
-  icon: {fileID: 0}
+  icon: {fileID: 2800000, guid: 3a84f4f6ab7ca4f43a2465cdbeaa74c2, type: 3}
   description: A cube that applies damage to other bots
   prefab_piece: {fileID: 2441051147619679454, guid: 4e46a796263e7cf4fba684a483aab036,
     type: 3}

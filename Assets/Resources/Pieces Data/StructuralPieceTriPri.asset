@@ -15,7 +15,7 @@ MonoBehaviour:
   UI_name: Triangle
   mesh: {fileID: -5495902117074765545, guid: 31acfac2ab120c9478cdec6f84094ca2, type: 3}
   material: {fileID: 2100000, guid: 6290983498cfb6a45ad38ce269762cda, type: 2}
-  icon: {fileID: 0}
+  icon: {fileID: 2800000, guid: b0dff1695458efb4784f07c9e2050847, type: 3}
   description: A structural piece in a shape of a triangle prism
   prefab_piece: {fileID: 532552579164122273, guid: b74a52b463c21494d808c4321ec3554d,
     type: 3}

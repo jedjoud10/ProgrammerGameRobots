@@ -15,7 +15,7 @@ MonoBehaviour:
   UI_name: Wheel
   mesh: {fileID: 2534964839176971238, guid: 6299604233f56b9449644dd7ac9cc875, type: 3}
   material: {fileID: 2100000, guid: c57aefa8c9e4fdb4daf3227cfec90cf9, type: 2}
-  icon: {fileID: 0}
+  icon: {fileID: 2800000, guid: 6c28f82639050b24c87cbf5539e5e320, type: 3}
   description: A simple wheel
   prefab_piece: {fileID: 4493343699483329138, guid: b7dc514e935c3ca489b752dff1395dd1,
     type: 3}

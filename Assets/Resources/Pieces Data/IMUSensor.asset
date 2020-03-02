@@ -15,7 +15,7 @@ MonoBehaviour:
   UI_name: IMU Sensor
   mesh: {fileID: -5495902117074765545, guid: 88b7e00bc2178154dbe2917b6e4568e9, type: 3}
   material: {fileID: 2100000, guid: 58fb2341519c2c64b80a546a19454687, type: 2}
-  icon: {fileID: 0}
+  icon: {fileID: 2800000, guid: c720cb4cb2d10164586a848450335445, type: 3}
   description: A sensor that has an accelerometer, gyroscope and gravimeter. All
     of the information of each of those small sensors are sent the main central unit
     for processing

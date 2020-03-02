@@ -26,8 +26,12 @@ Preset:
     value: 
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: flatshading
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: resolution
-    value: 100
+    value: 200
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: generate_on_start
@@ -247,11 +251,11 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: scalem
-    value: 2.3
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: steepnessm
-    value: 0.7
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: usecurve
@@ -259,54 +263,30 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: layersvar.Array.size
-    value: 4
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: layersvar.Array.data[0].scale
-    value: 0.05
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: layersvar.Array.data[0].steepness
-    value: 0.3
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: layersvar.Array.data[0].noise_type
-    value: 0
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: layersvar.Array.data[1].scale
-    value: 0.02
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: layersvar.Array.data[1].steepness
-    value: 0.5
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: layersvar.Array.data[1].noise_type
-    value: 0
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: layersvar.Array.data[2].scale
-    value: 0.01
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: layersvar.Array.data[2].steepness
-    value: 10
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: layersvar.Array.data[2].noise_type
     value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: layersvar.Array.data[3].scale
-    value: 0.01
+    propertyPath: layersvar.Array.data[0].octaves
+    value: 3
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: layersvar.Array.data[3].steepness
-    value: 5
+    propertyPath: layersvar.Array.data[0].scale
+    value: 0.03
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: layersvar.Array.data[3].noise_type
+    propertyPath: layersvar.Array.data[0].steepness
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: layersvar.Array.data[0].lacunarity
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: layersvar.Array.data[0].persistence
+    value: 0.4
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: layersvar.Array.data[0].noise_type
     value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
@@ -549,3 +529,4 @@ Preset:
     propertyPath: fade.m_RotationOrder
     value: 4
     objectReference: {fileID: 0}
+  m_ExcludedProperties: []

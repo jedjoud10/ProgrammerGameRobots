@@ -15,7 +15,7 @@ MonoBehaviour:
   UI_name: Battery
   mesh: {fileID: 6388001863223887543, guid: 6a91c34bfd53acc4ab0089541e61b1be, type: 3}
   material: {fileID: 2100000, guid: e7aec30f446165747a16a781216744a0, type: 2}
-  icon: {fileID: 0}
+  icon: {fileID: 2800000, guid: 55a3bd3a27408554893a9eb389213de8, type: 3}
   description: A battery that powers the robot and allows it to do all sorts of things
     with electricity !
   prefab_piece: {fileID: 4070396586126523774, guid: 48ee53a736a3a254b84efcd1693ddcae,
